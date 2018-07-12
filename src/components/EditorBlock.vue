@@ -1,7 +1,7 @@
 <template>
   <div class="block">
     <component
-      :is="`${block.type}Block`"
+      :is="`${typedBlock.type}Block`"
       :block="block"
       @update="handleUpdate"
       @delete="handleDelete"
@@ -20,6 +20,11 @@ export default Vue.extend({
   },
   props: {
     block: Object
+  },
+  computed: {
+    typedBlock(): Block {
+      return this.block
+    }
   },
   methods: {
     handleUpdate(event: any) {

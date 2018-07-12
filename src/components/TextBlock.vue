@@ -4,11 +4,12 @@
     @input="handleInput"
     @keydown="handleKeydown"
     :rows="rows"
-  >{{block.payload.body}}</textarea>
+  >{{typedBlock.payload.body}}</textarea>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { TextBlock } from '../types/Blocks'
 
 export default Vue.extend({
   props: {
@@ -18,8 +19,11 @@ export default Vue.extend({
     rows () {
       return Math.max(
         1,
-        (this as any).block.payload.body.split("\n").length
+        (this as any).typedBlock.payload.body.split("\n").length
       )
+    },
+    typedBlock(): TextBlock {
+      return this.block
     }
   },
   methods: {
@@ -27,7 +31,7 @@ export default Vue.extend({
       this.$emit('focus')
     },
     handleKeydown(event: KeyboardEvent) {
-      if (event.keyCode !== 8 || this.block.payload.body) {
+      if (event.keyCode !== 8 || this.typedBlock.payload.body) {
         return
       }
       this.$emit('delete')

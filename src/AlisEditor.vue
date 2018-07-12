@@ -28,7 +28,7 @@ interface EditorState {
 }
 
 export default Vue.extend({
-  data():EditorState {
+  data() : EditorState {
     return {
       blocks: initalState,
       active: 0
