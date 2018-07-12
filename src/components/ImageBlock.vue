@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { ImageBlock } from "../types/Blocks";
+import { ImageBlock } from '../types/Blocks'
 
 export default Vue.extend({
   props: {

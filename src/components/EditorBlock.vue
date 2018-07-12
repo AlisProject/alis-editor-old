@@ -18,10 +18,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Block } from "../types/Blocks";
-import ImageBlock from "./ImageBlock.vue";
-import ParagraphBlock from "./ParagraphBlock.vue";
+import Vue from 'vue'
+import { Block } from '../types/Blocks'
+import ImageBlock from './ImageBlock.vue'
+import ParagraphBlock from './ParagraphBlock.vue'
 
 export default Vue.extend({
   components: {
@@ -31,14 +31,14 @@ export default Vue.extend({
   props: {
     block: Object
   },
-  data (): { onDrag: boolean } {
+  data(): { onDrag: boolean } {
     return {
       onDrag: false
     }
   },
   computed: {
     typedBlock(): Block {
-      return this.block;
+      return this.block
     }
   },
   methods: {
@@ -54,13 +54,13 @@ export default Vue.extend({
       this.$emit('drop', event)
     },
     handleUpdate(event: any) {
-      this.$emit("update", event);
+      this.$emit('update', event)
     },
     handleDelete(event: any) {
-      this.$emit("delete", event);
+      this.$emit('delete', event)
     }
   }
-});
+})
 </script>
 
 <style scoped>
