@@ -60,7 +60,10 @@ module.exports = {
     }
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new webpack.EnvironmentPlugin([
+      'IMGUR_KEY'
+    ])
   ],
   devtool: '#eval-source-map',
   serve: {

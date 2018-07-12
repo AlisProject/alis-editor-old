@@ -125,10 +125,11 @@ export default Vue.extend({
 
 <style>
 #ALISEditor {
+  font-size: 20px;
   -webkit-font-smoothing: antialiased;
 }
 
-#ALISEditor * {
+input, textarea {
   font-size: 20px;
 }
 </style>

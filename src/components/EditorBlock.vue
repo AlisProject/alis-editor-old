@@ -14,6 +14,7 @@
       @update="handleUpdate"
       @delete="handleDelete"
     />
+    <!-- <InsertButton v-if="typedBlock.type === 'Paragraph'" /> -->
   </div>
 </template>
 
@@ -22,11 +23,13 @@ import Vue from 'vue'
 import { Block } from '../types/Blocks'
 import ImageBlock from './ImageBlock.vue'
 import ParagraphBlock from './ParagraphBlock.vue'
+import InsertButton from './InsertButton.vue'
 
 export default Vue.extend({
   components: {
     ImageBlock,
-    ParagraphBlock
+    ParagraphBlock,
+    InsertButton
   },
   props: {
     block: Object
@@ -51,6 +54,7 @@ export default Vue.extend({
     handleDrop(event: Event) {
       event.preventDefault()
       event.stopPropagation()
+      this.onDrag = false
       this.$emit('drop', event)
     },
     handleUpdate(event: any) {
@@ -65,6 +69,7 @@ export default Vue.extend({
 
 <style scoped>
 .block {
+  position: relative;
   border: solid 2px transparent;
 }
 
