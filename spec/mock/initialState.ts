@@ -1,15 +1,15 @@
-import uuid from 'uuid/v4'
+import uuid from "uuid/v4";
 
 export default [
   {
     id: uuid(),
-    type: 'Paragraph',
+    type: "Paragraph",
     children: [
       {
         id: uuid(),
-        type: 'Text',
+        type: "Text",
         payload: {
-          body: 'Hello, world'
+          body: "Hello, world"
         },
         children: []
       }
@@ -17,13 +17,13 @@ export default [
   },
   {
     id: uuid(),
-    type: 'Paragraph',
+    type: "Paragraph",
     children: [
       {
         id: uuid(),
-        type: 'Text',
+        type: "Text",
         payload: {
-          body: 'AAAAAAAAAAAAAAAAAAAAA'
+          body: "AAAAAAAAAAAAAAAAAAAAA"
         },
         children: []
       }
@@ -31,16 +31,16 @@ export default [
   },
   {
     id: uuid(),
-    type: 'Paragraph',
+    type: "Paragraph",
     children: [
       {
         id: uuid(),
-        type: 'Text',
+        type: "Text",
         payload: {
-          body: 'BBBBBBBBBBBBBBBBBBBBB'
+          body: "BBBBBBBBBBBBBBBBBBBBB"
         },
         children: []
       }
     ]
   }
-]
+];

@@ -8,45 +8,45 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { TextBlock } from '../types/Blocks'
+import Vue from "vue";
+import { TextBlock } from "../types/Blocks";
 
 export default Vue.extend({
   props: {
     block: Object
   },
   computed: {
-    rows () {
+    rows() {
       return Math.max(
         1,
         (this as any).typedBlock.payload.body.split("\n").length
-      )
+      );
     },
     typedBlock(): TextBlock {
-      return this.block
+      return this.block;
     }
   },
   methods: {
     handleFocus() {
-      this.$emit('focus')
+      this.$emit("focus");
     },
     handleKeydown(event: KeyboardEvent) {
       if (event.keyCode !== 8 || this.typedBlock.payload.body) {
-        return
+        return;
       }
-      this.$emit('delete')
+      this.$emit("delete");
     },
     handleInput(event: KeyboardEvent) {
-      console.log('hoge')
-      const value = (event.target! as HTMLTextAreaElement).value
-      this.$emit('input', value)
+      console.log("hoge");
+      const value = (event.target! as HTMLTextAreaElement).value;
+      this.$emit("input", value);
     }
   }
-})
+});
 </script>
 
 <style scoped>
-textarea{
+textarea {
   border: 0;
   outline: none;
   resize: none;

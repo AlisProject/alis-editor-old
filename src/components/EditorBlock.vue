@@ -10,9 +10,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Block } from '../types/Blocks'
-import ParagraphBlock from './ParagraphBlock.vue'
+import Vue from "vue";
+import { Block } from "../types/Blocks";
+import ParagraphBlock from "./ParagraphBlock.vue";
 
 export default Vue.extend({
   components: {
@@ -23,20 +23,19 @@ export default Vue.extend({
   },
   computed: {
     typedBlock(): Block {
-      return this.block
+      return this.block;
     }
   },
   methods: {
     handleUpdate(event: any) {
-      this.$emit('update', event)
+      this.$emit("update", event);
     },
     handleDelete(event: any) {
-      this.$emit('delete', event)
+      this.$emit("delete", event);
     }
   }
-})
+});
 </script>
 
 <style scoped>
-
 </style>

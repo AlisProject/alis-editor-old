@@ -1,41 +1,39 @@
 export interface Block {
-  id: string
-  type: string
-  payload?: any
-  children?: Block[]
+  id: string;
+  type: string;
+  payload?: any;
+  children?: Block[];
 }
 
 export interface ParagraphBlock extends Block {
-  type: 'Paragraph',
-  children: Block[]
+  type: "Paragraph";
+  children: Block[];
 }
 
 export interface TextBlock extends Block {
-  type: 'Text',
+  type: "Text";
   payload: {
-    body: string
-  }
+    body: string;
+  };
 }
 
 export interface LinkBlock extends Block {
-  type: 'Link',
+  type: "Link";
   payload: {
-    href: string
-  },
-  children: TextBlock[] | ImageBlock[]
+    href: string;
+  };
+  children: TextBlock[] | ImageBlock[];
 }
 
 export interface ImageBlock extends Block {
-  type: 'Image',
+  type: "Image";
   payload: {
-    src: string
-  },
-  children: Block[]
+    src: string;
+  };
+  children: Block[];
 }
 
-export interface QuoteBlock extends Block {
-
-}
+export interface QuoteBlock extends Block {}
 
 /*
 「詳細は [こちら](https://example.com) から確認できます」を再現する場合
