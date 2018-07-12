@@ -1,7 +1,8 @@
 export interface Block {
+  id: string
   type: string
   payload?: any
-  children: Block[]
+  children?: Block[]
 }
 
 export interface ParagraphBlock extends Block {
@@ -21,7 +22,19 @@ export interface LinkBlock extends Block {
   payload: {
     href: string
   },
-  children: TextBlock[]
+  children: TextBlock[] | ImageBlock[]
+}
+
+export interface ImageBlock extends Block {
+  type: 'Image',
+  payload: {
+    src: string
+  },
+  children: Block[]
+}
+
+export interface QuoteBlock extends Block {
+
 }
 
 /*
