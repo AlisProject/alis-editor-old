@@ -9,6 +9,7 @@
         @drop="insertImageBlock(i, $event)"
         @update="updateBlock(i, $event)"
         @delete="deleteBlock(i)"
+        @append="insertRuleBlock(i)"
         :block="block"
       />
     </div>
@@ -108,6 +109,12 @@ export default Vue.extend({
         })
       }
       reader.readAsDataURL(target)
+    },
+    insertRuleBlock(idx: number) {
+      this.createNewBlock({
+        idx,
+        type: 'Rule'
+      })
     },
     createNewBlock({ idx, type, children, payload }: { idx: number, type: string, payload?: any, children?: Block[] }) {
       const { blocks } = this;

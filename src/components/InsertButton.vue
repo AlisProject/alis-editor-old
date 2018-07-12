@@ -13,8 +13,8 @@
       <li class="insert-button__listItem">
         画像
       </li>
-      <li class="insert-button__listItem">
-        画像
+      <li class="insert-button__listItem" @click="appendRule">
+        罫線
       </li>
     </ul>
   </div>
@@ -34,6 +34,11 @@ export default Vue.extend({
       if (!this.isOpen) {
         this.$emit('disable')
       }
+    },
+    appendRule() {
+      this.isOpen = false
+      this.$emit('append')
+      this.$emit('disable')
     }
   }
 })

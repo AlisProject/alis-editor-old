@@ -4,6 +4,7 @@
     :class="{
       'block--ondrag': onDrag
     }"
+    @keydown="handleDisable"
     @click="handleClick"
     @drop.prevent="handleDrop"
     @dragover.prevent="handleDragover"
@@ -15,13 +16,18 @@
       @update="handleUpdate"
       @delete="handleDelete"
     />
-    <InsertButton v-if="typedBlock.type === 'Paragraph' && isActive" @disable="handleDisable" />
+    <InsertButton
+      v-if="typedBlock.type === 'Paragraph' && isActive"
+      @disable="handleDisable"
+      @append="handleAppendBlock"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { Block } from '../types/Blocks'
+import RuleBlock from './RuleBlock.vue'
 import ImageBlock from './ImageBlock.vue'
 import ParagraphBlock from './ParagraphBlock.vue'
 import InsertButton from './InsertButton.vue'
@@ -31,6 +37,7 @@ export default Vue.extend({
   components: {
     ImageBlock,
     ParagraphBlock,
+    RuleBlock,
     InsertButton
   },
   props: {
@@ -39,7 +46,7 @@ export default Vue.extend({
   data(): { onDrag: boolean, isActive: boolean } {
     return {
       onDrag: false,
-      isActive: false
+      isActive: true
     }
   },
   computed: {
@@ -48,9 +55,12 @@ export default Vue.extend({
     }
   },
   methods: {
+    handleAppendBlock() {
+      this.$emit('append')
+    },
     handleDisable() {
       setTimeout(() => {
-        this.isActive = false
+        this.isActive = true
       }, 20)
     },
     handleClick() {
