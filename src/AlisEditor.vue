@@ -6,6 +6,7 @@
       :key="block.id"
     >
       <EditorBlock
+        @drop="insertImageBlock(i, $event)"
         @update="updateBlock(i, $event)"
         @delete="deleteBlock(i)"
         :block="block"
@@ -45,20 +46,24 @@ export default Vue.extend({
       // onEnter
       if (event.keyCode === 13) {
         if (event.shiftKey) {
-          alert(1);
           return;
         } else {
           event.preventDefault();
-          this.createNewBlock(idx, "Paragraph", [
-            {
-              id: uuid(),
-              type: "Text",
-              payload: {
-                body: ""
-              },
-              children: []
-            }
-          ]);
+          this.createNewBlock({
+            idx,
+            type: "Paragraph",
+            payload: { body: '' },
+            children: [
+              {
+                id: uuid(),
+                type: "Text",
+                payload: {
+                  body: ""
+                },
+                children: []
+              }
+            ]
+          });
           this.setFocus(idx + 1);
         }
       }
@@ -85,14 +90,31 @@ export default Vue.extend({
       blocks[idx] = content;
       this.blocks = blocks;
     },
-    createNewBlock(idx: number, type: string, children: Block[]) {
+    insertImageBlock(idx:number, event: DragEvent) {
+      const files = event.dataTransfer.files
+      console.log(files)
+      if (!files.length) {
+        return
+      }
+      const target = files[0]
+      const reader = new FileReader()
+      reader.onload = (event: any) => {
+        const { currentTarget: { result } } = event
+        this.createNewBlock({
+          idx,
+          type: 'Image',
+          payload: { src: result },
+          children: []
+        })
+      }
+      reader.readAsDataURL(target)
+    },
+    createNewBlock({ idx, type, children, payload }: { idx: number, type: string, payload?: any, children?: Block[] }) {
       const { blocks } = this;
       blocks.splice(idx + 1, 0, {
         id: uuid(),
         type,
-        payload: {
-          body: ""
-        },
+        payload,
         children
       });
       this.blocks = blocks;
