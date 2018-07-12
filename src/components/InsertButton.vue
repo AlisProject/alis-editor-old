@@ -31,6 +31,9 @@ export default Vue.extend({
   methods: {
     toggleIsOpen() {
       this.isOpen = !this.isOpen
+      if (!this.isOpen) {
+        this.$emit('disable')
+      }
     }
   }
 })

@@ -5,6 +5,10 @@ export interface Block {
   children?: Block[]
 }
 
+export interface RuleBlock extends Block {
+  type: 'Rule'
+}
+
 export interface ParagraphBlock extends Block {
   type: 'Paragraph'
   children: Block[]
