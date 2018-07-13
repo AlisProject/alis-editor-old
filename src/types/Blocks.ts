@@ -1,28 +1,37 @@
+export enum BlockType {
+  Rule = 'Rule',
+  Paragraph = 'Paragraph',
+  Text = 'Text',
+  Link = 'Link',
+  Image = 'Image',
+  Quote = 'Quote'
+}
+
 export interface Block {
   id: string
-  type: string
+  type: BlockType
   payload?: any
   children?: Block[]
 }
 
 export interface RuleBlock extends Block {
-  type: 'Rule'
+  type: BlockType.Rule
 }
 
 export interface ParagraphBlock extends Block {
-  type: 'Paragraph'
+  type: BlockType.Paragraph
   children: Block[]
 }
 
 export interface TextBlock extends Block {
-  type: 'Text'
+  type: BlockType.Text
   payload: {
     body: string
   }
 }
 
 export interface LinkBlock extends Block {
-  type: 'Link'
+  type: BlockType.Link
   payload: {
     href: string
   }
@@ -30,7 +39,7 @@ export interface LinkBlock extends Block {
 }
 
 export interface ImageBlock extends Block {
-  type: 'Image'
+  type: BlockType.Image
   payload: {
     src: string
   }

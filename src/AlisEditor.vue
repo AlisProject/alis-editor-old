@@ -22,7 +22,7 @@
 import Vue from "vue";
 import uuid from "uuid/v4";
 import EditorBlock from "./components/EditorBlock.vue";
-import { Block, TextBlock } from "./types/Blocks";
+import { Block, TextBlock, BlockType } from "./types/Blocks";
 import { cloneDeep } from "lodash";
 import initalState from "../spec/mock/initialState";
 
@@ -54,12 +54,12 @@ export default Vue.extend({
           event.preventDefault();
           this.createNewBlock({
             idx,
-            type: "Paragraph",
+            type: BlockType.Paragraph,
             payload: { body: '' },
             children: [
               {
                 id: uuid(),
-                type: "Text",
+                type: BlockType.Text,
                 payload: {
                   body: ""
                 },
@@ -105,7 +105,7 @@ export default Vue.extend({
         const { currentTarget: { result } } = event
         this.createNewBlock({
           idx,
-          type: 'Image',
+          type: BlockType.Image,
           payload: { src: result },
           children: []
         })
@@ -115,13 +115,13 @@ export default Vue.extend({
     insertRuleBlock(idx: number) {
       this.createNewBlock({
         idx,
-        type: 'Rule'
+        type: BlockType.Rule
       })
     },
     exportJSON() {
       console.log(JSON.stringify(this.blocks, null, '  '))
     },
-    createNewBlock({ idx, type, children, payload }: { idx: number, type: string, payload?: any, children?: Block[] }) {
+    createNewBlock({ idx, type, children, payload }: { idx: number, type: BlockType, payload?: any, children?: Block[] }) {
       const { blocks } = this;
       blocks.splice(idx + 1, 0, {
         id: uuid(),

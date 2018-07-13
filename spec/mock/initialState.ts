@@ -1,13 +1,14 @@
 import uuid from 'uuid/v4'
+import { BlockType } from '../../src/types/Blocks'
 
 export default [
   {
     id: uuid(),
-    type: 'Paragraph',
+    type: BlockType.Paragraph,
     children: [
       {
         id: uuid(),
-        type: 'Text',
+        type: BlockType.Text,
         payload: {
           body: 'Hello, world'
         },
@@ -17,11 +18,11 @@ export default [
   },
   {
     id: uuid(),
-    type: 'Paragraph',
+    type: BlockType.Paragraph,
     children: [
       {
         id: uuid(),
-        type: 'Text',
+        type: BlockType.Text,
         payload: {
           body: 'AAAAAAAAAAAAAAAAAAAAA'
         },
@@ -31,11 +32,11 @@ export default [
   },
   {
     id: uuid(),
-    type: 'Paragraph',
+    type: BlockType.Paragraph,
     children: [
       {
         id: uuid(),
-        type: 'Text',
+        type: BlockType.Text,
         payload: {
           body: 'BBBBBBBBBBBBBBBBBBBBB'
         },
