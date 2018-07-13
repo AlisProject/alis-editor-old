@@ -32,7 +32,7 @@ import RuleBlock from './RuleBlock.vue'
 import ImageBlock from './ImageBlock.vue'
 import ParagraphBlock from './ParagraphBlock.vue'
 import InsertButton from './InsertButton.vue'
-import { setTimeout } from 'timers';
+import { setTimeout } from 'timers'
 
 export default Vue.extend({
   components: {
@@ -44,7 +44,7 @@ export default Vue.extend({
   props: {
     block: Object
   },
-  data(): { onDrag: boolean, isActive: boolean } {
+  data(): { onDrag: boolean; isActive: boolean } {
     return {
       onDrag: false,
       isActive: true

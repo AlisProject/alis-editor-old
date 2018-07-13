@@ -32,7 +32,7 @@ export default Vue.extend({
   color: transparent;
   background: transparent;
   resize: none;
-  opacity: 0.0;
+  opacity: 0;
   outline: none;
   display: block;
   position: absolute;

@@ -24,7 +24,7 @@ export default Vue.extend({
   props: {
     block: Object
   },
-  data ()  {
+  data() {
     return {
       isFocus: false
     }
@@ -121,7 +121,7 @@ textarea {
   color: transparent;
   background: transparent;
   resize: none;
-  opacity: 0.0;
+  opacity: 0;
   outline: none;
   display: block;
   position: absolute;

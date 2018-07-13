@@ -37,7 +37,7 @@ export default Vue.extend({
       }
     },
     dispatchUpload() {
-      (this.$el.querySelector('[type="file"]') as any).click()
+      ;(this.$el.querySelector('[type="file"]') as any).click()
     },
     appendRule() {
       this.isOpen = false
