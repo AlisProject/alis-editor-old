@@ -1,5 +1,6 @@
 <template lang="html">
   <div id="ALISEditor">
+    <button type="button" @click="exportJSON">Export</button>
     <div
       @keydown.enter="handleKeydown($event, i)"
       v-for="(block, i) in blocks"
@@ -116,6 +117,9 @@ export default Vue.extend({
         idx,
         type: 'Rule'
       })
+    },
+    exportJSON() {
+      console.log(JSON.stringify(this.blocks, null, '  '))
     },
     createNewBlock({ idx, type, children, payload }: { idx: number, type: string, payload?: any, children?: Block[] }) {
       const { blocks } = this;
