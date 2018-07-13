@@ -49,5 +49,6 @@ textarea {
   resize: none;
   width: 100%;
   line-height: 1.65;
+  overflow: hidden;
 }
 </style>

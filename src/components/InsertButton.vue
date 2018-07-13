@@ -10,13 +10,14 @@
       <span>+</span>
     </div>
     <ul class="insert-button__list" v-if="isOpen">
-      <li class="insert-button__listItem">
+      <li class="insert-button__listItem" @click="dispatchUpload">
         画像
       </li>
       <li class="insert-button__listItem" @click="appendRule">
         罫線
       </li>
     </ul>
+    <input type="file" @change="handleUpload" />
   </div>
 </template>
 
@@ -35,10 +36,18 @@ export default Vue.extend({
         this.$emit('disable')
       }
     },
+    dispatchUpload() {
+      (this.$el.querySelector('[type="file"]') as any).click()
+    },
     appendRule() {
       this.isOpen = false
       this.$emit('append')
       this.$emit('disable')
+    },
+    handleUpload(event: Event) {
+      this.isOpen = false
+      this.$emit('disable')
+      this.$emit('upload', event)
     }
   }
 })
@@ -101,5 +110,9 @@ export default Vue.extend({
 
 .insert-button__list .insert-button__listItem + .insert-button__listItem {
   border-left: solid 1px #fff;
+}
+
+input {
+  display: none;
 }
 </style>

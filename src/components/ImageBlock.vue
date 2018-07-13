@@ -86,6 +86,7 @@ const dataURItoBlob = (dataURI: string) => {
 .image {
   position: relative;
   border: solid 2px transparent;
+  line-height: 0;
 }
 
 .image:hover,
@@ -129,6 +130,9 @@ textarea {
   height: 100%;
   left: 0;
   top: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
 }
 
 img[src^='data:'] {
@@ -151,7 +155,7 @@ img[src^='data:'] {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 4px;
   cursor: pointer;
+  z-index: 100000000000000;
 }
 </style>

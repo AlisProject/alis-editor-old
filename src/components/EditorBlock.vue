@@ -20,6 +20,7 @@
       v-if="typedBlock.type === 'Paragraph' && isActive"
       @disable="handleDisable"
       @append="handleAppendBlock"
+      @upload="handleUpload"
     />
   </div>
 </template>
@@ -71,6 +72,9 @@ export default Vue.extend({
     },
     handleDragLeave() {
       this.onDrag = false
+    },
+    handleUpload(event: Event) {
+      this.$emit('upload', event)
     },
     handleDrop(event: Event) {
       event.preventDefault()

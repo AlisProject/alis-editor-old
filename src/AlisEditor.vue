@@ -10,6 +10,7 @@
         @update="updateBlock(i, $event)"
         @delete="deleteBlock(i)"
         @append="insertRuleBlock(i)"
+        @upload="insertImageBlock(i, $event)"
         :block="block"
       />
     </div>
@@ -92,7 +93,7 @@ export default Vue.extend({
       this.blocks = blocks;
     },
     insertImageBlock(idx:number, event: DragEvent) {
-      const files = event.dataTransfer.files
+      const files = (event as any).target.files || event.dataTransfer.files
       console.log(files)
       if (!files.length) {
         return
