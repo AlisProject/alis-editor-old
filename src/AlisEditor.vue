@@ -10,7 +10,7 @@
         @drop="insertImageBlock(i, $event)"
         @update="updateBlock(i, $event)"
         @delete="deleteBlock(i)"
-        @append="insertRuleBlock(i)"
+        @append="insertRuleBlock(i, $event)"
         @upload="insertImageBlock(i, $event)"
         :block="block"
       />
@@ -24,6 +24,7 @@ import uuid from "uuid/v4";
 import EditorBlock from "./components/EditorBlock.vue";
 import { Block, TextBlock, BlockType } from "./types/Blocks";
 import { cloneDeep } from "lodash";
+import { createBlock } from './utils/createBlock';
 import initalState from "../spec/mock/initialState";
 
 interface EditorState {
@@ -112,24 +113,22 @@ export default Vue.extend({
       }
       reader.readAsDataURL(target)
     },
-    insertRuleBlock(idx: number) {
+    insertRuleBlock(idx: number, type: BlockType) {
       this.createNewBlock({
         idx,
-        type: BlockType.Rule
+        type
       })
     },
     exportJSON() {
       console.log(JSON.stringify(this.blocks, null, '  '))
     },
-    createNewBlock({ idx, type, children, payload }: { idx: number, type: BlockType, payload?: any, children?: Block[] }) {
-      const { blocks } = this;
-      blocks.splice(idx + 1, 0, {
-        id: uuid(),
-        type,
-        payload,
-        children
-      });
-      this.blocks = blocks;
+    createNewBlock(extend: { idx: number, type: BlockType, payload?: any, children?: Block[] }) {
+      const { idx, type } = extend
+      delete extend.idx
+      delete extend.type
+      const { blocks } = this
+      blocks.splice(idx + 1, 0, createBlock(type, extend))
+      this.blocks = blocks
     }
   }
 });

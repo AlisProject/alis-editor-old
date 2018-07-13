@@ -4,6 +4,7 @@
     @input="handleInput"
     @keydown="handleKeydown"
     :rows="rows"
+    :data-id="typedBlock.id"
   >{{typedBlock.payload.body}}</textarea>
 </template>
 

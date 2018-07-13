@@ -23,6 +23,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { BlockType } from '../types/Blocks'
+
 export default Vue.extend({
   data() {
     return {
@@ -41,7 +43,7 @@ export default Vue.extend({
     },
     appendRule() {
       this.isOpen = false
-      this.$emit('append')
+      this.$emit('append', BlockType.Rule)
       this.$emit('disable')
     },
     handleUpload(event: Event) {

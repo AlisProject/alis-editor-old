@@ -15,6 +15,7 @@
       :block="block"
       @update="handleUpdate"
       @delete="handleDelete"
+      @append="handleAppendBlock"
     />
     <InsertButton
       v-if="typedBlock.type === 'Paragraph' && isActive"
@@ -27,7 +28,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Block } from '../types/Blocks'
+import { Block, BlockType } from '../types/Blocks'
 import RuleBlock from './RuleBlock.vue'
 import ImageBlock from './ImageBlock.vue'
 import ParagraphBlock from './ParagraphBlock.vue'
@@ -56,8 +57,8 @@ export default Vue.extend({
     }
   },
   methods: {
-    handleAppendBlock() {
-      this.$emit('append')
+    handleAppendBlock(type: BlockType) {
+      this.$emit('append', type)
     },
     handleDisable() {
       setTimeout(() => {
