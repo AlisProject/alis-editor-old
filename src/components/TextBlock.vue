@@ -51,5 +51,7 @@ textarea {
   width: 100%;
   line-height: 1.65;
   overflow: hidden;
+  background: transparent;
+  padding: 0 8px;
 }
 </style>

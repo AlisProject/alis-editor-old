@@ -46,7 +46,10 @@ export interface ImageBlock extends Block {
   children: Block[]
 }
 
-export interface QuoteBlock extends Block {}
+export interface QuoteBlock extends Block {
+  type: BlockType.Quote
+  children: Block[]
+}
 
 /*
 「詳細は [こちら](https://example.com) から確認できます」を再現する場合

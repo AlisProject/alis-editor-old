@@ -11,7 +11,7 @@
         @drop="insertImageBlock(i, $event)"
         @update="updateBlock(i, $event)"
         @delete="deleteBlock(i)"
-        @append="insertRuleBlock(i, $event)"
+        @append="createNewBlock({idx: i, type: $event})"
         @upload="insertImageBlock(i, $event)"
         :block="block"
       />
@@ -135,12 +135,6 @@ export default Vue.extend({
           children: []
         })
       })()
-    },
-    insertRuleBlock(idx: number, type: BlockType) {
-      this.createNewBlock({
-        idx,
-        type
-      })
     },
     exportJSON() {
       console.log(JSON.stringify(this.blocks, null, '  '))

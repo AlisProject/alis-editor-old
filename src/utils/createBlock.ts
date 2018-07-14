@@ -20,6 +20,19 @@ function createBlockTemplate(type: BlockType) {
         ]
       }
     }
+    case BlockType.Quote: {
+      return {
+        type: BlockType.Quote,
+        children: [
+          {
+            type: BlockType.Text,
+            payload: {
+              body: ''
+            }
+          }
+        ]
+      }
+    }
     case BlockType.Image: {
       return {
         type: BlockType.Image,

@@ -16,6 +16,9 @@
       <li class="insert-button__listItem" @click="appendRule">
         罫線
       </li>
+      <li class="insert-button__listItem" @click="appendQuote">
+        引用
+      </li>
     </ul>
     <input type="file" @change="handleUpload" />
   </div>
@@ -46,6 +49,11 @@ export default Vue.extend({
       this.$emit('append', BlockType.Rule)
       this.$emit('disable')
     },
+    appendQuote() {
+      this.isOpen = false
+      this.$emit('append', BlockType.Quote)
+      this.$emit('disable')
+    },
     handleUpload(event: Event) {
       this.isOpen = false
       this.$emit('disable')
@@ -58,8 +66,8 @@ export default Vue.extend({
 <style scoped>
 .insert-button {
   position: absolute;
-  left: -44px;
-  top: 2px;
+  left: -40px;
+  top: -1px;
   margin: 8px;
   cursor: pointer;
   z-index: 10000;
