@@ -114,6 +114,7 @@ export default Vue.extend({
       }
     },
     deleteBlock(idx: number) {
+      if (this.blocks.length < 2) return
       const { blocks } = this
       blocks.splice(idx, 1)
       this.blocks = blocks
