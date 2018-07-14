@@ -19,6 +19,9 @@
       <li class="insert-button__listItem" @click="appendQuote">
         引用
       </li>
+      <li class="insert-button__listItem" @click="appendTitle">
+        大見出し
+      </li>
     </ul>
     <input type="file" @change="handleUpload" />
   </div>
@@ -52,6 +55,11 @@ export default Vue.extend({
     appendQuote() {
       this.isOpen = false
       this.$emit('append', BlockType.Quote)
+      this.$emit('disable')
+    },
+    appendTitle() {
+      this.isOpen = false
+      this.$emit('append', BlockType.Title)
       this.$emit('disable')
     },
     handleUpload(event: Event) {

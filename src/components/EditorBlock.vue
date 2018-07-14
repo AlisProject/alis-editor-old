@@ -32,6 +32,7 @@ import { Block, BlockType } from '../types/Blocks'
 import RuleBlock from './RuleBlock.vue'
 import ImageBlock from './ImageBlock.vue'
 import ParagraphBlock from './ParagraphBlock.vue'
+import TitleBlock from './TitleBlock.vue'
 import QuoteBlock from './QuoteBlock.vue'
 import InsertButton from './InsertButton.vue'
 import { setTimeout } from 'timers'
@@ -40,6 +41,7 @@ export default Vue.extend({
   components: {
     ImageBlock,
     ParagraphBlock,
+    TitleBlock,
     QuoteBlock,
     RuleBlock,
     InsertButton

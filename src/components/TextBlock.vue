@@ -5,6 +5,7 @@
     @keydown="handleKeydown"
     :rows="rows"
     :data-id="typedBlock.id"
+    :placeholder="placeholder || ''"
   >{{typedBlock.payload.body}}</textarea>
 </template>
 
@@ -14,7 +15,8 @@ import { TextBlock } from '../types/Blocks'
 
 export default Vue.extend({
   props: {
-    block: Object
+    block: Object,
+    placeholder: String
   },
   computed: {
     rows() {

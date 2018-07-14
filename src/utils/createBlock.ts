@@ -33,6 +33,19 @@ function createBlockTemplate(type: BlockType) {
         ]
       }
     }
+    case BlockType.Title: {
+      return {
+        type: BlockType.Title,
+        children: [
+          {
+            type: BlockType.Text,
+            payload: {
+              body: ''
+            }
+          }
+        ]
+      }
+    }
     case BlockType.Image: {
       return {
         type: BlockType.Image,
