@@ -78,7 +78,7 @@ export default Vue.extend({
   top: -1px;
   margin: 8px;
   cursor: pointer;
-  z-index: 10000;
+  z-index: 1000000000000000000;
 }
 
 .insert-button .insert-button__toggle {
