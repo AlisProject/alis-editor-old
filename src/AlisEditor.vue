@@ -49,7 +49,7 @@ export default Vue.extend({
       this.active = idx
     },
     handleKeydown(event: KeyboardEvent, idx: number) {
-      const allowKeyCode = [8, 37, 39]
+      const allowKeyCode = [8, 37, 38, 39, 40]
       if (!allowKeyCode.includes(event.keyCode) || event.shiftKey) {
         // 何もせず本来の DOM イベントを実行
         return
@@ -57,25 +57,33 @@ export default Vue.extend({
 
       const targetDOM = this.$el.querySelector(':focus')! as HTMLInputElement
       if (targetDOM.tagName === 'TEXTAREA') {
+        const { selectionStart: beforeSelectionStart, selectionEnd: beforeSelectionEnd } = targetDOM
+        setTimeout(() => {
+          const isDeleteOrLeftByTextStart = event.keyCode === 8 || event.keyCode === 37
+          const isTopByFirstLine = event.keyCode === 38 && beforeSelectionStart !== 0
 
-        // 先頭で delete もしくは ← を押下した時に前のブロックにフォーカスを動かす処理
-        if (event.keyCode === 8 || event.keyCode === 37) {
-          if (targetDOM.selectionStart === 0 && idx != 0) {
-            this.setFocus(idx - 1)
-            const ta = this.getTargetTextArea(idx - 1)
-            ta.setSelectionRange(ta.value.length, ta.value.length)
-          }
-          return
-        }
+          const isRightByTextEnd = event.keyCode === 39
+          const isBottomByLastLine = event.keyCode === 40 && beforeSelectionEnd !== targetDOM.value.length
 
-        // 末尾で → を押下した時に次のブロックにフォーカスを動かす処理
-        if (event.keyCode === 39) {
-          if (targetDOM.selectionEnd === targetDOM.value.length && idx + 1 < this.blocks.length) {
-            this.setFocus(idx + 1)
-            const ta = this.getTargetTextArea(idx + 1)
-            ta.setSelectionRange(0, 0)
+          // 前のブロックにフォーカスを動かす処理
+          if (isDeleteOrLeftByTextStart || isTopByFirstLine) {
+            if (targetDOM.selectionStart === 0 && idx != 0) {
+              this.setFocus(idx - 1)
+              const ta = this.getTargetTextArea(idx - 1)
+              ta.setSelectionRange(ta.value.length, ta.value.length)
+            }
+            return
           }
-        }
+
+          // 次のブロックにフォーカスを動かす処理
+          if (isRightByTextEnd || isBottomByLastLine) {
+            if (targetDOM.selectionEnd === targetDOM.value.length && idx + 1 < this.blocks.length) {
+              this.setFocus(idx + 1)
+              const ta = this.getTargetTextArea(idx + 1)
+              ta.setSelectionRange(0, 0)
+            }
+          }
+        }, 20)
       }
     },
     handleKeydownEnter(idx: number, event: KeyboardEvent) {
