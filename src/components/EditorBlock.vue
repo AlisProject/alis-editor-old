@@ -10,19 +10,21 @@
     @dragover.prevent="handleDragover"
     @dragleave.prevent="handleDragLeave"
   >
-    <component
-      :is="`${typedBlock.type}Block`"
-      :block="block"
-      @update="handleUpdate"
-      @delete="handleDelete"
-      @append="handleAppendBlock"
-    />
-    <InsertButton
-      v-if="typedBlock.type === 'Paragraph' && isActive"
-      @disable="handleDisable"
-      @append="handleAppendBlock"
-      @upload="handleUpload"
-    />
+    <template v-if="typedBlock.type">
+      <component
+        :is="`${typedBlock.type}Block`"
+        :block="block"
+        @update="handleUpdate"
+        @delete="handleDelete"
+        @append="handleAppendBlock"
+      />
+      <InsertButton
+        v-if="typedBlock.type === 'Paragraph' && isActive"
+        @disable="handleDisable"
+        @append="handleAppendBlock"
+        @upload="handleUpload"
+      />
+    </template>
   </div>
 </template>
 
