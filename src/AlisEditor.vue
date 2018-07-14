@@ -3,6 +3,7 @@
     <button type="button" @click="exportJSON">Export</button>
     <div
       @keydown="handleKeydown($event, i)"
+      @keydown.enter="handleKeydownEnter(i, $event)"
       v-for="(block, i) in blocks"
       :key="block.id"
     >
@@ -48,7 +49,7 @@ export default Vue.extend({
       this.active = idx
     },
     handleKeydown(event: KeyboardEvent, idx: number) {
-      const allowKeyCode = [8, 13]
+      const allowKeyCode = [8, 37, 39]
       if (!allowKeyCode.includes(event.keyCode)) {
         // 何もせず本来の DOM イベントを実行
         return
@@ -56,41 +57,49 @@ export default Vue.extend({
 
       const targetDOM = this.$el.querySelector(':focus')! as HTMLInputElement
       if (targetDOM.tagName === 'TEXTAREA') {
-        if (event.keyCode === 8) {
-          if (targetDOM.selectionStart === 0) {
-            console.log(idx)
+
+        // 先頭で delete もしくは ← を押下した時に前のブロックにフォーカスを動かす処理
+        if (event.keyCode === 8 || event.keyCode === 37) {
+          if (targetDOM.selectionStart === 0 && idx != 0) {
             this.setFocus(idx - 1)
             const ta = this.getTargetTextArea(idx - 1)
             ta.setSelectionRange(ta.value.length, ta.value.length)
           }
           return
         }
-      }
-      // onEnter
-      if (event.keyCode === 13) {
-        if (event.shiftKey) {
-          return
-        } else {
-          event.preventDefault()
-          this.createNewBlock({
-            idx,
-            type: BlockType.Paragraph,
-            payload: { body: '' },
-            children: [
-              {
-                id: uuid(),
-                type: BlockType.Text,
-                payload: {
-                  body: ''
-                },
-                children: []
-              }
-            ]
-          })
-          this.setFocus(idx + 1)
+
+        // 末尾で → を押下した時に次のブロックにフォーカスを動かす処理
+        if (event.keyCode === 39) {
+          if (targetDOM.selectionEnd === targetDOM.value.length && idx + 1 < this.blocks.length) {
+            this.setFocus(idx + 1)
+            const ta = this.getTargetTextArea(idx + 1)
+            ta.setSelectionRange(0, 0)
+          }
         }
       }
-      console.log("1")
+    },
+    handleKeydownEnter(idx: number, event: KeyboardEvent) {
+      if (event.shiftKey) {
+        return
+      } else {
+        event.preventDefault()
+        this.createNewBlock({
+          idx,
+          type: BlockType.Paragraph,
+          payload: { body: '' },
+          children: [
+            {
+              id: uuid(),
+              type: BlockType.Text,
+              payload: {
+                body: ''
+              },
+              children: []
+            }
+          ]
+        })
+        this.setFocus(idx + 1)
+      }
     },
     async setFocus(idx?: number) {
       await Vue.nextTick()
@@ -114,7 +123,7 @@ export default Vue.extend({
       this.setActive(idx)
       const { blocks } = this
       blocks[idx] = content
-      this.blocks = blocks
+      this.blocks = [...blocks]
     },
     insertImageBlock(idx:number, event: DragEvent) {
       (async () => {

@@ -18,7 +18,7 @@ export default Vue.extend({
   },
   computed: {
     rows() {
-      return Math.max(1, (this as any).typedBlock.payload.body.split('\n').length)
+      return (this as any).typedBlock.payload.body.split('\n').length
     },
     typedBlock(): TextBlock {
       return this.block
