@@ -17,6 +17,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import { ImageBlock } from '../types/Blocks'
+import { createBlogImageFromDataURI } from '../utils/createImage'
 
 axios.defaults.headers.authorization = 'Client-ID ' + process.env.IMGUR_KEY
 
@@ -41,7 +42,7 @@ export default Vue.extend({
     const { src } = this.typedBlock.payload
     if (src.startsWith('data')) {
       const params = new FormData()
-      params.append('image', dataURItoBlob(src))
+      params.append('image', createBlogImageFromDataURI(src))
       const { data } = await axios.post('https://api.imgur.com/3/image', params)
       const { typedBlock: block } = this
       block.payload.src = data.data.link
@@ -65,21 +66,6 @@ export default Vue.extend({
     }
   }
 })
-
-const dataURItoBlob = (dataURI: string) => {
-  const byteString = atob(dataURI.split(',')[1])
-  const type = dataURI
-    .split(',')[0]
-    .split(':')[1]
-    .split(';')[0]
-  const ab = new ArrayBuffer(byteString.length)
-  let ia = new Uint8Array(ab)
-  for (let i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i)
-  }
-  const blob = new Blob([ab], { type })
-  return blob
-}
 </script>
 
 <style scoped>

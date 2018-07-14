@@ -19,17 +19,18 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import uuid from "uuid/v4";
-import EditorBlock from "./components/EditorBlock.vue";
-import { Block, TextBlock, BlockType } from "./types/Blocks";
-import { cloneDeep } from "lodash";
-import { createBlock } from './utils/createBlock';
-import initalState from "../spec/mock/initialState";
+import Vue from "vue"
+import uuid from "uuid/v4"
+import EditorBlock from "./components/EditorBlock.vue"
+import { Block, TextBlock, BlockType } from "./types/Blocks"
+import { cloneDeep } from "lodash"
+import { createBlock } from './utils/createBlock'
+import initalState from "../spec/mock/initialState"
+import { createDataURIImage } from './utils/createImage'
 
 interface EditorState {
-  blocks: Block[];
-  active: number;
+  blocks: Block[]
+  active: number
 }
 
 export default Vue.extend({
@@ -62,56 +63,51 @@ export default Vue.extend({
                 id: uuid(),
                 type: BlockType.Text,
                 payload: {
-                  body: ""
+                  body: ''
                 },
                 children: []
               }
             ]
-          });
-          this.setFocus(idx + 1);
+          })
+          this.setFocus(idx + 1)
         }
       }
-      console.log("1");
+      console.log("1")
     },
     async setFocus(idx?: number) {
-      await Vue.nextTick();
-      const targets = this.$el.querySelectorAll("textarea");
-      if (idx) {
-        targets[idx].focus();
+      await Vue.nextTick()
+      this.getTargetTextArea(idx).focus()
+    },
+    getTargetTextArea(idx?: number) {
+      const targets = this.$el.querySelectorAll("textarea")
+      if (idx !== undefined) {
+        return targets[idx]
       } else {
-        targets[targets.length - 1].focus();
+        return targets[targets.length - 1]
       }
     },
     deleteBlock(idx: number) {
-      const { blocks } = this;
-      blocks.splice(idx, 1);
-      this.blocks = blocks;
-      this.setFocus(idx - 1);
+      const { blocks } = this
+      blocks.splice(idx, 1)
+      this.blocks = blocks
+      this.setFocus(idx - 1)
     },
     updateBlock(idx: number, content: Block) {
-      this.setActive(idx);
-      const { blocks } = this;
-      blocks[idx] = content;
-      this.blocks = blocks;
+      this.setActive(idx)
+      const { blocks } = this
+      blocks[idx] = content
+      this.blocks = blocks
     },
     insertImageBlock(idx:number, event: DragEvent) {
-      const files = (event as any).target.files || event.dataTransfer.files
-      console.log(files)
-      if (!files.length) {
-        return
-      }
-      const target = files[0]
-      const reader = new FileReader()
-      reader.onload = (event: any) => {
-        const { currentTarget: { result } } = event
+      (async () => {
+        const src = await createDataURIImage(event)
         this.createNewBlock({
           idx,
           type: BlockType.Image,
-          payload: { src: result },
+          payload: { src },
           children: []
         })
-      }
-      reader.readAsDataURL(target)
+      })()
     },
     insertRuleBlock(idx: number, type: BlockType) {
       this.createNewBlock({
@@ -131,16 +127,16 @@ export default Vue.extend({
       this.blocks = blocks
     }
   }
-});
+})
 </script>
 
 <style>
 #ALISEditor {
   font-size: 20px;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased
 }
 
 input, textarea {
-  font-size: 20px;
+  font-size: 20px
 }
 </style>
