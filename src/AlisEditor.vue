@@ -50,7 +50,7 @@ export default Vue.extend({
     },
     handleKeydown(event: KeyboardEvent, idx: number) {
       const allowKeyCode = [8, 37, 39]
-      if (!allowKeyCode.includes(event.keyCode)) {
+      if (!allowKeyCode.includes(event.keyCode) || event.shiftKey) {
         // 何もせず本来の DOM イベントを実行
         return
       }
