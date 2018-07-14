@@ -2,7 +2,7 @@
   <div id="ALISEditor">
     <button type="button" @click="exportJSON">Export</button>
     <div
-      @keydown.enter="handleKeydown($event, i)"
+      @keydown="handleKeydown($event, i)"
       v-for="(block, i) in blocks"
       :key="block.id"
     >
@@ -38,22 +38,40 @@ export default Vue.extend({
     return {
       blocks: initalState,
       active: 0
-    };
+    }
   },
   components: {
     EditorBlock
   },
   methods: {
     setActive(idx: number) {
-      this.active = idx;
+      this.active = idx
     },
     handleKeydown(event: KeyboardEvent, idx: number) {
+      const allowKeyCode = [8, 13]
+      if (!allowKeyCode.includes(event.keyCode)) {
+        // 何もせず本来の DOM イベントを実行
+        return
+      }
+
+      const targetDOM = this.$el.querySelector(':focus')! as HTMLInputElement
+      if (targetDOM.tagName === 'TEXTAREA') {
+        if (event.keyCode === 8) {
+          if (targetDOM.selectionStart === 0) {
+            console.log(idx)
+            this.setFocus(idx - 1)
+            const ta = this.getTargetTextArea(idx - 1)
+            ta.setSelectionRange(ta.value.length, ta.value.length)
+          }
+          return
+        }
+      }
       // onEnter
       if (event.keyCode === 13) {
         if (event.shiftKey) {
-          return;
+          return
         } else {
-          event.preventDefault();
+          event.preventDefault()
           this.createNewBlock({
             idx,
             type: BlockType.Paragraph,

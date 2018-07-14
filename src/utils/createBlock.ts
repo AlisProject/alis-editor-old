@@ -2,10 +2,7 @@ import { Block, BlockType } from '../types/Blocks'
 
 export function createBlock(type: BlockType, extend?: any): Block {
   extend = extend || {}
-  return Object.assign(
-    createBlockTemplate(type),
-    extend
-  )
+  return Object.assign(createBlockTemplate(type), extend)
 }
 
 function createBlockTemplate(type: BlockType) {
