@@ -8,7 +8,7 @@ function getFileListFromEvent(event: any): FileList {
     }
   }
   if (event.target) {
-    const { files } = (event.target as HTMLInputElement)
+    const { files } = event.target as HTMLInputElement
     if (files) {
       return files
     } else {

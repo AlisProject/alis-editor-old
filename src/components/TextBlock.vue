@@ -37,7 +37,6 @@ export default Vue.extend({
       this.$emit('delete')
     },
     handleInput(event: KeyboardEvent) {
-      console.log('hoge')
       const value = (event.target! as HTMLTextAreaElement).value
       this.$emit('input', value)
     }
