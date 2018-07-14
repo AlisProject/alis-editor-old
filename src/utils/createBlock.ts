@@ -33,9 +33,12 @@ function createBlockTemplate(type: BlockType) {
         ]
       }
     }
-    case BlockType.Title: {
+    case BlockType.Heading: {
       return {
-        type: BlockType.Title,
+        type: BlockType.Heading,
+        payload: {
+          size: 'h2'
+        },
         children: [
           {
             type: BlockType.Text,

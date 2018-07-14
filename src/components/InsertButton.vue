@@ -19,7 +19,7 @@
       <li class="insert-button__listItem" @click="appendQuote">
         引用
       </li>
-      <li class="insert-button__listItem" @click="appendTitle">
+      <li class="insert-button__listItem" @click="appendHeading">
         大見出し
       </li>
     </ul>
@@ -57,9 +57,9 @@ export default Vue.extend({
       this.$emit('append', BlockType.Quote)
       this.$emit('disable')
     },
-    appendTitle() {
+    appendHeading() {
       this.isOpen = false
-      this.$emit('append', BlockType.Title)
+      this.$emit('append', BlockType.Heading)
       this.$emit('disable')
     },
     handleUpload(event: Event) {

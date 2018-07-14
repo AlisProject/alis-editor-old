@@ -15,7 +15,7 @@ ALIEditor
 │   │   └── 1_Text
 │   └── 3_Text
 ├── 3_Rule
-├── 4_Title
+├── 4_Heading
 │   └── 1_Text
 ├── 5_Image
 └── 6_Link

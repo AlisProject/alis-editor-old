@@ -5,7 +5,7 @@ export enum BlockType {
   Link = 'Link',
   Image = 'Image',
   Quote = 'Quote',
-  Title = 'Title'
+  Heading = 'Heading'
 }
 
 export interface Block {
@@ -47,8 +47,11 @@ export interface ImageBlock extends Block {
   children: Block[]
 }
 
-export interface TitleBlock extends Block {
-  type: BlockType.Title
+export interface HeadingBlock extends Block {
+  type: BlockType.Heading
+  payload: {
+    size: 'h2' | 'h3'
+  }
   children: Block[]
 }
 
