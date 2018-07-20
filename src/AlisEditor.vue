@@ -62,8 +62,8 @@ export default Vue.extend({
           const isDeleteOrLeftByTextStart = event.keyCode === 8 || event.keyCode === 37
           const isTopByFirstLine = event.keyCode === 38 && beforeSelectionStart !== 0
 
-          const isRightByTextEnd = event.keyCode === 39
-          const isBottomByLastLine = event.keyCode === 40 && beforeSelectionEnd !== targetDOM.value.length
+          const isRightByTextEnd = event.keyCode === 39 && beforeSelectionEnd === targetDOM.value.length
+          const isBottomByLastLine = event.keyCode === 40 && (beforeSelectionEnd !== targetDOM.value.length || beforeSelectionEnd === targetDOM.value.length && targetDOM.selectionEnd === targetDOM.value.length)
 
           // 前のブロックにフォーカスを動かす処理
           if (isDeleteOrLeftByTextStart || isTopByFirstLine) {
