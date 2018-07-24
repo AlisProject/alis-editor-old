@@ -7,6 +7,7 @@
     }"
   >
     <img :src="block.payload.src">
+    <ShadowInput @delete="handleDelet" />
     <textarea @focus="handleFocus" @keydown="handleKeydown" @blur="handleBlur" />
     <div class="image-uploading" v-if="isUploading">Uploading...</div>
     <div class="image-delete" v-if="!isUploading" @click="handleDelete">&times;</div>
@@ -18,10 +19,14 @@ import Vue from 'vue'
 import axios from 'axios'
 import { ImageBlock } from '../types/Blocks'
 import { createBlogImageFromDataURI } from '../utils/createImage'
+import ShadowInput from './ShadowInput.vue'
 
 axios.defaults.headers.authorization = 'Client-ID ' + process.env.IMGUR_KEY
 
 export default Vue.extend({
+  components: {
+    ShadowInput
+  },
   props: {
     block: Object
   },
@@ -56,13 +61,8 @@ export default Vue.extend({
     handleBlur() {
       this.isFocus = false
     },
-    handleKeydown(event: KeyboardEvent) {
-      if (event.keyCode === 8) {
-        this.handleDelete()
-      }
-    },
     handleDelete() {
-      this.$emit('delete')
+      this.$emit('delete', this.typedBlock)
     }
   }
 })

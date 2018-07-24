@@ -63,9 +63,6 @@ export default Vue.extend({
     }
   },
   methods: {
-    handleAppendBlock(type: BlockType) {
-      this.$emit('append', type)
-    },
     handleDisable() {
       setTimeout(() => {
         this.isActive = true
@@ -89,10 +86,13 @@ export default Vue.extend({
       this.onDrag = false
       this.$emit('drop', event)
     },
+    handleAppendBlock(type: BlockType) {
+      this.$emit('append', type)
+    },
     handleUpdate(event: any) {
       this.$emit('update', event)
     },
-    handleDelete(event: any) {
+    handleDelete(event: Block) {
       this.$emit('delete', event)
     }
   }

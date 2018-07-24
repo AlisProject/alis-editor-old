@@ -24,7 +24,7 @@ export default [
         id: uuid(),
         type: BlockType.Text,
         payload: {
-          body: 'AAAAAAAAAAAAAAAAAAAAA'
+          body: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         },
         children: []
       }
@@ -35,7 +35,7 @@ export default [
     type: BlockType.Paragraph,
     children: [
       {
-        id: uuid(),
+        id: 'test-text',
         type: BlockType.Text,
         payload: {
           body: 'BBBBBBBBBBBBBBBBBBBBB'
