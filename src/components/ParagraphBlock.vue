@@ -18,12 +18,14 @@ import uuid from 'uuid/v4'
 import { Block, ParagraphBlock, BlockType } from '../types/Blocks'
 import TextBlock from './TextBlock.vue'
 import BoldBlock from './BoldBlock.vue'
+import LinkBlock from './LinkBlock.vue'
 import { cloneDeep } from 'lodash'
 
 export default Vue.extend({
   components: {
     TextBlock,
-    BoldBlock
+    BoldBlock,
+    LinkBlock
   },
   props: {
     block: Object
