@@ -8,7 +8,7 @@
   "scripts": {
     "build": "webpack --config ./config/webpack.config.js",
     "dev": "MODE=development webpack-serve --mode development --config ./config/webpack.config.js",
-    "format": "prettier ./{src,spec}/**/**.{ts,vue} --write"
+    "format": "prettier './{src,spec}/**/**.{ts,vue}' --write"
   },
   "dependencies": {
     "@types/lodash": "^4.14.111",
