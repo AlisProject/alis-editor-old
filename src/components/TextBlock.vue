@@ -34,7 +34,7 @@ export default Vue.extend({
       if (event.keyCode !== 8 || this.typedBlock.payload.body) {
         return
       }
-      this.$emit('delete')
+      this.$emit('delete', this.block)
     },
     handleInput(event: KeyboardEvent) {
       const value = (event.target! as HTMLTextAreaElement).value

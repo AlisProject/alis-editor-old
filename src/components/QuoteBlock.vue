@@ -37,7 +37,7 @@ export default Vue.extend({
       this.$emit('update', cloneDeep(block))
     },
     handleDelete(idx: number) {
-      this.$emit('delete', event)
+      this.$emit('delete', this.typedBlock)
     }
   }
 })

@@ -2,17 +2,17 @@
   <div id="ALISEditor">
     <button type="button" @click="exportJSON">Export</button>
     <div
-      @keydown="handleKeydown($event, i)"
-      @keydown.enter="handleKeydownEnter(i, $event)"
-      v-for="(block, i) in blocks"
+      @keydown="handleKeydown($event, idx)"
+      @keydown.enter="handleKeydownEnter(idx, $event)"
+      v-for="(block, idx) in blocks"
       :key="block.id"
     >
       <EditorBlock
-        @drop="insertImageBlock(i, $event)"
-        @update="updateBlock(i, $event)"
-        @delete="deleteBlock(i)"
-        @append="createNewBlock({idx: i, type: $event})"
-        @upload="insertImageBlock(i, $event)"
+        @drop="insertImageBlock(idx, $event)"
+        @update="updateBlock"
+        @delete="deleteBlock"
+        @append="createNewBlock({idx, type: $event})"
+        @upload="insertImageBlock(idx, $event)"
         :block="block"
       />
     </div>
@@ -28,6 +28,7 @@ import { cloneDeep } from "lodash"
 import { createBlock } from './utils/createBlock'
 import initalState from "../spec/mock/initialState"
 import { createDataURIImage } from './utils/createImage'
+import { findTreeContentById, applyTreeById, deleteTreeContentById } from './utils/applyTree'
 
 interface EditorState {
   blocks: Block[]
@@ -91,22 +92,38 @@ export default Vue.extend({
         return
       } else {
         event.preventDefault()
+        let body = ''
+
+        const target = (event.target as HTMLInputElement)
+        const id = (target.getAttribute('data-id') as any) as string
+        if (target.tagName === 'TEXTAREA' && id) {
+          const block = findTreeContentById(id, this.blocks)
+          if (block) {
+            body = block.payload.body.slice(target.selectionStart, block.payload.body.length)
+            block.payload.body = block.payload.body.slice(0, target.selectionStart)
+            this.updateBlock(block)
+          }
+        }
+        const newId = uuid()
         this.createNewBlock({
           idx,
           type: BlockType.Paragraph,
-          payload: { body: '' },
           children: [
             {
-              id: uuid(),
+              id: newId,
               type: BlockType.Text,
               payload: {
-                body: ''
+                body
               },
               children: []
             }
           ]
         })
-        this.setFocus(idx + 1)
+        setTimeout(()=>{
+          const el = (this.$el.querySelector(`[data-id="${newId}"]`) as any) as HTMLInputElement
+          el.focus()
+          el.setSelectionRange(0,0)
+        }, 0)
       }
     },
     async setFocus(idx?: number) {
@@ -121,18 +138,12 @@ export default Vue.extend({
         return targets[targets.length - 1]
       }
     },
-    deleteBlock(idx: number) {
+    deleteBlock(content: Block) {
       if (this.blocks.length < 2) return
-      const { blocks } = this
-      blocks.splice(idx, 1)
-      this.blocks = blocks
-      this.setFocus(idx - 1)
+      this.blocks = [...deleteTreeContentById(content.id, this.blocks)]
     },
-    updateBlock(idx: number, content: Block) {
-      this.setActive(idx)
-      const { blocks } = this
-      blocks[idx] = content
-      this.blocks = [...blocks]
+    updateBlock(content: Block) {
+      this.blocks = [...applyTreeById(content.id, content, this.blocks)]
     },
     insertImageBlock(idx:number, event: DragEvent) {
       (async () => {

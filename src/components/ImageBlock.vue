@@ -62,7 +62,7 @@ export default Vue.extend({
       }
     },
     handleDelete() {
-      this.$emit('delete')
+      this.$emit('delete', this.typedBlock)
     }
   }
 })
