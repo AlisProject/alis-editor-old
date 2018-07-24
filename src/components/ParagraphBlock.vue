@@ -15,13 +15,15 @@
 <script lang="ts">
 import Vue from 'vue'
 import uuid from 'uuid/v4'
-import { Block, ParagraphBlock } from '../types/Blocks'
+import { Block, ParagraphBlock, BlockType } from '../types/Blocks'
 import TextBlock from './TextBlock.vue'
+import BoldBlock from './BoldBlock.vue'
 import { cloneDeep } from 'lodash'
 
 export default Vue.extend({
   components: {
-    TextBlock
+    TextBlock,
+    BoldBlock
   },
   props: {
     block: Object
@@ -42,7 +44,10 @@ export default Vue.extend({
       block.children = block.children.filter(c => c.id !== child.id)
       this.$emit('update', block)
     },
-    async handleSplit(i: number, { start, end, event }: { start: number; end: number; event: any }) {
+    async handleSplit(
+      i: number,
+      { start, end, event, type }: { start: number; end: number; event: any; type: BlockType }
+    ) {
       console.log(uuid(), uuid())
       const block = cloneDeep(this.typedBlock)
       const original = cloneDeep(block.children[i])
@@ -57,6 +62,7 @@ export default Vue.extend({
       block.children.splice(i, 0, prevContent)
       block.children.splice(i + 2, 0, afterContent)
       block.children[i + 1].payload.body = original.payload.body.slice(start, end)
+      block.children[i + 1].type = type
       this.$emit('update', block)
     }
   }

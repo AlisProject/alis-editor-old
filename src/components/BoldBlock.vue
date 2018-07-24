@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { TextBlock, BlockType } from '../types/Blocks'
+import { BoldBlock, BlockType } from '../types/Blocks'
 
 export default Vue.extend({
   props: {
@@ -22,7 +22,7 @@ export default Vue.extend({
     rows() {
       return (this as any).typedBlock.payload.body.split('\n').length
     },
-    typedBlock(): TextBlock {
+    typedBlock(): BoldBlock {
       return this.block
     }
   },
@@ -65,5 +65,6 @@ textarea {
   overflow: hidden;
   background: transparent;
   padding: 0 8px;
+  font-weight: bold;
 }
 </style>
