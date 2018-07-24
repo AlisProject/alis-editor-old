@@ -6,7 +6,7 @@
       v-for="(childBlock, i) in block.children"
       :key="childBlock.id"
       @input="handleInput(i, $event)"
-      @delete="handleDelete(i)"
+      @delete="handleDelete"
       @splittext="handleSplit(i, $event)"
     />
   </p>
@@ -37,8 +37,10 @@ export default Vue.extend({
       block.children[idx].payload.body = value
       this.$emit('update', cloneDeep(block))
     },
-    handleDelete(idx: number) {
-      this.$emit('delete', this.typedBlock)
+    handleDelete(child: Block) {
+      const block = cloneDeep(this.typedBlock)
+      block.children = block.children.filter((c) => c.id !== child.id)
+      this.$emit('update', block)
     },
     async handleSplit(i: number, { start, end, event }: { start: number; end: number; event: any }) {
       console.log(uuid(), uuid())
