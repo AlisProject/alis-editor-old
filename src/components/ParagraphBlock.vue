@@ -39,7 +39,7 @@ export default Vue.extend({
     },
     handleDelete(child: Block) {
       const block = cloneDeep(this.typedBlock)
-      block.children = block.children.filter((c) => c.id !== child.id)
+      block.children = block.children.filter(c => c.id !== child.id)
       this.$emit('update', block)
     },
     async handleSplit(i: number, { start, end, event }: { start: number; end: number; event: any }) {
