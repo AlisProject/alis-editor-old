@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { TextBlock, BlockType } from '../types/Blocks'
+import { BoldBlock, BlockType } from '../types/Blocks'
 
 export default Vue.extend({
   props: {
@@ -22,7 +22,7 @@ export default Vue.extend({
     rows() {
       return (this as any).typedBlock.payload.body.split('\n').length
     },
-    typedBlock(): TextBlock {
+    typedBlock(): BoldBlock {
       return this.block
     }
   },
@@ -31,24 +31,11 @@ export default Vue.extend({
       this.$emit('focus')
     },
     handleKeydown(event: KeyboardEvent) {
-      if ((event.metaKey || event.ctrlKey) && event.keyCode === 66) {
-        event.preventDefault()
+      if (event.keyCode === 18) {
         const target = (event.target as any) as HTMLInputElement
         if (target.selectionStart === target.selectionEnd) return
         this.$emit('splittext', {
           type: BlockType.Bold,
-          start: target.selectionStart,
-          end: target.selectionEnd,
-          event
-        })
-        return
-      }
-      if ((event.metaKey || event.ctrlKey) && event.keyCode === 76) {
-        event.preventDefault()
-        const target = (event.target as any) as HTMLInputElement
-        if (target.selectionStart === target.selectionEnd) return
-        this.$emit('splittext', {
-          type: BlockType.Link,
           start: target.selectionStart,
           end: target.selectionEnd,
           event
@@ -78,5 +65,7 @@ textarea {
   overflow: hidden;
   background: transparent;
   padding: 0 8px;
+  color: #5d96ff;
+  text-decoration: underline;
 }
 </style>
