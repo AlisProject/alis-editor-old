@@ -10,6 +10,9 @@ import Vue from 'vue'
 import ShadowInput from './ShadowInput.vue'
 
 export default Vue.extend({
+  components: {
+    ShadowInput
+  },
   props: {
     block: Object
   },

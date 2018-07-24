@@ -24,6 +24,9 @@ import ShadowInput from './ShadowInput.vue'
 axios.defaults.headers.authorization = 'Client-ID ' + process.env.IMGUR_KEY
 
 export default Vue.extend({
+  components: {
+    ShadowInput
+  },
   props: {
     block: Object
   },

@@ -87,7 +87,7 @@ export default Vue.extend({
       this.$emit('drop', event)
     },
     handleAppendBlock(type: BlockType) {
-      this.$emit('append', { type, id: this.typedBlock.id })
+      this.$emit('append', type)
     },
     handleUpdate(event: any) {
       this.$emit('update', event)
