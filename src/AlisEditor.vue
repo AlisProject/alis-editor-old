@@ -20,13 +20,13 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-import uuid from "uuid/v4"
-import EditorBlock from "./components/EditorBlock.vue"
-import { Block, TextBlock, BlockType } from "./types/Blocks"
-import { cloneDeep } from "lodash"
+import Vue from 'vue'
+import uuid from 'uuid/v4'
+import EditorBlock from './components/EditorBlock.vue'
+import { Block, TextBlock, BlockType } from './types/Blocks'
+import { cloneDeep } from 'lodash'
 import { createBlock } from './utils/createBlock'
-import initalState from "../spec/mock/initialState"
+import initalState from '../spec/mock/initialState'
 import { createDataURIImage } from './utils/createImage'
 import { findRootContentById, findTreeContentById, applyTreeById, deleteTreeContentById } from './utils/applyTree'
 
@@ -64,7 +64,10 @@ export default Vue.extend({
           const isTopByFirstLine = event.keyCode === 38 && beforeSelectionStart !== 0
 
           const isRightByTextEnd = event.keyCode === 39 && beforeSelectionEnd === targetDOM.value.length
-          const isBottomByLastLine = event.keyCode === 40 && (beforeSelectionEnd !== targetDOM.value.length || beforeSelectionEnd === targetDOM.value.length && targetDOM.selectionEnd === targetDOM.value.length)
+          const isBottomByLastLine =
+            event.keyCode === 40 &&
+            (beforeSelectionEnd !== targetDOM.value.length ||
+              (beforeSelectionEnd === targetDOM.value.length && targetDOM.selectionEnd === targetDOM.value.length))
 
           // 前のブロックにフォーカスを動かす処理
           if (isDeleteOrLeftByTextStart || isTopByFirstLine) {
@@ -94,7 +97,7 @@ export default Vue.extend({
         event.preventDefault()
         let body = ''
 
-        const target = (event.target as HTMLInputElement)
+        const target = event.target as HTMLInputElement
         const id = (target.getAttribute('data-id') as any) as string
         if (target.tagName === 'TEXTAREA' && id) {
           const block = findTreeContentById(id, this.blocks)
@@ -119,10 +122,10 @@ export default Vue.extend({
             }
           ]
         })
-        setTimeout(()=>{
+        setTimeout(() => {
           const el = (this.$el.querySelector(`[data-id="${newId}"]`) as any) as HTMLInputElement
           el.focus()
-          el.setSelectionRange(0,0)
+          el.setSelectionRange(0, 0)
         }, 0)
       }
     },
@@ -131,7 +134,7 @@ export default Vue.extend({
       this.getTargetTextArea(idx).focus()
     },
     getTargetTextArea(idx?: number) {
-      const targets = this.$el.querySelectorAll("textarea")
+      const targets = this.$el.querySelectorAll('textarea')
       if (idx !== undefined) {
         return targets[idx]
       } else {
@@ -145,8 +148,8 @@ export default Vue.extend({
     updateBlock(content: Block) {
       this.blocks = [...applyTreeById(content.id, content, this.blocks)]
     },
-    insertImageBlock(idx:number, event: DragEvent) {
-      (async () => {
+    insertImageBlock(idx: number, event: DragEvent) {
+      ;(async () => {
         const src = await createDataURIImage(event)
         this.createNewBlock({
           idx,
@@ -159,7 +162,7 @@ export default Vue.extend({
     exportJSON() {
       console.log(JSON.stringify(this.blocks, null, '  '))
     },
-    createNewBlock(extend: { idx: number, type: BlockType, payload?: any, children?: Block[] }) {
+    createNewBlock(extend: { idx: number; type: BlockType; payload?: any; children?: Block[] }) {
       const { idx, type } = extend
       delete extend.idx
       delete extend.type
@@ -174,10 +177,11 @@ export default Vue.extend({
 <style>
 #ALISEditor {
   font-size: 20px;
-  -webkit-font-smoothing: antialiased
+  -webkit-font-smoothing: antialiased;
 }
 
-input, textarea {
-  font-size: 20px
+input,
+textarea {
+  font-size: 20px;
 }
 </style>
