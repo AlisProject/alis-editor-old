@@ -7,6 +7,7 @@
       :key="childBlock.id"
       @input="handleInput(i, $event)"
       @delete="handleDelete(i)"
+      @splittext="handleSplit(i, $event)"
     />
   </p>
 </template>
@@ -38,6 +39,23 @@ export default Vue.extend({
     },
     handleDelete(idx: number) {
       this.$emit('delete', this.typedBlock)
+    },
+    async handleSplit(i: number, { start, end, event }: { start: number; end: number; event: any }) {
+      console.log(uuid(), uuid())
+      const block = cloneDeep(this.typedBlock)
+      const original = cloneDeep(block.children[i])
+      const prevContent = Object.assign(cloneDeep(original), {
+        id: uuid(),
+        payload: { body: original.payload.body.slice(0, start) }
+      })
+      const afterContent = Object.assign(cloneDeep(original), {
+        id: uuid(),
+        payload: { body: original.payload.body.slice(end, original.payload.body.length) }
+      })
+      block.children.splice(i, 0, prevContent)
+      block.children.splice(i + 2, 0, afterContent)
+      block.children[i + 1].payload.body = original.payload.body.slice(start, end)
+      this.$emit('update', block)
     }
   }
 })

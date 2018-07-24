@@ -24,7 +24,7 @@ export default [
         id: uuid(),
         type: BlockType.Text,
         payload: {
-          body: 'AAAAAAAAAAAAAAAAAAAAA'
+          body: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         },
         children: []
       }

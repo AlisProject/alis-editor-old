@@ -31,6 +31,15 @@ export default Vue.extend({
       this.$emit('focus')
     },
     handleKeydown(event: KeyboardEvent) {
+      if (event.keyCode === 18) {
+        const target = (event.target as any) as HTMLInputElement
+        this.$emit('splittext', {
+          start: target.selectionStart,
+          end: target.selectionEnd,
+          event
+        })
+        return
+      }
       if (event.keyCode !== 8 || this.typedBlock.payload.body) {
         return
       }
