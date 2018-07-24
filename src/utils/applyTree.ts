@@ -1,5 +1,27 @@
 import { Block, BlockType } from '../types/Blocks'
 
+export function findRootContentById(id: string, blocks: Block[]) {
+  if (blocks.find((block: Block) => (block.id === id))) {
+    return blocks.find((block: Block) => (block.id === id))!.id
+  }
+
+  let foundBlock = false
+
+  const findContent = (parent: Block): boolean => {
+    if (foundBlock) return false
+    if (parent.id === id) {
+      foundBlock = true
+      return true
+    }
+    if (parent.children && parent.children.length) {
+      return !!parent.children.find((c) => findContent(c))
+    }
+    return false
+  }
+  const content = blocks.find((b) => findContent(b))
+  return content ? content.id : false
+}
+
 export function findTreeContentById(id: string, blocks: Block[]) {
   let foundBlock = false
   let content: any = null

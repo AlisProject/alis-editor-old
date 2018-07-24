@@ -35,7 +35,7 @@ export default [
     type: BlockType.Paragraph,
     children: [
       {
-        id: uuid(),
+        id: 'test-text',
         type: BlockType.Text,
         payload: {
           body: 'BBBBBBBBBBBBBBBBBBBBB'

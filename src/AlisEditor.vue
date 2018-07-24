@@ -28,7 +28,7 @@ import { cloneDeep } from "lodash"
 import { createBlock } from './utils/createBlock'
 import initalState from "../spec/mock/initialState"
 import { createDataURIImage } from './utils/createImage'
-import { findTreeContentById, applyTreeById, deleteTreeContentById } from './utils/applyTree'
+import { findRootContentById, findTreeContentById, applyTreeById, deleteTreeContentById } from './utils/applyTree'
 
 interface EditorState {
   blocks: Block[]
@@ -45,10 +45,10 @@ export default Vue.extend({
   components: {
     EditorBlock
   },
+  mounted() {
+    console.log(findRootContentById('test-text', this.blocks))
+  },
   methods: {
-    setActive(idx: number) {
-      this.active = idx
-    },
     handleKeydown(event: KeyboardEvent, idx: number) {
       const allowKeyCode = [8, 37, 38, 39, 40]
       if (!allowKeyCode.includes(event.keyCode) || event.shiftKey) {

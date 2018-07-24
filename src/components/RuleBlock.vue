@@ -1,18 +1,21 @@
 <template>
   <div class="rule">
     <hr/>
-    <textarea @keydown="handleKeydown" />
+    <ShadowInput @delete="handleDelete" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import ShadowInput from './ShadowInput.vue'
+
 export default Vue.extend({
+  props: {
+    block: Object
+  },
   methods: {
-    handleKeydown(event: KeyboardEvent) {
-      if (event.keyCode === 8) {
-        this.$emit('delete')
-      }
+    handleDelete() {
+      this.$emit('delete', this.block)
     }
   }
 })
