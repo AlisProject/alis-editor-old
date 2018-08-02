@@ -11,14 +11,9 @@ function createBlockTemplate(type: BlockType) {
     case BlockType.Paragraph: {
       return {
         type: BlockType.Paragraph,
-        children: [
-          {
-            type: BlockType.Text,
-            payload: {
-              body: ''
-            }
-          }
-        ]
+        payload: {
+          body: ''
+        }
       }
     }
     case BlockType.Quote: {

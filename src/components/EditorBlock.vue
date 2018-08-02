@@ -19,7 +19,7 @@
         @append="handleAppendBlock"
       />
       <InsertButton
-        v-if="typedBlock.type === 'Paragraph' && isActive"
+        v-if="typedBlock.type === 'Paragraph' && showInsertButton && active"
         @disable="handleDisable"
         @append="handleAppendBlock"
         @upload="handleUpload"
@@ -49,12 +49,13 @@ export default Vue.extend({
     InsertButton
   },
   props: {
-    block: Object
+    block: Object,
+    active: Boolean
   },
-  data(): { onDrag: boolean; isActive: boolean } {
+  data(): { onDrag: boolean; showInsertButton: boolean } {
     return {
       onDrag: false,
-      isActive: true
+      showInsertButton: false
     }
   },
   computed: {
@@ -65,11 +66,12 @@ export default Vue.extend({
   methods: {
     handleDisable() {
       setTimeout(() => {
-        this.isActive = true
+        this.showInsertButton = false
       }, 20)
     },
     handleClick() {
-      this.isActive = true
+      this.showInsertButton = true
+      this.$emit('active', this.typedBlock)
     },
     handleDragover() {
       this.onDrag = true

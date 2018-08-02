@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="ALISEditor">
-    <button type="button" @click="exportJSON">Export</button>
+    <button type="button" style="position: fixed;left: 0; bottom: 0;cursor:pointer; width: 100px;height: 100px;background: #fff;-webkit-appearance: none;" @click="exportJSON">Export</button>
     <div
       @keydown="handleKeydown($event, idx)"
       @keydown.enter="handleKeydownEnter(idx, $event)"
@@ -13,7 +13,9 @@
         @delete="deleteBlock"
         @append="createNewBlock({idx, type: $event})"
         @upload="insertImageBlock(idx, $event)"
+        @active="setActive($event)"
         :block="block"
+        :active="active === block.id"
       />
     </div>
   </div>
@@ -23,7 +25,7 @@
 import Vue from 'vue'
 import uuid from 'uuid/v4'
 import EditorBlock from './components/EditorBlock.vue'
-import { Block, TextBlock, BlockType } from './types/Blocks'
+import { Block, BlockType } from './types/Blocks'
 import { cloneDeep } from 'lodash'
 import { createBlock } from './utils/createBlock'
 import initalState from '../spec/mock/initialState'
@@ -32,14 +34,14 @@ import { findRootContentById, findTreeContentById, applyTreeById, deleteTreeCont
 
 interface EditorState {
   blocks: Block[]
-  active: number
+  active: string | null
 }
 
 export default Vue.extend({
   data(): EditorState {
     return {
       blocks: initalState,
-      active: 0
+      active: null
     }
   },
   components: {
@@ -49,16 +51,19 @@ export default Vue.extend({
     console.log(findRootContentById('test-text', this.blocks))
   },
   methods: {
+    setActive(block: Block) {
+      this.active = block.id
+    },
     handleKeydown(event: KeyboardEvent, idx: number) {
-      const allowKeyCode = [8, 37, 38, 39, 40]
-      if (!allowKeyCode.includes(event.keyCode) || event.shiftKey) {
-        // 何もせず本来の DOM イベントを実行
-        return
-      }
-      const targetDOM = this.$el.querySelector(':focus')! as HTMLInputElement
-      if (targetDOM.tagName === 'TEXTAREA') {
-        this.injectTextArea(event, idx)
-      }
+      // const allowKeyCode = [8, 37, 38, 39, 40]
+      // if (!allowKeyCode.includes(event.keyCode) || event.shiftKey) {
+      //   // 何もせず本来の DOM イベントを実行
+      //   return
+      // }
+      // const targetDOM = this.$el.querySelector(':focus')! as HTMLInputElement
+      // if (targetDOM.tagName === 'TEXTAREA') {
+      //   this.injectTextArea(event, idx)
+      // }
     },
     injectTextArea(event: KeyboardEvent, idx: number) {
       const targetDOM = this.$el.querySelector(':focus')! as HTMLInputElement
@@ -94,6 +99,9 @@ export default Vue.extend({
       }, 20)
     },
     handleKeydownEnter(idx: number, event: KeyboardEvent) {
+      if (event.keyCode === 229) {
+        return
+      }
       if (event.shiftKey) {
         return
       }
@@ -126,11 +134,11 @@ export default Vue.extend({
           }
         ]
       })
-      setTimeout(() => {
-        const el = (this.$el.querySelector(`[data-id="${newId}"]`) as any) as HTMLInputElement
-        el.focus()
-        el.setSelectionRange(0, 0)
-      }, 0)
+      // setTimeout(() => {
+      //   const el = (this.$el.querySelector(`[data-id="${newId}"]`) as any) as HTMLInputElement
+      //   el.focus()
+      //   el.setSelectionRange(0, 0)
+      // }, 0)
     },
     async setFocus(idx?: number) {
       await Vue.nextTick()

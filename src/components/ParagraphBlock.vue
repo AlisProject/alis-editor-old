@@ -1,32 +1,22 @@
 <template>
-  <p>
-    <component
-      :is="`${childBlock.type}Block`"
-      :block="childBlock"
-      v-for="(childBlock, i) in block.children"
-      :key="childBlock.id"
-      @input="handleInput(i, $event)"
-      @delete="handleDelete"
-      @splittext="handleSplit(i, $event)"
-    />
-  </p>
+  <div
+    contenteditable="true"
+    class="target paragraph"
+    @keydown="handleKeyDown"
+    @input="handleInput"
+    @paste="handlePaste"
+    v-html="v"
+  ></div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import uuid from 'uuid/v4'
 import { Block, ParagraphBlock, BlockType } from '../types/Blocks'
-import TextBlock from './TextBlock.vue'
-import BoldBlock from './BoldBlock.vue'
-import LinkBlock from './LinkBlock.vue'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, debounce } from 'lodash'
+const sanitize = require('sanitize-html/src/index.js')
 
 export default Vue.extend({
-  components: {
-    TextBlock,
-    BoldBlock,
-    LinkBlock
-  },
   props: {
     block: Object
   },
@@ -35,38 +25,65 @@ export default Vue.extend({
       return this.block
     }
   },
-  methods: {
-    handleInput(idx: number, value: string) {
-      const { typedBlock: block } = this
-      block.children[idx].payload.body = value
-      this.$emit('update', cloneDeep(block))
-    },
-    handleDelete(child: Block) {
-      const block = cloneDeep(this.typedBlock)
-      block.children = block.children.filter(c => c.id !== child.id)
-      this.$emit('update', block)
-    },
-    async handleSplit(
-      i: number,
-      { start, end, event, type }: { start: number; end: number; event: any; type: BlockType }
-    ) {
-      console.log(uuid(), uuid())
-      const block = cloneDeep(this.typedBlock)
-      const original = cloneDeep(block.children[i])
-      const prevContent = Object.assign(cloneDeep(original), {
-        id: uuid(),
-        payload: { body: original.payload.body.slice(0, start) }
-      })
-      const afterContent = Object.assign(cloneDeep(original), {
-        id: uuid(),
-        payload: { body: original.payload.body.slice(end, original.payload.body.length) }
-      })
-      block.children.splice(i, 0, prevContent)
-      block.children.splice(i + 2, 0, afterContent)
-      block.children[i + 1].payload.body = original.payload.body.slice(start, end)
-      block.children[i + 1].type = type
-      this.$emit('update', block)
+  data() {
+    return {
+      isKeydown: false,
+      v: (this as any).block.payload.body
     }
+  },
+  methods: {
+    handleKeyDown(event: KeyboardEvent) {
+      const target = event.target! as any
+      if (event.keyCode === 229) {
+        event.preventDefault()
+        return
+      }
+      this.isKeydown = true
+    },
+    handlePaste(event: any) {
+      this.isKeydown = true
+      this.handleInput(event)
+    },
+    handleInput(event: KeyboardEvent) {
+      if (!this.isKeydown) return
+      this.isKeydown = false
+      const target = event.target! as any
+      this.updateDOM(this, target)
+    },
+    updateDOM: debounce((root, target) => {
+      const selection = document.getSelection()
+      const offset = selection.anchorOffset
+      selection.removeAllRanges()
+      const sanitizedHtml = sanitize(target.innerHTML, {
+        allowedTags: [ 'b', 'i', 'em', 'strong', 'a' ]
+      })
+      if (sanitizedHtml) {
+        target.innerHTML = sanitizedHtml
+        root.$emit('input', sanitizedHtml)
+      } else {
+        root.$emit('delete', root.typedBlock)
+      }
+      try {
+        const range = document.createRange()
+        range.selectNodeContents(root.$el)
+        range.setStart((root as any).$el.firstChild, offset)
+        range.setEnd((root as any).$el.firstChild, offset)
+        selection.addRange(range)
+      } catch (e) {}
+    }, 60)
   }
 })
 </script>
+
+<style scoped>
+div {
+  border: 0;
+  outline: none;
+  resize: none;
+  width: 100%;
+  overflow: hidden;
+  background: transparent;
+  padding: 8px 8px 0;
+  min-height: 46px;
+}
+</style>

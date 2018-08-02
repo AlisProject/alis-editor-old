@@ -7,8 +7,7 @@
     }"
   >
     <img :src="block.payload.src">
-    <ShadowInput @delete="handleDelet" />
-    <textarea @focus="handleFocus" @keydown="handleKeydown" @blur="handleBlur" />
+    <ShadowInput @delete="handleDelete" />
     <div class="image-uploading" v-if="isUploading">Uploading...</div>
     <div class="image-delete" v-if="!isUploading" @click="handleDelete">&times;</div>
   </div>
@@ -61,6 +60,11 @@ export default Vue.extend({
     handleBlur() {
       this.isFocus = false
     },
+    handleKeydown(event: any) {
+      if (event.keyCode === 7) {
+        this.$emit('delete', this.typedBlock)
+      }
+    },
     handleDelete() {
       this.$emit('delete', this.typedBlock)
     }
@@ -73,6 +77,7 @@ export default Vue.extend({
   position: relative;
   border: solid 2px transparent;
   line-height: 0;
+  text-align: center;
 }
 
 .image:hover,
@@ -101,24 +106,6 @@ export default Vue.extend({
 img {
   max-width: 100%;
   pointer-events: none;
-}
-
-textarea {
-  color: transparent;
-  background: transparent;
-  resize: none;
-  opacity: 0;
-  outline: none;
-  display: block;
-  position: absolute;
-  z-index: 100000;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  border: 0;
-  padding: 0;
-  margin: 0;
 }
 
 img[src^='data:'] {

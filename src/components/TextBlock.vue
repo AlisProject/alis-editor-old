@@ -31,30 +31,6 @@ export default Vue.extend({
       this.$emit('focus')
     },
     handleKeydown(event: KeyboardEvent) {
-      if ((event.metaKey || event.ctrlKey) && event.keyCode === 66) {
-        event.preventDefault()
-        const target = (event.target as any) as HTMLInputElement
-        if (target.selectionStart === target.selectionEnd) return
-        this.$emit('splittext', {
-          type: BlockType.Bold,
-          start: target.selectionStart,
-          end: target.selectionEnd,
-          event
-        })
-        return
-      }
-      if ((event.metaKey || event.ctrlKey) && event.keyCode === 76) {
-        event.preventDefault()
-        const target = (event.target as any) as HTMLInputElement
-        if (target.selectionStart === target.selectionEnd) return
-        this.$emit('splittext', {
-          type: BlockType.Link,
-          start: target.selectionStart,
-          end: target.selectionEnd,
-          event
-        })
-        return
-      }
       if (event.keyCode !== 8 || this.typedBlock.payload.body) {
         return
       }
