@@ -107,6 +107,10 @@ export default Vue.extend({
   border: solid 2px transparent;
 }
 
+.block:hover {
+  background: rgba(0,0,0,0.01);
+}
+
 .block.block--ondrag {
   border: dotted 2px #555;
 }

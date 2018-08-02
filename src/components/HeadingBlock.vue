@@ -1,6 +1,6 @@
 <template>
   <h2 v-if="typedBlock.payload.size === 'h2'">
-    <!-- <component
+    <component
       :is="`${childBlock.type}Block`"
       :block="childBlock"
       v-for="(childBlock, i) in typedBlock.children"
@@ -8,11 +8,11 @@
       :placeholder="'Type heading here...'"
       @input="handleInput(i, $event)"
       @delete="handleDelete(i)"
-    /> -->
+    />
     {{typedBlock.payload.body}}
   </h2>
   <h3 v-else>
-    <!-- <component
+    <component
       :is="`${childBlock.type}Block`"
       :block="childBlock"
       v-for="(childBlock, i) in typedBlock.children"
@@ -20,7 +20,7 @@
       :placeholder="'Type heading here...'"
       @input="handleInput(i, $event)"
       @delete="handleDelete(i)"
-    /> -->
+    />
     {{typedBlock.payload.body}}
   </h3>
 </template>
@@ -60,6 +60,8 @@ export default Vue.extend({
 <style scoped>
 h2 {
   margin: 8px 0;
+  padding: 0;
+  line-height: 0;
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', 'Lucida Grande',
     'sans-serif', Sans-Serif;
 }
@@ -68,6 +70,10 @@ h2 {
 <style>
 .block h2 textarea {
   font-weight: bold;
-  font-size: 24px;
+  font-size: 32px;
+  margin: 0;
+  line-height: 1;
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', 'Lucida Grande',
+    'sans-serif', Sans-Serif;
 }
 </style>

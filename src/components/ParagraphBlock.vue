@@ -39,6 +39,9 @@ export default Vue.extend({
         return
       }
       this.isKeydown = true
+      if (!target.innerHTML) {
+        this.$emit('delete', this.typedBlock)
+      }
     },
     handlePaste(event: any) {
       this.isKeydown = true

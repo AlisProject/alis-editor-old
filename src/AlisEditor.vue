@@ -172,6 +172,7 @@ export default Vue.extend({
     },
     exportJSON() {
       console.log(JSON.stringify(this.blocks, null, '  '))
+      alert('Export to console.')
     },
     createNewBlock(extend: { idx: number; type: BlockType; payload?: any; children?: Block[] }) {
       const { idx, type } = extend

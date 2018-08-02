@@ -15,8 +15,16 @@ export default [
     type: BlockType.Heading,
     payload: {
       size: 'h2',
-      body: 'ALIS Editor'
-    }
+    },
+    children: [
+      {
+        id: uuid(),
+        type: BlockType.Text,
+        payload: {
+          body: 'ALIS Editor'
+        }
+      }
+    ]
   },
   {
     id: uuid(),
