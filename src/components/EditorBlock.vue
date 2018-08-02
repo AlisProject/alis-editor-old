@@ -108,7 +108,7 @@ export default Vue.extend({
 }
 
 .block:hover {
-  background: rgba(0,0,0,0.01);
+  background: rgba(0, 0, 0, 0.01);
 }
 
 .block.block--ondrag {

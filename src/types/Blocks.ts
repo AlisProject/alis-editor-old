@@ -20,12 +20,9 @@ export interface RuleBlock extends Block {
 
 export interface ParagraphBlock extends Block {
   type: BlockType.Paragraph
-  payload:
-    | {
-        body: string
-      }
-    | any
-  children: Block[]
+  payload: {
+    body: string
+  }
 }
 
 export interface TextBlock extends Block {

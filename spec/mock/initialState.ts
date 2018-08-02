@@ -14,7 +14,7 @@ export default [
     id: uuid(),
     type: BlockType.Heading,
     payload: {
-      size: 'h2',
+      size: 'h2'
     },
     children: [
       {

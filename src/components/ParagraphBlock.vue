@@ -58,7 +58,7 @@ export default Vue.extend({
       const offset = selection.anchorOffset
       selection.removeAllRanges()
       const sanitizedHtml = sanitize(target.innerHTML, {
-        allowedTags: [ 'b', 'i', 'em', 'strong', 'a' ]
+        allowedTags: ['b', 'i', 'em', 'strong', 'a', 'br']
       })
       if (sanitizedHtml) {
         target.innerHTML = sanitizedHtml
