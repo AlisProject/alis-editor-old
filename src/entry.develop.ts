@@ -1,10 +1,10 @@
 import Vue from 'vue'
-import AlisEditor from './AlisEditor.vue'
+import DevApp from './DevApp.vue'
 
 new Vue({
   el: '#app',
-  template: `<div id="app"><AlisEditor /></div>`,
+  template: `<div id="app"><DevApp /></div>`,
   components: {
-    AlisEditor
+    DevApp
   }
 })

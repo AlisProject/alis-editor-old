@@ -171,9 +171,7 @@ export default Vue.extend({
       })()
     },
     exportJSON() {
-      document.querySelector('#log pre')!.innerHTML = JSON.stringify(this.blocks, null, '  ')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
+      this.$emit('export', this.blocks)
     },
     createNewBlock(extend: { idx: number; type: BlockType; payload?: any; children?: Block[] }) {
       const { idx, type } = extend
