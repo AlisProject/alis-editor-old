@@ -17,6 +17,7 @@
         @update="handleUpdate"
         @delete="handleDelete"
         @append="handleAppendBlock"
+        @addimageuri="handleAddImage"
       />
       <InsertButton
         v-if="typedBlock.type === 'Paragraph' && showInsertButton && active"
@@ -81,6 +82,9 @@ export default Vue.extend({
     },
     handleUpload(event: Event) {
       this.$emit('upload', event)
+    },
+    handleAddImage(src: string) {
+      this.$emit('addimageuri', src)
     },
     handleDrop(event: Event) {
       event.preventDefault()

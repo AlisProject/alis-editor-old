@@ -13,6 +13,7 @@
         @append="createNewBlock({idx, type: $event})"
         @upload="insertImageBlock(idx, $event)"
         @active="setActive($event)"
+        @addimageuri="addImageURI(idx, $event)"
         :block="block"
         :active="active === block.id"
       />
@@ -53,6 +54,14 @@ export default Vue.extend({
   methods: {
     setActive(block: Block) {
       this.active = block.id
+    },
+    addImageURI(idx: number, src: string) {
+      this.createNewBlock({
+        idx,
+        type: BlockType.Image,
+        payload: { src },
+        children: []
+      })
     },
     handleKeydown(event: KeyboardEvent, idx: number) {
       // const allowKeyCode = [8, 37, 38, 39, 40]

@@ -1,11 +1,13 @@
 <template>
   <textarea
     @keydown="handleKeydown"
+    @paste="handlePaste"
   ></textarea>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { createDataURIImage } from '../utils/createImage'
 
 export default Vue.extend({
   methods: {
@@ -14,6 +16,12 @@ export default Vue.extend({
         return
       }
       this.$emit('delete', event)
+    },
+    handlePaste(event: any) {
+      ;(async () => {
+        const src = await createDataURIImage(event)
+        this.$emit('addimageuri', src)
+      })()
     }
   }
 })

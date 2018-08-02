@@ -7,7 +7,10 @@
     }"
   >
     <img :src="block.payload.src">
-    <ShadowInput @delete="handleDelete" />
+    <ShadowInput
+      @delete="handleDelete"
+      @addimageuri="handleAddImage"
+    />
     <div class="image-uploading" v-if="isUploading">Uploading...</div>
     <div class="image-delete" v-if="!isUploading" @click="handleDelete">&times;</div>
   </div>
@@ -67,6 +70,9 @@ export default Vue.extend({
     },
     handleDelete() {
       this.$emit('delete', this.typedBlock)
+    },
+    handleAddImage(src: string) {
+      this.$emit('addimageuri', src)
     }
   }
 })

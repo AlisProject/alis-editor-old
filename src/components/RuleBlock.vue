@@ -1,7 +1,10 @@
 <template>
   <div class="rule">
     <hr/>
-    <ShadowInput @delete="handleDelete" />
+    <ShadowInput
+      @delete="handleDelete"
+      @addimageuri="handleAddImage"
+    />
   </div>
 </template>
 
@@ -19,6 +22,9 @@ export default Vue.extend({
   methods: {
     handleDelete() {
       this.$emit('delete', this.block)
+    },
+    handleAddImage(src: string) {
+      this.$emit('addimageuri', src)
     }
   }
 })

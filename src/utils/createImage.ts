@@ -1,4 +1,12 @@
 function getFileListFromEvent(event: any): FileList {
+  if ('clipboardData' in event && 'files' in event.clipboardData) {
+    const { files } = event.clipboardData
+    if (files) {
+      return files
+    } else {
+      throw new TypeError('TypeError')
+    }
+  }
   if ('dataTransfer' in event) {
     const { files } = (event as DragEvent).dataTransfer
     if (files) {
