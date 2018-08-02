@@ -10,6 +10,7 @@
         width: 100vw;
         min-height: 100vh;
         font-family: sans-serif;
+        overflow-x: hidden;
       }
 
       body textarea,
@@ -64,9 +65,27 @@
         font-weight: 400;
       }
 
+      #log {
+        margin-top: 40px;
+        color: #fff;
+        height: 200px;
+        overflow: auto;
+        background: #141414;
+      }
+      #log pre {
+        width: 900px;
+        padding: 20px;
+        margin: 0 auto;
+      }
+
     </style>
   </head>
   <body>
     <div id="app"></div>
+    <div id="log">
+      <pre>
+
+      </pre>
+    </div>
   </body>
 </html>

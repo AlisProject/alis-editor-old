@@ -1,6 +1,5 @@
 <template lang="html">
   <div id="ALISEditor">
-    <button type="button" style="position: fixed;left: 0; bottom: 0;cursor:pointer; width: 100px;height: 100px;background: #fff;-webkit-appearance: none;" @click="exportJSON">Export</button>
     <div
       @keydown="handleKeydown($event, idx)"
       @keydown.enter="handleKeydownEnter(idx, $event)"
@@ -18,6 +17,7 @@
         :active="active === block.id"
       />
     </div>
+    <button type="button" class="export-button" @click="exportJSON">Export</button>
   </div>
 </template>
 
@@ -171,8 +171,9 @@ export default Vue.extend({
       })()
     },
     exportJSON() {
-      console.log(JSON.stringify(this.blocks, null, '  '))
-      alert('Export to console.')
+      document.querySelector('#log pre')!.innerHTML = JSON.stringify(this.blocks, null, '  ')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
     },
     createNewBlock(extend: { idx: number; type: BlockType; payload?: any; children?: Block[] }) {
       const { idx, type } = extend
@@ -195,5 +196,29 @@ export default Vue.extend({
 input,
 textarea {
   font-size: 20px;
+}
+
+.export-button {
+  width: 100%;
+  height: 60px;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b0b8fe;
+  font-size: 24px;
+  background: #fff;
+  border: solid 1px #b0b8fe;
+  -webkit-appearance: none;
+  transition: all 0.15s ease-out;
+  cursor: pointer;
+  font-weight: 300;
+  border-radius: 2px;
+  letter-spacing: 1.5px;
+}
+
+.export-button:hover {
+  color: #fff;
+  background: #b0b8fe;
 }
 </style>
