@@ -18,12 +18,12 @@
         @delete="handleDelete"
         @append="handleAppendBlock"
       />
-      <InsertButton
+      <!-- <InsertButton
         v-if="typedBlock.type === 'Paragraph' && showInsertButton && active"
         @disable="handleDisable"
         @append="handleAppendBlock"
         @upload="handleUpload"
-      />
+      /> -->
     </template>
   </div>
 </template>

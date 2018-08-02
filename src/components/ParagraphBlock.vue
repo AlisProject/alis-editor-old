@@ -5,7 +5,6 @@
     @keydown="handleKeyDown"
     @input="handleInput"
     @paste="handlePaste"
-    v-html="v"
   ></div>
 </template>
 
@@ -14,6 +13,7 @@ import Vue from 'vue'
 import uuid from 'uuid/v4'
 import { Block, ParagraphBlock, BlockType } from '../types/Blocks'
 import { cloneDeep, debounce } from 'lodash'
+import { setTimeout } from 'timers'
 const sanitize = require('sanitize-html/src/index.js')
 
 export default Vue.extend({
@@ -31,6 +31,9 @@ export default Vue.extend({
       v: (this as any).block.payload.body
     }
   },
+  mounted() {
+    this.$el.innerHTML = this.v
+  },
   methods: {
     handleKeyDown(event: KeyboardEvent) {
       const target = event.target! as any
@@ -38,42 +41,44 @@ export default Vue.extend({
         event.preventDefault()
         return
       }
-      this.isKeydown = true
       if (event.keyCode === 8 && !target.innerHTML) {
         this.$emit('delete', this.typedBlock)
       }
     },
     handlePaste(event: any) {
-      this.isKeydown = true
-      this.handleInput(event)
+      this.handleInput(event, true)
     },
-    handleInput(event: KeyboardEvent) {
-      if (!this.isKeydown) return
-      this.isKeydown = false
-      const target = event.target! as any
-      this.updateDOM(this, target)
+    handleInput(event: KeyboardEvent, requireUpdateDOM?: boolean) {
+      this.updateDOM(event.target, requireUpdateDOM || false)
     },
-    updateDOM: debounce((root, target) => {
-      const selection = document.getSelection()
-      const offset = selection.anchorOffset
-      selection.removeAllRanges()
-      const sanitizedHtml = sanitize(target.innerHTML, {
-        allowedTags: ['b', 'i', 'em', 'strong', 'a', 'br']
-      })
-      if (sanitizedHtml) {
-        target.innerHTML = sanitizedHtml
-        root.$emit('input', sanitizedHtml)
-      } else {
-        root.$emit('delete', root.typedBlock)
-      }
-      try {
-        const range = document.createRange()
-        range.selectNodeContents(root.$el)
-        range.setStart((root as any).$el.firstChild, offset)
-        range.setEnd((root as any).$el.firstChild, offset)
-        selection.addRange(range)
-      } catch (e) {}
-    }, 60)
+    updateDOM(target: any, requireUpdateDOM?: boolean) {
+      setTimeout(() => {
+        const selection = document.getSelection()
+        const sanitizedHtml = sanitize(target.innerHTML, {
+          allowedTags: ['b', 'i', 'em', 'strong', 'a', 'br']
+        })
+        if (sanitizedHtml) {
+          if (requireUpdateDOM) {
+            this.$el.innerHTML = sanitizedHtml
+          }
+          this.$emit('input', sanitizedHtml)
+        } else {
+          this.$emit('delete', this.typedBlock)
+        }
+        setTimeout(() => {
+          try {
+            const node = selection.anchorNode
+            const offset = selection.anchorOffset
+            console.log(node)
+            selection.removeAllRanges()
+            const range = document.createRange()
+            range.setStart(node, offset)
+            range.setEnd(node, offset)
+            selection.addRange(range)
+          } catch (e) {}
+        }, 0)
+      }, 0)
+    }
   }
 })
 </script>
