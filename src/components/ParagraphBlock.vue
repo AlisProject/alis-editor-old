@@ -39,7 +39,7 @@ export default Vue.extend({
         return
       }
       this.isKeydown = true
-      if (!target.innerHTML) {
+      if (event.keyCode === 8 && !target.innerHTML) {
         this.$emit('delete', this.typedBlock)
       }
     },
