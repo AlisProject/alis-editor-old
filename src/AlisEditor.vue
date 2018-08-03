@@ -48,9 +48,6 @@ export default Vue.extend({
   components: {
     EditorBlock
   },
-  mounted() {
-    console.log(findRootContentById('test-text', this.blocks))
-  },
   methods: {
     setActive(block: Block) {
       this.active = block.id
@@ -64,15 +61,15 @@ export default Vue.extend({
       })
     },
     handleKeydown(event: KeyboardEvent, idx: number) {
-      // const allowKeyCode = [8, 37, 38, 39, 40]
-      // if (!allowKeyCode.includes(event.keyCode) || event.shiftKey) {
-      //   // 何もせず本来の DOM イベントを実行
-      //   return
-      // }
-      // const targetDOM = this.$el.querySelector(':focus')! as HTMLInputElement
-      // if (targetDOM.tagName === 'TEXTAREA') {
-      //   this.injectTextArea(event, idx)
-      // }
+      const allowKeyCode = [8, 37, 38, 39, 40]
+      if (!allowKeyCode.includes(event.keyCode) || event.shiftKey) {
+        // 何もせず本来の DOM イベントを実行
+        return
+      }
+      const targetDOM = this.$el.querySelector(':focus')! as HTMLInputElement
+      if (targetDOM.tagName === 'TEXTAREA') {
+        this.injectTextArea(event, idx)
+      }
     },
     injectTextArea(event: KeyboardEvent, idx: number) {
       const targetDOM = this.$el.querySelector(':focus')! as HTMLInputElement

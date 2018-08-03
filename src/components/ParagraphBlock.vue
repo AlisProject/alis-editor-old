@@ -1,11 +1,21 @@
 <template>
-  <div
+  <div class="wrapper">
+    <div
     contenteditable="true"
     class="target paragraph"
+    @click="handleClick"
     @keydown="handleKeyDown"
     @input="handleInput"
     @paste="handlePaste"
-  ></div>
+    ></div>
+    <div
+      class="toolbar"
+      v-if="isTextSelecting"
+      :style="toolbarStyle"
+    >
+      Link
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -20,21 +30,34 @@ export default Vue.extend({
   props: {
     block: Object
   },
-  computed: {
-    typedBlock(): ParagraphBlock {
-      return this.block
-    }
-  },
   data() {
     return {
       isKeydown: false,
-      v: (this as any).block.payload.body
+      isTextSelecting: false,
+      v: (this as any).block.payload.body,
+      toolbar: {
+        left: '0px',
+        top: '-30px'
+      }
     }
   },
   mounted() {
-    this.$el.innerHTML = this.v
+    this.$el.querySelector('.target')!.innerHTML = this.v
+  },
+  computed: {
+    typedBlock(): ParagraphBlock {
+      return this.block
+    },
+    toolbarStyle(): any {
+      const style = {...this.toolbar}
+
+      return style
+    }
   },
   methods: {
+    handleClick() {
+      this.isTextSelecting = false
+    },
     handleKeyDown(event: KeyboardEvent) {
       const target = event.target! as any
       if (event.keyCode === 229) {
@@ -44,6 +67,20 @@ export default Vue.extend({
       if (event.keyCode === 8 && !target.innerHTML) {
         this.$emit('delete', this.typedBlock)
       }
+      setTimeout(() => {
+        const selection = document.getSelection()
+        const range = selection.getRangeAt(0)
+        const rect = range.getClientRects()[0]
+        console.log(rect)
+        if (!range.collapsed) {
+          // if()
+          this.toolbar.left = `${rect.left - 40 + rect.width*0.4}px`
+          this.isTextSelecting = true
+        } else {
+          this.isTextSelecting = false
+        }
+        this.toolbar = {...this.toolbar}
+      }, 0)
     },
     handlePaste(event: any) {
       this.handleInput(event, true)
@@ -59,7 +96,7 @@ export default Vue.extend({
         })
         if (sanitizedHtml) {
           if (requireUpdateDOM) {
-            this.$el.innerHTML = sanitizedHtml
+            this.$el.querySelector('.target')!.innerHTML = sanitizedHtml
           }
           this.$emit('input', sanitizedHtml)
         } else {
@@ -69,7 +106,6 @@ export default Vue.extend({
           try {
             const node = selection.anchorNode
             const offset = selection.anchorOffset
-            console.log(node)
             selection.removeAllRanges()
             const range = document.createRange()
             range.setStart(node, offset)
@@ -84,7 +120,26 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-div {
+.wrapper {
+  position: relative;
+}
+
+.toolbar {
+  position: absolute;
+  background: rgba(0,0,0,0.9);
+  color: #fff;
+  padding: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+  z-index: 1000000;
+  cursor: pointer;
+}
+
+.toolbar:hover {
+  opacity: 0.8;
+}
+
+div.target {
   border: 0;
   outline: none;
   resize: none;
