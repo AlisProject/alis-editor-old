@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <AlisEditor @export="handleExport" />
+  <div id="app">
+    <div>
+      <AlisEditor @export="handleExport" />
+    </div>
   </div>
 </template>
 
