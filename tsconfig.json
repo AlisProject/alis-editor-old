@@ -9,7 +9,13 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "lib": ["es2015", "es2016", "es2017", "dom"]
+    "lib": [
+      "es2015",
+      "es2016",
+      "es2017",
+      "dom",
+      "esnext"
+    ]
   },
   "include": [
     "./src/**/*"
