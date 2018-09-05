@@ -9,6 +9,7 @@
     "dev": "yarn serve",
     "serve": "vue-cli-service serve src/entry.develop.ts",
     "build": "vue-cli-service build --target lib --name AlisEditor src/index.ts",
+    "build:page": "vue-cli-service build src/entry.develop.ts",
     "format": "prettier './{src,spec}/**/**.{ts,vue}' --write"
   },
   "dependencies": {
