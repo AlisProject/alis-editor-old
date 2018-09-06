@@ -1,5 +1,7 @@
 <template>
-  <div class="insert-button">
+  <div
+    class="insert-button"
+  >
     <div
       class="insert-button__toggle"
       @click="toggleIsOpen"
@@ -115,7 +117,7 @@ export default Vue.extend({
   background: rgba(0, 0, 0, 0.9);
   display: flex;
   list-style-type: none;
-  font-size: 14px;
+  font-size: 1.4rem;
 }
 
 .insert-button__list .insert-button__listItem {

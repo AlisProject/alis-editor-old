@@ -18,6 +18,7 @@
         :active="active === block.id"
       />
     </div>
+    <MobileInsert :hasactive="!!active" />
     <button type="button" class="export-button" @click="exportJSON">Export</button>
   </div>
 </template>
@@ -25,6 +26,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import uuid from 'uuid/v4'
+import MobileInsert from './components/MobileInsert.vue'
 import EditorBlock from './components/EditorBlock.vue'
 import { Block, BlockType } from './types/Blocks'
 import { cloneDeep } from 'lodash'
@@ -46,7 +48,13 @@ export default Vue.extend({
     }
   },
   components: {
-    EditorBlock
+    EditorBlock,
+    MobileInsert
+  },
+  mounted() {
+    window.addEventListener('blur', () => {
+      this.active = null
+    })
   },
   methods: {
     setActive(block: Block) {
@@ -193,13 +201,13 @@ export default Vue.extend({
 
 <style>
 #ALISEditor {
-  font-size: 20px;
+  font-size: 2.0rem;
   -webkit-font-smoothing: antialiased;
 }
 
 input,
 textarea {
-  font-size: 20px;
+  font-size: 2.0rem;
 }
 
 .export-button {
@@ -210,7 +218,7 @@ textarea {
   align-items: center;
   justify-content: center;
   color: #b0b8fe;
-  font-size: 24px;
+  font-size: 2.4rem;
   background: #fff;
   border: solid 1px #b0b8fe;
   -webkit-appearance: none;

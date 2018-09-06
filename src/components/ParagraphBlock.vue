@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper paragraph">
     <div
     contenteditable="true"
     class="target paragraph"
@@ -119,12 +119,13 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
-.wrapper {
+<style>
+.paragraph.wrapper {
   position: relative;
+  font-size: 2.0rem;
 }
 
-.toolbar {
+.paragraph .toolbar {
   position: absolute;
   background: rgba(0,0,0,0.9);
   color: #fff;
@@ -135,11 +136,11 @@ export default Vue.extend({
   cursor: pointer;
 }
 
-.toolbar:hover {
+.paragraph .toolbar:hover {
   opacity: 0.8;
 }
 
-div.target {
+.paragraph div.target {
   border: 0;
   outline: none;
   resize: none;
@@ -149,4 +150,5 @@ div.target {
   padding: 8px 8px 0;
   min-height: 46px;
 }
+
 </style>
