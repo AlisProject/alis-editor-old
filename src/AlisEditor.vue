@@ -18,7 +18,7 @@
         :active="active === block.id"
       />
     </div>
-    <MobileInsert :hasactive="!!active" />
+    <!-- <MobileInsert :hasactive="!!active" /> -->
     <button type="button" class="export-button" @click="exportJSON">Export</button>
   </div>
 </template>
@@ -69,6 +69,10 @@ export default Vue.extend({
       })
     },
     handleKeydown(event: KeyboardEvent, idx: number) {
+      if (window.innerWidth < 768) {
+        // モバイルではキーバインドを殺す
+        return
+      }
       const allowKeyCode = [8, 37, 38, 39, 40]
       if (!allowKeyCode.includes(event.keyCode) || event.shiftKey) {
         // 何もせず本来の DOM イベントを実行
@@ -113,6 +117,10 @@ export default Vue.extend({
       }, 20)
     },
     handleKeydownEnter(idx: number, event: KeyboardEvent) {
+      if (window.innerWidth < 768) {
+        // モバイルではキーバインドを殺す
+        return
+      }
       if (event.keyCode === 229) {
         return
       }
@@ -205,6 +213,10 @@ export default Vue.extend({
   -webkit-font-smoothing: antialiased;
 }
 
+#ALISEditor *{
+  box-sizing: border-box;
+}
+
 input,
 textarea {
   font-size: 2.0rem;
@@ -232,5 +244,12 @@ textarea {
 .export-button:hover {
   color: #fff;
   background: #b0b8fe;
+}
+
+@media (max-width: 768px) {
+  .export-button {
+    width: calc(100% - 20px);
+    margin: 0 10px;
+  }
 }
 </style>

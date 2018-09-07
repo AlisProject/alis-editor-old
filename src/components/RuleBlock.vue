@@ -54,4 +54,10 @@ export default Vue.extend({
   left: 0;
   top: 0;
 }
+
+@media (max-width: 768px) {
+  .rule {
+    margin: 0 8px;
+  }
+}
 </style>

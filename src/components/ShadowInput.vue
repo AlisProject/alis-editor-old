@@ -29,6 +29,7 @@ export default Vue.extend({
 
 <style scoped>
 textarea {
+  font-size: 20px !important;
   color: transparent !important;
   background: transparent !important;
   resize: none !important;

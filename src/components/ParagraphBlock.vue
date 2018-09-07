@@ -151,4 +151,9 @@ export default Vue.extend({
   min-height: 46px;
 }
 
+.target.paragraph:empty::before {
+  content: 'Type here...';
+  color: #999;
+  font-size: 1.0em;
+}
 </style>

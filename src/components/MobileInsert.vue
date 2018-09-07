@@ -5,6 +5,9 @@
     }">
     <ul class="mobile-insert__list">
       <template v-if="isOpen">
+        <li class="mobile-insert__listItem" @click="appendParagraph">
+          <span class="fa fa-paragraph"></span>
+        </li>
         <li class="mobile-insert__listItem" @click="dispatchUpload">
           <span class="fa fa-image"></span>
         </li>
@@ -48,12 +51,14 @@ export default Vue.extend({
   methods: {
     toggleIsOpen() {
       this.isOpen = !this.isOpen
-      if (!this.isOpen) {
-        this.$emit('disable')
-      }
     },
     dispatchUpload() {
       ;(this.$el.querySelector('[type="file"]') as any).click()
+    },
+    appendParagraph() {
+      this.isOpen = false
+      this.$emit('append', BlockType.Paragraph)
+      this.$emit('disable')
     },
     appendRule() {
       this.isOpen = false
@@ -81,16 +86,16 @@ export default Vue.extend({
 
 <style scoped>
 .mobile-insert {
-  position: fixed;
-  right: 20px;
-  bottom: 30px;
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
   margin: 8px;
   cursor: pointer;
   z-index: 1000000000000000000;
 }
 
 .mobile-insert .mobile-insert__listItem {
-  margin-top: 8px;
+  margin-left: 8px;
   width: 44px;
   height: 44px;
   display: flex;
@@ -130,6 +135,7 @@ export default Vue.extend({
   margin: 4px 0 0px 2px;
   padding: 0;
   list-style: none;
+  display: flex;
 }
 
 input {
