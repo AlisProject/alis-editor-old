@@ -55,25 +55,33 @@ export default Vue.extend({
     dispatchUpload() {
       ;(this.$el.querySelector('[type="file"]') as any).click()
     },
+    append(type: BlockType) {
+      setTimeout(()=>{
+        this.isOpen = false
+        this.$emit('append', type)
+        this.$emit('disable')
+      }, 100)
+    },
     appendParagraph() {
       this.isOpen = false
       this.$emit('append', BlockType.Paragraph)
       this.$emit('disable')
     },
     appendRule() {
-      this.isOpen = false
-      this.$emit('append', BlockType.Rule)
-      this.$emit('disable')
+      this.appendParagraph()
+      this.append(BlockType.Rule)
     },
     appendQuote() {
       this.isOpen = false
       this.$emit('append', BlockType.Quote)
       this.$emit('disable')
+      this.appendParagraph()
     },
     appendHeading() {
       this.isOpen = false
       this.$emit('append', BlockType.Heading)
       this.$emit('disable')
+      this.appendParagraph()
     },
     handleUpload(event: Event) {
       this.isOpen = false
@@ -87,7 +95,7 @@ export default Vue.extend({
 <style scoped>
 .mobile-insert {
   position: absolute;
-  right: 5px;
+  right: 0px;
   bottom: 5px;
   margin: 8px;
   cursor: pointer;
