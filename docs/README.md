@@ -2,6 +2,15 @@
 
 ALIS Editor は、 https://alis.to 向けに作成されているリッチテキストエディタです。
 
+## リンク
+
+- レポジトリ
+  - https://github.com/AlisProject/alis-editor
+- ドキュメント(このページ)
+  - https://alisproject.github.io/alis-editor/
+- 動作確認用 Web サイト
+  - https://alis-editor-staging.netlify.com/
+
 ## ブロックについて
 
 ALIS Editor は、Pure JavaScript Object によって作られたデータの塊をブロックと定義し、ブロックを組み合わせることで文書を作り出します。
