@@ -50,4 +50,10 @@ blockquote {
   margin: 8px 0;
   padding: 8px;
 }
+
+@media (max-width: 768px) {
+  blockquote {
+    margin: 8px;
+  }
+}
 </style>

@@ -19,8 +19,15 @@
         @append="handleAppendBlock"
         @addimageuri="handleAddImage"
       />
+      <div class="mobile-space" v-if="typedBlock.type === 'Paragraph' && active"></div>
       <InsertButton
         v-if="typedBlock.type === 'Paragraph' && showInsertButton && active"
+        @disable="handleDisable"
+        @append="handleAppendBlock"
+        @upload="handleUpload"
+      />
+      <MobileInsert
+        v-if="typedBlock.type === 'Paragraph' && active"
         @disable="handleDisable"
         @append="handleAppendBlock"
         @upload="handleUpload"
@@ -38,6 +45,7 @@ import ParagraphBlock from './ParagraphBlock.vue'
 import HeadingBlock from './HeadingBlock.vue'
 import QuoteBlock from './QuoteBlock.vue'
 import InsertButton from './InsertButton.vue'
+import MobileInsert from './MobileInsert.vue'
 import { setTimeout } from 'timers'
 
 export default Vue.extend({
@@ -47,7 +55,8 @@ export default Vue.extend({
     HeadingBlock,
     QuoteBlock,
     RuleBlock,
-    InsertButton
+    InsertButton,
+    MobileInsert
   },
   props: {
     block: Object,
@@ -121,5 +130,20 @@ export default Vue.extend({
 
 .block.block--ondrag * {
   pointer-events: none;
+}
+
+.mobile-space {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-space {
+    display: block;
+    padding-bottom: 60px;
+  }
+
+  .block:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
 }
 </style>

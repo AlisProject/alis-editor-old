@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper paragraph">
     <div
     contenteditable="true"
     class="target paragraph"
@@ -67,20 +67,6 @@ export default Vue.extend({
       if (event.keyCode === 8 && !target.innerHTML) {
         this.$emit('delete', this.typedBlock)
       }
-      setTimeout(() => {
-        const selection = document.getSelection()
-        const range = selection.getRangeAt(0)
-        const rect = range.getClientRects()[0]
-        console.log(rect)
-        if (!range.collapsed) {
-          // if()
-          this.toolbar.left = `${rect.left - 40 + rect.width*0.4}px`
-          this.isTextSelecting = true
-        } else {
-          this.isTextSelecting = false
-        }
-        this.toolbar = {...this.toolbar}
-      }, 0)
     },
     handlePaste(event: any) {
       this.handleInput(event, true)
@@ -119,12 +105,13 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
-.wrapper {
+<style>
+.paragraph.wrapper {
   position: relative;
+  font-size: 2.0rem;
 }
 
-.toolbar {
+.paragraph .toolbar {
   position: absolute;
   background: rgba(0,0,0,0.9);
   color: #fff;
@@ -135,11 +122,11 @@ export default Vue.extend({
   cursor: pointer;
 }
 
-.toolbar:hover {
+.paragraph .toolbar:hover {
   opacity: 0.8;
 }
 
-div.target {
+.paragraph div.target {
   border: 0;
   outline: none;
   resize: none;
@@ -148,5 +135,11 @@ div.target {
   background: transparent;
   padding: 8px 8px 0;
   min-height: 46px;
+}
+
+.target.paragraph:empty::before {
+  content: 'Type here...';
+  color: #999;
+  font-size: 1.0em;
 }
 </style>

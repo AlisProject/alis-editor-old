@@ -1,5 +1,6 @@
 <template>
   <textarea
+    class="shadow-input"
     @keydown="handleKeydown"
     @paste="handlePaste"
   ></textarea>
@@ -29,6 +30,7 @@ export default Vue.extend({
 
 <style scoped>
 textarea {
+  font-size: 20px !important;
   color: transparent !important;
   background: transparent !important;
   resize: none !important;

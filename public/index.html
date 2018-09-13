@@ -2,8 +2,16 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>App</title>
     <style>
+      html {
+        font-size: 10px;
+      }
+      body {
+        font-size: 14px;
+      }
       html, body {
         margin: 0;
         padding: 0;
@@ -11,6 +19,10 @@
         min-height: 100vh;
         font-family: sans-serif;
         overflow-x: hidden;
+      }
+
+      * {
+        max-width: 100vw;
       }
 
       body textarea,
@@ -32,6 +44,7 @@
       #app {
         width: 900px;
         margin: 60px auto;
+        padding-top: 5px;
         position: relative;
       }
 
@@ -76,6 +89,33 @@
         width: 900px;
         padding: 20px;
         margin: 0 auto;
+      }
+
+      @media (max-width: 768px) {
+        html {
+          font-size: 8px;
+        }
+        .insert-button {
+          display: none !important;
+        }
+        /* .export-button {
+          display: none !important;
+        } */
+        #log {
+          display: none;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .mobile-insert {
+          display: none !important;
+        }
+      }
+
+      @media (max-width: 400px) {
+        #app::before {
+          height: 100vw;
+        }
       }
 
     </style>

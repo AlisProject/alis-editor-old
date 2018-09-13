@@ -70,7 +70,7 @@ h2 {
 <style>
 .block h2 textarea {
   font-weight: bold;
-  font-size: 32px;
+  font-size: 2.4rem;
   margin: 0;
   line-height: 1;
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', 'Lucida Grande',
