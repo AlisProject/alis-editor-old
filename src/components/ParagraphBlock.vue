@@ -67,20 +67,6 @@ export default Vue.extend({
       if (event.keyCode === 8 && !target.innerHTML) {
         this.$emit('delete', this.typedBlock)
       }
-      setTimeout(() => {
-        const selection = document.getSelection()
-        const range = selection.getRangeAt(0)
-        const rect = range.getClientRects()[0]
-        console.log(rect)
-        if (!range.collapsed) {
-          // if()
-          this.toolbar.left = `${rect.left - 40 + rect.width*0.4}px`
-          this.isTextSelecting = true
-        } else {
-          this.isTextSelecting = false
-        }
-        this.toolbar = {...this.toolbar}
-      }, 0)
     },
     handlePaste(event: any) {
       this.handleInput(event, true)
