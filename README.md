@@ -4,20 +4,48 @@
 
 ALIS Editor is a rich text editor based on tree structure by JSON.
 
-Tree structure
+## How to development
+
+### Clone project
+
+```bash
+$ git clone git@github.com:AlisProject/alis-editor.git
+$ cd
 ```
-ALIEditor
-├── 1_Paragraph
-│   └── 1_Text
-├── 2_Paragraph
-│   ├── 1_Text
-│   ├── 2_Link
-│   │   └── 1_Text
-│   └── 3_Text
-├── 3_Rule
-├── 4_Heading
-│   └── 1_Text
-├── 5_Image
-└── 6_Link
-    └── 1_Image
+
+### Run development server
+
+w/ Vue CLI
+
+```bash
+$ yarn # Install deps
+$ yarn serve
 ```
+
+### Install deps
+
+w/ Vue CLI UI
+
+```bash
+$ yarn vue ui # Open Vue CLI v3 UI server
+```
+
+## Testing
+
+w/ jest
+
+```bash
+$ yarn test
+```
+
+## Lint and format
+
+w/ prettier
+
+```bash
+$ yarn format
+```
+
+## License
+
+WIP
