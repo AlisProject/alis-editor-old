@@ -36,6 +36,7 @@ export interface ImageBlock extends Block {
   type: BlockType.Image
   payload: {
     src: string
+    align?: string
   }
   children: Block[]
 }

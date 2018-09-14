@@ -49,7 +49,7 @@ export default Vue.extend({
       return this.block
     },
     toolbarStyle(): any {
-      const style = {...this.toolbar}
+      const style = { ...this.toolbar }
 
       return style
     }
@@ -108,12 +108,12 @@ export default Vue.extend({
 <style>
 .paragraph.wrapper {
   position: relative;
-  font-size: 2.0rem;
+  font-size: 2rem;
 }
 
 .paragraph .toolbar {
   position: absolute;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0, 0, 0, 0.9);
   color: #fff;
   padding: 4px;
   border-radius: 2px;
@@ -140,6 +140,6 @@ export default Vue.extend({
 .target.paragraph:empty::before {
   content: 'Type here...';
   color: #999;
-  font-size: 1.0em;
+  font-size: 1em;
 }
 </style>

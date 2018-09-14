@@ -56,7 +56,7 @@ export default Vue.extend({
       ;(this.$el.querySelector('[type="file"]') as any).click()
     },
     append(type: BlockType) {
-      setTimeout(()=>{
+      setTimeout(() => {
         this.isOpen = false
         this.$emit('append', type)
         this.$emit('disable')
@@ -120,7 +120,7 @@ export default Vue.extend({
   transform: rotate(0deg); */
   background: #fff;
   font-size: 1.7rem;
-  box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
   border: solid 1px #fafafa;
 }
 

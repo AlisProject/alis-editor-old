@@ -5,6 +5,9 @@
       'is-uploading': isUploading,
       'is-focus': isFocus
     }"
+    :style="{
+      textAlign: typedBlock.payload.align
+    }"
   >
     <img :src="block.payload.src">
     <ShadowInput
@@ -12,7 +15,18 @@
       @addimageuri="handleAddImage"
     />
     <div class="image-uploading" v-if="isUploading">Uploading...</div>
-    <div class="image-delete" v-if="!isUploading" @click="handleDelete">&times;</div>
+    <div class="image-toolbar" v-if="!isUploading">
+      <div class="toolbar-item" @click="handleChangeAlign('left')">
+        <i class="fa fa-align-left" />
+      </div>
+      <div class="toolbar-item" @click="handleChangeAlign('center')">
+        <i class="fa fa-align-center" />
+      </div>
+      <div class="toolbar-item" @click="handleChangeAlign('right')">
+        <i class="fa fa-align-right" />
+      </div>
+      <div class="toolbar-item" @click="handleDelete">&times;</div>
+    </div>
   </div>
 </template>
 
@@ -23,7 +37,8 @@ import { ImageBlock } from '../types/Blocks'
 import { createBlogImageFromDataURI } from '../utils/createImage'
 import ShadowInput from './ShadowInput.vue'
 
-axios.defaults.headers.authorization = 'Client-ID ' + process.env.IMGUR_KEY
+axios.defaults.headers.authorization = 'Client-ID ' + process.env.VUE_APP_IMGUR_KEY
+console.log('Client-ID ' + process.env.VUE_APP_IMGUR_KEY)
 
 export default Vue.extend({
   components: {
@@ -73,6 +88,15 @@ export default Vue.extend({
     },
     handleAddImage(src: string) {
       this.$emit('addimageuri', src)
+    },
+    handleChangeAlign(align: string) {
+      const { src } = this.typedBlock.payload
+      if (src.startsWith('data')) {
+        return
+      }
+      const { typedBlock: block } = this
+      block.payload.align = align
+      this.$emit('update', block)
     }
   }
 })
@@ -111,6 +135,7 @@ export default Vue.extend({
 
 img {
   max-width: 100%;
+  max-height: 200px;
   pointer-events: none;
 }
 
@@ -118,16 +143,16 @@ img[src^='data:'] {
   opacity: 0.4;
 }
 
-.image-delete {
+.image-toolbar {
   display: none;
 }
 
-.image:hover .image-delete,
-.image.is-focus .image-delete {
+.image:hover .image-toolbar,
+.image.is-focus .image-toolbar {
   position: absolute;
-  right: -20px;
-  top: -20px;
-  width: 40px;
+  left: calc(50% - 80px);
+  bottom: -20px;
+  width: 154px;
   height: 40px;
   border: solid 2px #000;
   background: #fff;
@@ -136,5 +161,21 @@ img[src^='data:'] {
   justify-content: center;
   cursor: pointer;
   z-index: 100000000000000;
+}
+
+.image-toolbar .toolbar-item {
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100000000000000;
+}
+
+.image-toolbar .toolbar-item + .toolbar-item {
+  border-left: solid 2px #000;
+  width: 38px;
 }
 </style>

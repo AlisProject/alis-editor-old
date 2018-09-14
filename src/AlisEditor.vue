@@ -210,22 +210,22 @@ export default Vue.extend({
 
 <style>
 #ALISEditor {
-  font-size: 2.0rem;
+  font-size: 2rem;
   -webkit-font-smoothing: antialiased;
 }
 
-#ALISEditor *{
+#ALISEditor * {
   box-sizing: border-box;
 }
 
 input,
 textarea {
-  font-size: 2.0rem;
+  font-size: 2rem;
 }
 
 .export-button {
   background: #858dda;
-  box-shadow: 0 10px 40px 0 rgba(0,0,0,0.13), 0 4px 7px 0 rgba(0,0,0,0.11);
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.13), 0 4px 7px 0 rgba(0, 0, 0, 0.11);
   padding: 10px 50px;
   margin-top: 15px;
   display: flex;

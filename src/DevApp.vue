@@ -17,10 +17,12 @@ export default Vue.extend({
   },
   methods: {
     handleExport(tree: any) {
-      if(isMobile()) {
-        alert(JSON.stringify(tree, null, '  ')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;'))
+      if (isMobile()) {
+        alert(
+          JSON.stringify(tree, null, '  ')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+        )
       }
       document.querySelector('#log pre')!.innerHTML = JSON.stringify(tree, null, '  ')
         .replace(/</g, '&lt;')
