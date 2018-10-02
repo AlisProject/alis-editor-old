@@ -18,7 +18,7 @@
         @active="setActive($event)"
         @addimageuri="addImageURI(block.id, $event)"
         :block="block"
-        :active="active === block.id"
+        :active="activeRoot === block.id"
       />
     </div>
   </div>
@@ -66,6 +66,11 @@ export default Vue.extend({
       // this.active = null
     })
   },
+  computed: {
+    activeRoot(): string {
+      return findRootIdByBlockId(this.active || '', this.store.state.blocks) || ''
+    }
+  },
   methods: {
     getIdx(id: string): number {
       const rootBlockId = findRootIdByBlockId(id, this.store.state.blocks)
@@ -90,7 +95,7 @@ export default Vue.extend({
         this.isPressedEnter = true
         return
       }
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         const index = Array.prototype.indexOf.call(
           document.querySelector(':focus')!.childNodes,
           window.getSelection().getRangeAt(0).commonAncestorContainer.parentNode
@@ -114,28 +119,10 @@ export default Vue.extend({
             }
           }
         })
-
-        // const target = event.target as HTMLInputElement
-        // if (event.keyCode === 229 || event.shiftKey || (!target.classList.contains('shadow-input') && isMobile())) {
-        //   return
-        // }
-
-        // event.preventDefault()
-        // let body = ''
-        // if (target.tagName === 'TEXTAREA' && id) {
-        //   const block = findTreeContentById(id, this.store.state.blocks)
-        //   if (block) {
-        //     body = block.payload.body.slice(target.selectionStart, block.payload.body.length)
-        //     block.payload.body = block.payload.body.slice(0, target.selectionStart)
-        //     this.updateBlock(block)
-        //   }
-        // }
-        console.log(newElement)
         const nowBlock = { ...findTreeContentById(id, this.store.state.blocks) } as ParagraphBlock
         nowBlock.payload.body = `${nowElement.innerHTML}`
         this.updateBlock(nowBlock)
         document.querySelector(':focus')!.innerHTML = `${nowElement.innerHTML}`
-
         const newId = uuid()
         this.appendNewBlock(id, {
           type: BlockType.Paragraph,
@@ -143,8 +130,11 @@ export default Vue.extend({
             body: newElement.innerHTML
           }
         })
-      }, 20)
-
+        requestAnimationFrame(() => {
+          document.querySelector('body')!.click
+          this.active = null
+        })
+      })
       this.isPressedEnter = false
     },
     insertImageBlock(id: string, event: DragEvent) {

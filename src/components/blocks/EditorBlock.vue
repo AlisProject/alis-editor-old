@@ -2,7 +2,8 @@
   <div
     class="block"
     :class="{
-      'block--ondrag': onDrag
+      'block--ondrag': onDrag,
+      'is-active': active
     }"
     @keydown="handleDisable"
     @click="handleClick"
@@ -114,7 +115,7 @@ export default Vue.extend({
   border: solid 2px transparent;
 }
 
-.block:hover {
+.block.is-active {
   background: rgba(0, 0, 0, 0.01);
 }
 
@@ -136,7 +137,7 @@ export default Vue.extend({
     padding-bottom: 60px;
   }
 
-  .block:hover {
+  .block.is-active {
     background: rgba(0, 0, 0, 0.05);
   }
 }
