@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { Block, BlockType } from '../types/Blocks'
 import { deleteTreeContentById, applyTreeById, findRootIdByBlockId } from '../utils/applyTree'
+import { cloneDeep } from 'lodash'
 
 class Store<State> {
   private instance: Vue
@@ -16,7 +17,7 @@ class Store<State> {
   }
 
   setBlocks(blocks: Block[]) {
-    this.instance.$data.blocks = [...blocks]
+    this.instance.$data.blocks = cloneDeep([...blocks])
     console.log('UPDATE BLOCK:', this.instance.$data.blocks)
   }
 

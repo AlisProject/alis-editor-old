@@ -1,19 +1,19 @@
 <template lang="html">
   <div id="ALISEditor">
     <EditorToolbar
-      @append="createNewBlockFromBlockId(active, { type: $event })"
+      @append="appendNewBlock(active, { type: $event })"
       @upload="insertImageBlock(active, $event)"
     />
     <div
       @keydown="handleKeydown($event, getIdx(block.id))"
-      @keydown.enter="handleKeydownEnter(getIdx(block.id), $event)"
+      @keydown.enter="handleKeydownEnter(block.id, $event)"
       v-for="block in store.state.blocks"
       :key="block.id"
     >
       <EditorBlock
         @update="updateBlock"
         @delete="deleteBlock"
-        @append="createNewBlock({idx: getIdx(block.id), type: $event})"
+        @append="appendNewBlock(block.id, {type: $event})"
         @upload="insertImageBlock(block.id, $event)"
         @active="setActive($event)"
         @addimageuri="addImageURI(block.id, $event)"
@@ -29,18 +29,20 @@ import Vue from 'vue'
 import uuid from 'uuid/v4'
 import EditorBlock from './components/blocks/EditorBlock.vue'
 import EditorToolbar from './components/menu/EditorToolbar.vue'
-import { Block, BlockType } from './types/Blocks'
+import { Block, BlockType, ParagraphBlock } from './types/Blocks'
 import { createBlock } from './utils/createBlock'
 import { createDataURIImage } from './utils/createImage'
 import { isMobile } from './utils/deviceUtil'
 import { findRootIdByBlockId, findTreeContentById } from './utils/applyTree'
 import { EditorStore } from './store/'
+import { cloneDeep } from 'lodash'
 
 interface EditorState {
   blocks: Block[]
   active: string | null
   activeIdx: number | null
   store: EditorStore
+  isPressedEnter: boolean
 }
 
 export default Vue.extend({
@@ -50,7 +52,8 @@ export default Vue.extend({
       store,
       blocks: this.initialState,
       active: null,
-      activeIdx: null
+      activeIdx: null,
+      isPressedEnter: false
     }
   },
   props: ['initialState'],
@@ -73,121 +76,81 @@ export default Vue.extend({
       this.active = block.id
     },
     addImageURI(id: string, src: string) {
-      this.createNewBlockFromBlockId(id, {
+      this.appendNewBlock(id, {
         type: BlockType.Image,
         payload: { src },
         children: []
       })
     },
     handleKeydown(event: KeyboardEvent, idx: number) {
-      if (isMobile()) {
-        // モバイルではキーバインドを殺す
-        return
-      }
-      const allowKeyCode = [8, 37, 38, 39, 40]
-      if (!allowKeyCode.includes(event.keyCode) || event.shiftKey) {
-        // 何もせず本来の DOM イベントを実行
-        return
-      }
-      const targetDOM = this.$el.querySelector(':focus')! as HTMLInputElement
-      if (targetDOM.tagName === 'TEXTAREA') {
-        this.injectTextArea(event, idx)
-      }
+      // this.isPressedEnter = false
     },
-    injectTextArea(event: KeyboardEvent, idx: number) {
-      const targetDOM = this.$el.querySelector(':focus')! as HTMLInputElement
-      const { selectionStart: beforeSelectionStart, selectionEnd: beforeSelectionEnd } = targetDOM
+    handleKeydownEnter(id: string, event: KeyboardEvent) {
+      if (!this.isPressedEnter) {
+        this.isPressedEnter = true
+        return
+      }
       setTimeout(() => {
-        const isDeleteOrLeftByTextStart = event.keyCode === 8 || event.keyCode === 37
-        const isTopByFirstLine = event.keyCode === 38 && beforeSelectionStart !== 0
+        const index = Array.prototype.indexOf.call(
+          document.querySelector(':focus')!.childNodes,
+          window.getSelection().getRangeAt(0).commonAncestorContainer.parentNode
+        )
+        const l = document.querySelector(':focus')!.childNodes.length
 
-        const isRightByTextEnd = event.keyCode === 39 && beforeSelectionEnd === targetDOM.value.length
-        const isBottomByLastLine =
-          event.keyCode === 40 &&
-          (beforeSelectionEnd !== targetDOM.value.length ||
-            (beforeSelectionEnd === targetDOM.value.length && targetDOM.selectionEnd === targetDOM.value.length))
+        console.log(index, document.querySelector(':focus')!.childNodes.length)
 
-        // 前のブロックにフォーカスを動かす処理
-        if (isDeleteOrLeftByTextStart || isTopByFirstLine) {
-          if (targetDOM.selectionStart === 0 && idx != 0) {
-            this.setFocus(idx - 1)
-            const ta = this.getTargetTextArea(idx - 1)
-            ta.setSelectionRange(ta.value.length, ta.value.length)
+        const nowElement = document.createElement('div')
+        const newElement = document.createElement('div')
+        document.querySelector(':focus')!.childNodes.forEach((child, i) => {
+          if (index === -1) {
+            if (i !== l - 2) {
+              nowElement.appendChild(child)
+            }
+          } else {
+            if (i >= index - 1) {
+              newElement.appendChild(child)
+            } else {
+              nowElement.appendChild(child)
+            }
           }
-          return
-        }
+        })
 
-        // 次のブロックにフォーカスを動かす処理
-        if (isRightByTextEnd || isBottomByLastLine) {
-          if (targetDOM.selectionEnd === targetDOM.value.length && idx + 1 < this.store.state.blocks.length) {
-            this.setFocus(idx + 1)
-            const ta = this.getTargetTextArea(idx + 1)
-            ta.setSelectionRange(0, 0)
+        // const target = event.target as HTMLInputElement
+        // if (event.keyCode === 229 || event.shiftKey || (!target.classList.contains('shadow-input') && isMobile())) {
+        //   return
+        // }
+
+        // event.preventDefault()
+        // let body = ''
+        // if (target.tagName === 'TEXTAREA' && id) {
+        //   const block = findTreeContentById(id, this.store.state.blocks)
+        //   if (block) {
+        //     body = block.payload.body.slice(target.selectionStart, block.payload.body.length)
+        //     block.payload.body = block.payload.body.slice(0, target.selectionStart)
+        //     this.updateBlock(block)
+        //   }
+        // }
+        console.log(newElement)
+        const nowBlock = { ...findTreeContentById(id, this.store.state.blocks) } as ParagraphBlock
+        nowBlock.payload.body = `${nowElement.innerHTML}`
+        this.updateBlock(nowBlock)
+        document.querySelector(':focus')!.innerHTML = `${nowElement.innerHTML}`
+
+        const newId = uuid()
+        this.appendNewBlock(id, {
+          type: BlockType.Paragraph,
+          payload: {
+            body: newElement.innerHTML
           }
-        }
+        })
       }, 20)
-    },
-    handleKeydownEnter(idx: number, event: KeyboardEvent) {
-      const target = event.target as HTMLInputElement
-      if (event.keyCode === 229 || event.shiftKey || (!target.classList.contains('shadow-input') && isMobile())) {
-        return
-      }
 
-      event.preventDefault()
-      let body = ''
-      const id = (target.getAttribute('data-id') as any) as string
-      if (target.tagName === 'TEXTAREA' && id) {
-        const block = findTreeContentById(id, this.store.state.blocks)
-        if (block) {
-          body = block.payload.body.slice(target.selectionStart, block.payload.body.length)
-          block.payload.body = block.payload.body.slice(0, target.selectionStart)
-          this.updateBlock(block)
-        }
-      }
-
-      const newId = uuid()
-      this.createNewBlock({
-        idx,
-        type: BlockType.Paragraph,
-        children: [
-          {
-            id: newId,
-            type: BlockType.Text,
-            payload: {
-              body
-            },
-            children: []
-          }
-        ]
-      })
-      // setTimeout(() => {
-      //   const el = (this.$el.querySelector(`[data-id="${newId}"]`) as any) as HTMLInputElement
-      //   el.focus()
-      //   el.setSelectionRange(0, 0)
-      // }, 0)
-    },
-    async setFocus(idx?: number) {
-      await Vue.nextTick()
-      this.getTargetTextArea(idx).focus()
-    },
-    getTargetTextArea(idx?: number) {
-      const targets = this.$el.querySelectorAll('textarea')
-      if (idx !== undefined) {
-        return targets[idx]
-      } else {
-        return targets[targets.length - 1]
-      }
-    },
-    deleteBlock(content: Block) {
-      this.store.deleteBlock(content)
-    },
-    updateBlock(content: Block) {
-      this.store.updateBlock(content)
+      this.isPressedEnter = false
     },
     insertImageBlock(id: string, event: DragEvent) {
       ;(async () => {
         const src = await createDataURIImage(event)
-        this.createNewBlockFromBlockId(id, {
+        this.appendNewBlock(id, {
           type: BlockType.Image,
           payload: { src },
           children: []
@@ -197,7 +160,13 @@ export default Vue.extend({
     publish() {
       this.$emit('export', this.store.state.blocks)
     },
-    createNewBlockFromBlockId(id: string, extend: { type: BlockType; payload?: any; children?: Block[] }) {
+    deleteBlock(content: Block) {
+      this.store.deleteBlock(content)
+    },
+    updateBlock(content: Block) {
+      this.store.updateBlock(content)
+    },
+    appendNewBlock(id: string, extend: { type: BlockType; payload?: any; children?: Block[] }) {
       const { type } = extend
       delete extend.type
       const beforeContent = findTreeContentById(id, this.store.state.blocks)
@@ -205,14 +174,6 @@ export default Vue.extend({
         console.log('idかbeforeContentがないよ')
         return
       }
-      this.store.appendBlock(createBlock(type, extend), beforeContent)
-    },
-    createNewBlock(extend: { idx: number; type: BlockType; payload?: any; children?: Block[] }) {
-      // 古いので使わない
-      const { idx, type } = extend
-      delete extend.idx
-      delete extend.type
-      const beforeContent = this.blocks[idx]
       this.store.appendBlock(createBlock(type, extend), beforeContent)
     }
   }
