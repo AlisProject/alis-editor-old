@@ -3,14 +3,6 @@ import { BlockType } from '../../src/types/Blocks'
 
 export default [
   {
-    id: '9cf0f329-e53b-4340-a96b-e58a9ef8b61e',
-    type: BlockType.Image,
-    payload: {
-      src: 'https://i.imgur.com/JAumQrd.png'
-    },
-    children: []
-  },
-  {
     id: uuid(),
     type: BlockType.Heading,
     payload: {
@@ -21,27 +13,54 @@ export default [
         id: uuid(),
         type: BlockType.Text,
         payload: {
-          body: 'ALIS Editor'
+          body: '第一章 うさぎの穴をまっさかさま'
         }
       }
     ]
   },
   {
     id: uuid(),
-    type: BlockType.Rule
+    type: BlockType.Heading,
+    payload: {
+      size: 'h3'
+    },
+    children: [
+      {
+        id: uuid(),
+        type: BlockType.Text,
+        payload: {
+          body: '第一節 白うさぎ'
+        }
+      }
+    ]
   },
   {
     id: uuid(),
     type: BlockType.Paragraph,
     payload: {
-      body: 'これは<a href="https://alis.to">ALIS</a>の投稿画面のために作られた専用のエディタです。'
+      body: 'でもそのうさぎがほんとうに、チョッキのポケットから懐中時計かいちゅうどけいをとりだしてそれをながめ、そしてまたあわててかけだしたとき、アリスもとびあがりました。というのも、チョッキのポケットなんかがあるうさぎはこれまで見たことがないし、そこからとりだす時計をもっているうさぎなんかも見たことないぞ、というのに急に気がついたからです。'
+    }
+  },
+  {
+    id: '9cf0f329-e53b-4340-a96b-e58a9ef8b61e',
+    type: BlockType.Image,
+    payload: {
+      src: 'https://i.imgur.com/c4zRkB7.png'
+    },
+    children: []
+  },
+  {
+    id: 'fewaarfa-123rewgrszb-t42qgvzaeg-awetw',
+    type: BlockType.Paragraph,
+    payload: {
+      body: 'そこで、きょうみしんしんになったアリスは、うさぎのあとを追っかけて野原をよこぎって、それがしげみの下の、おっきなうさぎの穴にとびこむのを、ぎりぎりのところで見つけました。'
     }
   },
   {
     id: uuid(),
     type: BlockType.Paragraph,
     payload: {
-      body: '画像や罫線、引用の挿入や、リッチテキストの操作が可能です。'
+      body: 'http://www.gutenberg.org/ebooks/11'
     }
   }
 ]

@@ -14,7 +14,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import uuid from 'uuid/v4'
-import { Block, QuoteBlock } from '../types/Blocks'
+import { Block, QuoteBlock } from '../../types/Blocks'
 import TextBlock from './TextBlock.vue'
 import { cloneDeep } from 'lodash'
 

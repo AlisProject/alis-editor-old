@@ -661,6 +661,10 @@
   version "2.0.49"
   resolved "https://registry.yarnpkg.com/@types/async/-/async-2.0.49.tgz#92e33d13f74c895cb9a7f38ba97db8431ed14bc0"
 
+"@types/autolinker@^0.24.28":
+  version "0.24.28"
+  resolved "https://registry.yarnpkg.com/@types/autolinker/-/autolinker-0.24.28.tgz#37976f20c6e0abde283784fdc6b91cc6cb90e8dc"
+
 "@types/body-parser@*", "@types/body-parser@1.17.0":
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.17.0.tgz#9f5c9d9bd04bb54be32d5eb9fc0d8c974e6cf58c"
@@ -1529,6 +1533,10 @@ asynckit@^0.4.0:
 atob@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.1.tgz#ae2d5a729477f289d60dd7f96a6314a22dd6c22a"
+
+autolinker@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/autolinker/-/autolinker-1.7.1.tgz#36397dd0c09c369433142677b5247ed4c9d2d705"
 
 autoprefixer@^8.6.5:
   version "8.6.5"
@@ -7621,6 +7629,10 @@ vue-cli-plugin-apollo@^0.14.6:
     graphql-subscriptions "^0.5.8"
     nodemon "^1.17.5"
     subscriptions-transport-ws "^0.9.11"
+
+vue-fixed-header@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/vue-fixed-header/-/vue-fixed-header-1.0.5.tgz#ecb7943be0d092bcc6a086b8e2128ac9d679f6bf"
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.0"

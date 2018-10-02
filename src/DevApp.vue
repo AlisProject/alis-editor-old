@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <div>
-      <AlisEditor @export="handleExport" />
+      <img src="/sample-header.png">
+      <AlisEditor @export="handleExport" :initialState="initalState" />
     </div>
   </div>
 </template>
@@ -10,10 +11,16 @@
 import Vue from 'vue'
 import AlisEditor from './AlisEditor.vue'
 import { isMobile } from './utils/deviceUtil'
+import initalState from '../spec/mock/initialState'
 
 export default Vue.extend({
   components: {
     AlisEditor
+  },
+  data() {
+    return {
+      initalState
+    }
   },
   methods: {
     handleExport(tree: any) {

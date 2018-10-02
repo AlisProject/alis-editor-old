@@ -28,7 +28,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import uuid from 'uuid/v4'
-import { Block, HeadingBlock } from '../types/Blocks'
+import { Block, HeadingBlock } from '../../types/Blocks'
 import TextBlock from './TextBlock.vue'
 import { cloneDeep } from 'lodash'
 
@@ -58,22 +58,47 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-h2 {
-  margin: 8px 0;
+h2, h3 {
+  line-height: 1;
+  font-family: 'YuGothic', 'Yu Gothic';
+  font-weight: bold;
+  color: #030303;
+  letter-spacing: 1px;
+  text-align: left;
   padding: 0;
-  line-height: 0;
-  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', 'Lucida Grande',
-    'sans-serif', Sans-Serif;
+}
+
+h2 {
+  margin: 6px 0;
+  font-size: 18px;
+}
+
+h3 {
+  margin: 6px 0;
+  font-size: 16px;
 }
 </style>
 
 <style>
 .block h2 textarea {
-  font-weight: bold;
-  font-size: 2.4rem;
-  margin: 0;
   line-height: 1;
-  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', 'Lucida Grande',
-    'sans-serif', Sans-Serif;
+  font-family: 'YuGothic', 'Yu Gothic';
+  font-weight: bold;
+  font-size: 18px;
+  color: #030303;
+  letter-spacing: 1px;
+  text-align: left;
+  line-height: 25px;
+}
+
+.block h3 textarea {
+  line-height: 1;
+  font-family: 'YuGothic', 'Yu Gothic';
+  font-weight: bold;
+  font-size: 16px;
+  color: #030303;
+  letter-spacing: 1px;
+  text-align: left;
+  line-height: 24px;
 }
 </style>

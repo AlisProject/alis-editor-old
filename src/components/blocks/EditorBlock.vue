@@ -19,33 +19,27 @@
         @append="handleAppendBlock"
         @addimageuri="handleAddImage"
       />
-      <div class="mobile-space" v-if="typedBlock.type === 'Paragraph' && active"></div>
-      <InsertButton
-        v-if="typedBlock.type === 'Paragraph' && showInsertButton && active"
-        @disable="handleDisable"
-        @append="handleAppendBlock"
-        @upload="handleUpload"
-      />
-      <MobileInsert
+      <!-- <div class="mobile-space" v-if="typedBlock.type === 'Paragraph' && active"></div> -->
+      <!-- <MobileInsert
         v-if="typedBlock.type === 'Paragraph' && active"
         @disable="handleDisable"
         @append="handleAppendBlock"
         @upload="handleUpload"
-      />
+      /> -->
     </template>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { Block, BlockType } from '../types/Blocks'
+import { Block, BlockType } from '../../types/Blocks'
 import RuleBlock from './RuleBlock.vue'
 import ImageBlock from './ImageBlock.vue'
 import ParagraphBlock from './ParagraphBlock.vue'
 import HeadingBlock from './HeadingBlock.vue'
 import QuoteBlock from './QuoteBlock.vue'
-import InsertButton from './InsertButton.vue'
-import MobileInsert from './MobileInsert.vue'
+import InsertButton from '../InsertButton.vue'
+import MobileInsert from '../MobileInsert.vue'
 import { setTimeout } from 'timers'
 
 export default Vue.extend({

@@ -13,16 +13,19 @@
     "format": "prettier './{src,spec}/**/**.{ts,vue}' --write"
   },
   "dependencies": {
+    "autolinker": "^1.7.1",
     "axios": "^0.18.0",
     "lodash": "^4.17.10",
     "sanitize-html": "^1.18.3",
     "uuid": "^3.3.2",
-    "vue": "^2.5.16"
+    "vue": "^2.5.16",
+    "vue-fixed-header": "^1.0.5"
   },
   "devDependencies": {
+    "@types/autolinker": "^0.24.28",
     "@types/lodash": "^4.14.111",
-    "@types/uuid": "^3.4.3",
     "@types/sanitize-html": "^1.18.0",
+    "@types/uuid": "^3.4.3",
     "@vue/cli": "^3.0.1",
     "@vue/cli-plugin-babel": "^3.0.0",
     "@vue/cli-plugin-typescript": "^3.0.0",

@@ -21,9 +21,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import uuid from 'uuid/v4'
-import { Block, ParagraphBlock, BlockType } from '../types/Blocks'
+import { Block, ParagraphBlock, BlockType } from '../../types/Blocks'
 import { cloneDeep, debounce } from 'lodash'
 import { setTimeout } from 'timers'
+import Autolinker from 'autolinker'
+const autolinker = new Autolinker()
 const sanitize = require('sanitize-html/src/index.js')
 
 export default Vue.extend({
@@ -42,7 +44,7 @@ export default Vue.extend({
     }
   },
   mounted() {
-    this.$el.querySelector('.target')!.innerHTML = this.v
+    this.$el.querySelector('.target')!.innerHTML = autolinker.link(this.v)
   },
   computed: {
     typedBlock(): ParagraphBlock {
@@ -135,6 +137,13 @@ export default Vue.extend({
   background: transparent;
   padding: 8px 8px 0;
   min-height: 46px;
+  font-family: 'YuGothic', 'Yu Gothic';
+  font-weight: 400;
+  font-size: 14px;
+  color: #030303;
+  letter-spacing: 0.3px;
+  text-align: left;
+  line-height: 28px;
 }
 
 .target.paragraph:empty::before {

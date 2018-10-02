@@ -15,7 +15,7 @@ import { Block, BlockType } from '../types/Blocks'
   }
 ]
 */
-export function findRootContentById(id: string, blocks: Block[]) {
+export function findRootIdByBlockId(id: string, blocks: Block[]) {
   if (blocks.find((block: Block) => block.id === id)) {
     return blocks.find((block: Block) => block.id === id)!.id
   }

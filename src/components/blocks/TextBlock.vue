@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { TextBlock, BlockType } from '../types/Blocks'
+import { TextBlock, BlockType } from '../../types/Blocks'
 
 export default Vue.extend({
   props: {
