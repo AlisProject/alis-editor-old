@@ -2,19 +2,34 @@
   <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }">
     <ul class="editor-toolbar">
       <li class="editor-toolbar__item" @click="appendHeading">
-        <img src="../../assets/icon-bold.svg" alt="">
+        <ToolbarIcon
+          :src="require('../../assets/icon-bold.svg.js')"
+          :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
+        />
       </li>
       <li class="editor-toolbar__item" @click="appendHeading">
-        <img src="../../assets/icon-semibold.svg" alt="">
+        <ToolbarIcon
+          :src="require('../../assets/icon-semibold.svg.js')"
+          :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
+        />
       </li>
       <li class="editor-toolbar__item" @click="dispatchUpload">
-        <img src="../../assets/icon-image.svg" alt="">
+        <ToolbarIcon
+          :src="require('../../assets/icon-image.svg.js')"
+          :active="activeRoot.type === BlockType.Image"
+        />
       </li>
       <li class="editor-toolbar__item" @click="appendQuote">
-        <img src="../../assets/icon-quote.svg" alt="">
+        <ToolbarIcon
+          :src="require('../../assets/icon-quote.svg.js')"
+          :active="activeRoot.type === BlockType.Quote"
+        />
       </li>
       <li class="editor-toolbar__item" @click="appendRule">
-        <img src="../../assets/icon-rule.svg" alt="">
+        <ToolbarIcon
+          :src="require('../../assets/icon-rule.svg.js')"
+          :active="activeRoot.type === BlockType.Rule"
+        />
       </li>
       <li class="editor-toolbar__item editor-toolbar__item-stats">
         <span class="editor-toolbar__status">保存中</span>
@@ -29,17 +44,42 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import ToolbarIcon from './ToolbarIcon.vue'
 import { BlockType } from '../../types/Blocks'
+
+function getTargetTag() {
+  if (navigator.userAgent.includes('Edge')) return 'body'
+  if (!(window as any).chrome && 'WebkitAppearance' in document.documentElement.style) return 'body'
+  return 'html'
+}
 
 export default Vue.extend({
   props: {
-    hasactive: Boolean
+    hasactive: Boolean,
+    activeRoot: {
+      type: Object,
+      required: false,
+      default: {}
+    }
+  },
+  components: {
+    ToolbarIcon
   },
   data() {
     return {
+      BlockType,
       isFixed: true,
-      isOpen: false
+      isOpen: false,
+      beforeScroll: 0
     }
+  },
+  mounted() {
+    const $ = (e: string) => document.querySelector(e) as any
+    const tag = getTargetTag() as any
+    window.addEventListener('scroll', () => {
+      this.isFixed = $(tag)!.scrollTop > this.beforeScroll
+      this.beforeScroll = $(tag)!.scrollTop
+    })
   },
   methods: {
     toggleIsOpen() {
@@ -86,13 +126,13 @@ export default Vue.extend({
 .toolbar-wrapper {
   position: fixed;
   left: 0;
-  top: -44px;
+  top: -60px;
   width: 100vw;
   height: 44px;
   background: #ffffff;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25);
   z-index: 100000;
-  transition: all 0.2s ease-out;
+  transition: all 0.25s ease-out;
 }
 
 .toolbar-wrapper.is-fixed {

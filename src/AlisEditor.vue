@@ -3,6 +3,7 @@
     <EditorToolbar
       @append="appendNewBlock(active, { type: $event })"
       @upload="insertImageBlock(active, $event)"
+      :activeRoot="activeRoot || {}"
     />
     <div
       @keydown="handleKeydown($event, getIdx(block.id))"
@@ -18,7 +19,7 @@
         @active="setActive($event)"
         @addimageuri="addImageURI(block.id, $event)"
         :block="block"
-        :active="activeRoot === block.id"
+        :active="activeRoot && activeRoot.id === block.id"
       />
     </div>
   </div>
@@ -67,8 +68,10 @@ export default Vue.extend({
     })
   },
   computed: {
-    activeRoot(): string {
-      return findRootIdByBlockId(this.active || '', this.store.state.blocks) || ''
+    activeRoot(): Block | null {
+      const id = findRootIdByBlockId(this.active || '', this.store.state.blocks)
+      if (!id) return null
+      return findTreeContentById(id, this.store.state.blocks) || null
     }
   },
   methods: {

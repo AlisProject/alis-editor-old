@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+module.exports = `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="24px" height="17px" viewBox="0 0 24 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
     <title>10I</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="SP" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="ストーリー_マイストーリー_入力中_テキスト未選択" transform="translate(-152.000000, -14.000000)" fill="#5E5E5E">
+        <g id="ストーリー_マイストーリー_入力中_テキスト未選択" transform="translate(-152.000000, -14.000000)" class="fill-target">
             <g id="Group-14">
                 <g id="icon_img" transform="translate(144.000000, 0.000000)">
                     <g id="Group-12">
@@ -16,3 +16,4 @@
         </g>
     </g>
 </svg>
+`
