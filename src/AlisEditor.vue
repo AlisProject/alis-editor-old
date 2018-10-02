@@ -39,13 +39,13 @@ import { EditorStore } from './store/'
 interface EditorState {
   blocks: Block[]
   active: string | null
-  activeIdx: number | null,
+  activeIdx: number | null
   store: EditorStore
 }
 
 export default Vue.extend({
   data(): EditorState {
-    const store = new EditorStore({ blocks: this.initialState})
+    const store = new EditorStore({ blocks: this.initialState })
     return {
       store,
       blocks: this.initialState,
@@ -66,21 +66,18 @@ export default Vue.extend({
   methods: {
     getIdx(id: string): number {
       const rootBlockId = findRootIdByBlockId(id, this.store.state.blocks)
-      const idx = this.store.state.blocks.findIndex((b) => b.id == rootBlockId)
+      const idx = this.store.state.blocks.findIndex(b => b.id == rootBlockId)
       return idx as number
     },
     setActive(block: Block) {
       this.active = block.id
     },
     addImageURI(id: string, src: string) {
-      this.createNewBlockFromBlockId(
-        id,
-        {
-          type: BlockType.Image,
-          payload: { src },
-          children: []
-        }
-      )
+      this.createNewBlockFromBlockId(id, {
+        type: BlockType.Image,
+        payload: { src },
+        children: []
+      })
     },
     handleKeydown(event: KeyboardEvent, idx: number) {
       if (isMobile()) {
@@ -132,11 +129,7 @@ export default Vue.extend({
     },
     handleKeydownEnter(idx: number, event: KeyboardEvent) {
       const target = event.target as HTMLInputElement
-      if (
-        event.keyCode === 229 ||
-        event.shiftKey ||
-        (!target.classList.contains('shadow-input') && isMobile())
-      ) {
+      if (event.keyCode === 229 || event.shiftKey || (!target.classList.contains('shadow-input') && isMobile())) {
         return
       }
 
@@ -194,14 +187,11 @@ export default Vue.extend({
     insertImageBlock(id: string, event: DragEvent) {
       ;(async () => {
         const src = await createDataURIImage(event)
-        this.createNewBlockFromBlockId(
-          id,
-          {
-            type: BlockType.Image,
-            payload: { src },
-            children: []
-          }
-        )
+        this.createNewBlockFromBlockId(id, {
+          type: BlockType.Image,
+          payload: { src },
+          children: []
+        })
       })()
     },
     publish() {
@@ -211,7 +201,7 @@ export default Vue.extend({
       const { type } = extend
       delete extend.type
       const beforeContent = findTreeContentById(id, this.store.state.blocks)
-      if(!id || !beforeContent) {
+      if (!id || !beforeContent) {
         console.log('idかbeforeContentがないよ')
         return
       }

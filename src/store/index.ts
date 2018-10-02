@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { Block, BlockType } from '../types/Blocks'
-import { deleteTreeContentById, applyTreeById, findRootIdByBlockId } from '../utils/applyTree';
+import { deleteTreeContentById, applyTreeById, findRootIdByBlockId } from '../utils/applyTree'
 
 class Store<State> {
   private instance: Vue
@@ -41,18 +41,14 @@ class Store<State> {
     this.setBlocks([...blocks])
   }
 
-  prependBlock(content: Block, afterContent: Block) {
-
-  }
+  prependBlock(content: Block, afterContent: Block) {}
 }
 
 interface EditorState {
   blocks: Block[]
 }
 
-export class EditorStore extends Store<EditorState> {
-
-}
+export class EditorStore extends Store<EditorState> {}
 
 // const store = new EditorStore({ blocks: [] })
 

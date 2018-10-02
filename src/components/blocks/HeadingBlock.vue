@@ -58,7 +58,8 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-h2, h3 {
+h2,
+h3 {
   line-height: 1;
   font-family: 'YuGothic', 'Yu Gothic';
   font-weight: bold;

@@ -38,7 +38,7 @@ export default Vue.extend({
   data() {
     return {
       isFixed: true,
-      isOpen: false,
+      isOpen: false
     }
   },
   methods: {
@@ -89,8 +89,8 @@ export default Vue.extend({
   top: -44px;
   width: 100vw;
   height: 44px;
-  background: #FFFFFF;
-  box-shadow: 0 0 5px 0 rgba(0,0,0,0.25);
+  background: #ffffff;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25);
   z-index: 100000;
   transition: all 0.2s ease-out;
 }
@@ -124,20 +124,20 @@ export default Vue.extend({
 
 .editor-toolbar__status {
   font-size: 12px;
-  color: #6E6E6E;
+  color: #6e6e6e;
   text-align: right;
   line-height: 12px;
 }
 
 .editor-toolbar__button,
-.editor-toolbar__button span{
+.editor-toolbar__button span {
   width: 60px;
   height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  background: #0086CC;
+  background: #0086cc;
   border-radius: 2px;
   appearance: none;
   -webkit-appearance: none;
