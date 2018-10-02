@@ -88,7 +88,8 @@ export default Vue.extend({
       })
     },
     handleKeydown(event: KeyboardEvent, idx: number) {
-      // this.isPressedEnter = false
+      if (event.keyCode === 13) return
+      this.isPressedEnter = false
     },
     handleKeydownEnter(id: string, event: KeyboardEvent) {
       if (!this.isPressedEnter) {
