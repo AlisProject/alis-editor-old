@@ -41,7 +41,7 @@ export default Vue.extend({
   },
   methods: {
     handleInput(idx: number, value: string) {
-      const { block: block } = this
+      const { block } = this
       block.children[idx].payload.body = value
       this.$emit('update', cloneDeep(block))
     },

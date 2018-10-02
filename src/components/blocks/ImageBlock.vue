@@ -63,7 +63,7 @@ export default Vue.extend({
       const params = new FormData()
       params.append('image', createBlogImageFromDataURI(src))
       const { data } = await axios.post('https://api.imgur.com/3/image', params)
-      const { block: block } = this
+      const { block } = this
       block.payload.src = data.data.link
       this.$emit('update', block)
     }
@@ -91,7 +91,7 @@ export default Vue.extend({
       if (src.startsWith('data')) {
         return
       }
-      const { block: block } = this
+      const { block } = this
       block.payload.align = align
       this.$emit('update', block)
     }
