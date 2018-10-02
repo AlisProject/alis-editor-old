@@ -30,7 +30,7 @@ const sanitize = require('sanitize-html/src/index.js')
 
 export default Vue.extend({
   props: {
-    block: Object
+    block: Object as () => ParagraphBlock
   },
   data() {
     return {
@@ -47,9 +47,6 @@ export default Vue.extend({
     this.$el.querySelector('.target')!.innerHTML = autolinker.link(this.v)
   },
   computed: {
-    typedBlock(): ParagraphBlock {
-      return this.block
-    },
     toolbarStyle(): any {
       const style = { ...this.toolbar }
 
@@ -67,7 +64,7 @@ export default Vue.extend({
         return
       }
       if (event.keyCode === 8 && !target.innerHTML) {
-        this.$emit('delete', this.typedBlock)
+        this.$emit('delete', this.block)
       }
     },
     handlePaste(event: any) {
@@ -88,7 +85,7 @@ export default Vue.extend({
           }
           this.$emit('input', sanitizedHtml)
         } else {
-          this.$emit('delete', this.typedBlock)
+          this.$emit('delete', this.block)
         }
         setTimeout(() => {
           try {

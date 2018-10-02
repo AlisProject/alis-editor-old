@@ -1,27 +1,27 @@
 <template>
-  <h2 v-if="typedBlock.payload.size === 'h2'">
+  <h2 v-if="block.payload.size === 'h2'">
     <component
       :is="`${childBlock.type}Block`"
       :block="childBlock"
-      v-for="(childBlock, i) in typedBlock.children"
+      v-for="(childBlock, i) in block.children"
       :key="childBlock.id"
       :placeholder="'Type heading here...'"
       @input="handleInput(i, $event)"
       @delete="handleDelete(i)"
     />
-    {{typedBlock.payload.body}}
+    {{block.payload.body}}
   </h2>
   <h3 v-else>
     <component
       :is="`${childBlock.type}Block`"
       :block="childBlock"
-      v-for="(childBlock, i) in typedBlock.children"
+      v-for="(childBlock, i) in block.children"
       :key="childBlock.id"
       :placeholder="'Type heading here...'"
       @input="handleInput(i, $event)"
       @delete="handleDelete(i)"
     />
-    {{typedBlock.payload.body}}
+    {{block.payload.body}}
   </h3>
 </template>
 
@@ -37,21 +37,16 @@ export default Vue.extend({
     TextBlock
   },
   props: {
-    block: Object
-  },
-  computed: {
-    typedBlock(): HeadingBlock {
-      return this.block
-    }
+    block: Object as () => HeadingBlock
   },
   methods: {
     handleInput(idx: number, value: string) {
-      const { typedBlock: block } = this
+      const { block: block } = this
       block.children[idx].payload.body = value
       this.$emit('update', cloneDeep(block))
     },
     handleDelete(idx: number) {
-      this.$emit('delete', this.typedBlock)
+      this.$emit('delete', this.block)
     }
   }
 })

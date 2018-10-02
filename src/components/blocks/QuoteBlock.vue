@@ -23,21 +23,16 @@ export default Vue.extend({
     TextBlock
   },
   props: {
-    block: Object
-  },
-  computed: {
-    typedBlock(): QuoteBlock {
-      return this.block
-    }
+    block: Object as () => QuoteBlock
   },
   methods: {
     handleInput(idx: number, value: string) {
-      const { typedBlock: block } = this
+      const { block: block } = this
       block.children[idx].payload.body = value
       this.$emit('update', cloneDeep(block))
     },
     handleDelete(idx: number) {
-      this.$emit('delete', this.typedBlock)
+      this.$emit('delete', this.block)
     }
   }
 })

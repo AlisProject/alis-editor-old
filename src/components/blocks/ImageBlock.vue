@@ -6,7 +6,7 @@
       'is-focus': isFocus
     }"
     :style="{
-      textAlign: typedBlock.payload.align
+      textAlign: block.payload.align
     }"
   >
     <img :src="block.payload.src">
@@ -45,7 +45,7 @@ export default Vue.extend({
     ShadowInput
   },
   props: {
-    block: Object
+    block: Object as () => ImageBlock
   },
   data() {
     return {
@@ -53,20 +53,17 @@ export default Vue.extend({
     }
   },
   computed: {
-    typedBlock(): ImageBlock {
-      return this.block
-    },
     isUploading() {
-      return (this as any).typedBlock.payload.src.startsWith('data')
+      return (this as any).block.payload.src.startsWith('data')
     }
   },
   async mounted() {
-    const { src } = this.typedBlock.payload
+    const { src } = this.block.payload
     if (src.startsWith('data')) {
       const params = new FormData()
       params.append('image', createBlogImageFromDataURI(src))
       const { data } = await axios.post('https://api.imgur.com/3/image', params)
-      const { typedBlock: block } = this
+      const { block: block } = this
       block.payload.src = data.data.link
       this.$emit('update', block)
     }
@@ -80,21 +77,21 @@ export default Vue.extend({
     },
     handleKeydown(event: any) {
       if (event.keyCode === 7) {
-        this.$emit('delete', this.typedBlock)
+        this.$emit('delete', this.block)
       }
     },
     handleDelete() {
-      this.$emit('delete', this.typedBlock)
+      this.$emit('delete', this.block)
     },
     handleAddImage(src: string) {
       this.$emit('addimageuri', src)
     },
     handleChangeAlign(align: string) {
-      const { src } = this.typedBlock.payload
+      const { src } = this.block.payload
       if (src.startsWith('data')) {
         return
       }
-      const { typedBlock: block } = this
+      const { block: block } = this
       block.payload.align = align
       this.$emit('update', block)
     }

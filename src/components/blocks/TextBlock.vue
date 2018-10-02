@@ -4,9 +4,9 @@
     @input="handleInput"
     @keydown="handleKeydown"
     :rows="rows"
-    :data-id="typedBlock.id"
+    :data-id="block.id"
     :placeholder="placeholder || ''"
-  >{{typedBlock.payload.body}}</textarea>
+  >{{block.payload.body}}</textarea>
 </template>
 
 <script lang="ts">
@@ -15,15 +15,12 @@ import { TextBlock, BlockType } from '../../types/Blocks'
 
 export default Vue.extend({
   props: {
-    block: Object,
+    block: Object as () => TextBlock,
     placeholder: String
   },
   computed: {
     rows() {
-      return (this as any).typedBlock.payload.body.split('\n').length
-    },
-    typedBlock(): TextBlock {
-      return this.block
+      return (this as any).block.payload.body.split('\n').length
     }
   },
   methods: {
@@ -31,7 +28,7 @@ export default Vue.extend({
       this.$emit('focus')
     },
     handleKeydown(event: KeyboardEvent) {
-      if (event.keyCode !== 8 || this.typedBlock.payload.body) {
+      if (event.keyCode !== 8 || this.block.payload.body) {
         return
       }
       this.$emit('delete', this.block)

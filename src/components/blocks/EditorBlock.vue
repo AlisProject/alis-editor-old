@@ -11,22 +11,15 @@
     @dragover.prevent="handleDragover"
     @dragleave.prevent="handleDragLeave"
   >
-    <template v-if="typedBlock.type">
+    <template v-if="block.type">
       <component
-        :is="`${typedBlock.type}Block`"
+        :is="`${block.type}Block`"
         :block="block"
         @update="handleUpdate"
         @delete="handleDelete"
         @append="handleAppendBlock"
         @addimageuri="handleAddImage"
       />
-      <!-- <div class="mobile-space" v-if="typedBlock.type === 'Paragraph' && active"></div> -->
-      <!-- <MobileInsert
-        v-if="typedBlock.type === 'Paragraph' && active"
-        @disable="handleDisable"
-        @append="handleAppendBlock"
-        @upload="handleUpload"
-      /> -->
     </template>
   </div>
 </template>
@@ -39,7 +32,6 @@ import ImageBlock from './ImageBlock.vue'
 import ParagraphBlock from './ParagraphBlock.vue'
 import HeadingBlock from './HeadingBlock.vue'
 import QuoteBlock from './QuoteBlock.vue'
-import InsertButton from '../InsertButton.vue'
 import MobileInsert from '../MobileInsert.vue'
 import { setTimeout } from 'timers'
 
@@ -50,33 +42,21 @@ export default Vue.extend({
     HeadingBlock,
     QuoteBlock,
     RuleBlock,
-    InsertButton,
     MobileInsert
   },
   props: {
-    block: Object,
+    block: Object as () => Block,
     active: Boolean
   },
-  data(): { onDrag: boolean; showInsertButton: boolean } {
+  data(): { onDrag: boolean } {
     return {
-      onDrag: false,
-      showInsertButton: false
-    }
-  },
-  computed: {
-    typedBlock(): Block {
-      return this.block
+      onDrag: false
     }
   },
   methods: {
-    handleDisable() {
-      setTimeout(() => {
-        this.showInsertButton = false
-      }, 20)
-    },
+    handleDisable() {},
     handleClick() {
-      this.showInsertButton = true
-      this.$emit('active', this.typedBlock)
+      this.$emit('active', this.block)
     },
     handleDragover() {
       this.onDrag = true
