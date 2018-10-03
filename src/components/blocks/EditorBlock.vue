@@ -15,6 +15,7 @@
       <component
         :is="`${block.type}Block`"
         :block="block"
+        @input="handleInput"
         @update="handleUpdate"
         @delete="handleDelete"
         @append="handleAppendBlock"
@@ -78,6 +79,9 @@ export default Vue.extend({
     },
     handleAppendBlock(type: BlockType) {
       this.$emit('append', type)
+    },
+    handleInput(event: any) {
+      this.$emit('update', event)
     },
     handleUpdate(event: any) {
       this.$emit('update', event)

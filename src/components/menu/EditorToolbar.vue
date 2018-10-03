@@ -32,7 +32,10 @@
         />
       </li>
       <li class="editor-toolbar__item editor-toolbar__item-stats">
-        <span class="editor-toolbar__status">保存中</span>
+        <span
+          class="editor-toolbar__status"
+          :class="{ 'is-active': isSaving }"
+        ></span>
         <div class="editor-toolbar__button">
           公開する
         </div>
@@ -55,6 +58,7 @@ function getTargetTag() {
 
 export default Vue.extend({
   props: {
+    isSaving: Boolean,
     hasactive: Boolean,
     activeRoot: {
       type: Object,
@@ -166,6 +170,51 @@ export default Vue.extend({
   color: #6e6e6e;
   text-align: right;
   line-height: 12px;
+  width: 18px;
+  height: 18px;
+  margin: 3px;
+  border: solid 1px #5ab2bd;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  border-top: solid 1px transparent;
+  animation: rotate 1s linear infinite;
+  transition: opacity 0.2s ease-out;
+  opacity: 0;
+}
+
+.editor-toolbar__status.is-active {
+  opacity: 1;
+}
+
+/* .editor-toolbar__status::after {
+  position: absolute;
+  left: calc(50% - 4px);
+  top: calc(50% - 4px);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #5AB2BD;
+  content: ''
+} */
+
+@keyframes rotate {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  25% {
+    transform: rotateZ(180deg);
+  }
+  50% {
+    transform: rotateZ(360deg);
+  }
+  75% {
+    transform: rotateZ(540);
+  }
+  100% {
+    transform: rotateZ(720deg);
+  }
 }
 
 .editor-toolbar__button {

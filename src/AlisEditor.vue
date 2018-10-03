@@ -5,6 +5,7 @@
         @append="appendNewBlock(active, { type: $event })"
         @upload="insertImageBlock(active, $event)"
         :activeRoot="activeRoot || {}"
+        :isSaving="store.state.isSaving"
       />
       <div
         @keydown="handleKeydown"
@@ -13,6 +14,7 @@
         :key="block.id"
       >
         <EditorBlock
+          @input="updateBlock"
           @update="updateBlock"
           @delete="deleteBlock"
           @append="appendNewBlock(block.id, {type: $event})"
@@ -45,6 +47,8 @@ interface EditorState {
   activeIdx: number | null
   store: EditorStore
   isPressedEnter: boolean
+  intervalId: any
+  beforeBlockSnapshot: string
 }
 
 export default Vue.extend({
@@ -63,7 +67,9 @@ export default Vue.extend({
       store,
       active: null,
       activeIdx: null,
-      isPressedEnter: false
+      isPressedEnter: false,
+      intervalId: null,
+      beforeBlockSnapshot: ''
     }
   },
   props: ['initialState'],
@@ -72,9 +78,17 @@ export default Vue.extend({
     EditorToolbar
   },
   mounted() {
+    this.beforeBlockSnapshot = JSON.stringify(this.store.state.blocks)
     window.addEventListener('blur', () => {
       // this.active = null
     })
+
+    if (!this.intervalId) {
+      this.intervalId = setInterval(() => {
+        this.store.setIsSaving(JSON.stringify(this.store.state.blocks) !== this.beforeBlockSnapshot)
+        this.beforeBlockSnapshot = JSON.stringify(this.store.state.blocks)
+      }, 2000)
+    }
   },
   computed: {
     activeRoot(): Block | null {
@@ -105,11 +119,15 @@ export default Vue.extend({
       this.isPressedEnter = false
     },
     handleKeydownEnter(id: string, event: KeyboardEvent) {
-      const nowContent = findTreeContentById(id, this.store.state.blocks)
+      const childId = findRootIdByBlockId(id, this.store.state.blocks)
+      if (!childId) {
+        return
+      }
+      const nowContent = findTreeContentById(childId, this.store.state.blocks)
       if (!nowContent) {
         return
       }
-      if (nowContent.type !== 'Paragraph') {
+      if (nowContent.type === 'Paragraph') {
         if (!this.isPressedEnter) {
           this.isPressedEnter = true
           return

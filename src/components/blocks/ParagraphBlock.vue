@@ -74,16 +74,18 @@ export default Vue.extend({
       this.updateDOM(event.target, requireUpdateDOM || false)
     },
     updateDOM(target: any, requireUpdateDOM?: boolean) {
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         const selection = document.getSelection()
         const sanitizedHtml = sanitize(target.innerHTML, {
-          allowedTags: ['b', 'i', 'em', 'strong', 'a', 'br']
+          allowedTags: ['p', 'b', 'i', 'em', 'strong', 'a', 'br']
         })
         if (sanitizedHtml) {
           if (requireUpdateDOM) {
             this.$el.querySelector('.target')!.innerHTML = sanitizedHtml
           }
-          this.$emit('input', sanitizedHtml)
+          const block = cloneDeep(this.block)
+          block.payload.body = sanitizedHtml
+          this.$emit('input', block)
         } else {
           this.$emit('delete', this.block)
         }
@@ -98,7 +100,7 @@ export default Vue.extend({
             selection.addRange(range)
           } catch (e) {}
         }, 0)
-      }, 0)
+      })
     }
   }
 })
