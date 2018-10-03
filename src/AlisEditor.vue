@@ -4,6 +4,7 @@
       <EditorToolbar
         @append="appendNewBlock(active, { type: $event })"
         @upload="insertImageBlock(active, $event)"
+        @publish="publish"
         :activeRoot="activeRoot || {}"
         :isSaving="store.state.isSaving"
       />

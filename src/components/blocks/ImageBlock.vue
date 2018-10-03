@@ -16,16 +16,9 @@
     />
     <div class="image-uploading" v-if="isUploading">Uploading...</div>
     <div class="image-toolbar" v-if="!isUploading">
-      <div class="toolbar-item" @click="handleChangeAlign('left')">
-        <i class="fa fa-align-left" />
+      <div class="toolbar-item" @click="handleDelete">
+        &times;
       </div>
-      <div class="toolbar-item" @click="handleChangeAlign('center')">
-        <i class="fa fa-align-center" />
-      </div>
-      <div class="toolbar-item" @click="handleChangeAlign('right')">
-        <i class="fa fa-align-right" />
-      </div>
-      <div class="toolbar-item" @click="handleDelete">&times;</div>
     </div>
   </div>
 </template>
@@ -85,15 +78,6 @@ export default Vue.extend({
     },
     handleAddImage(src: string) {
       this.$emit('addimageuri', src)
-    },
-    handleChangeAlign(align: string) {
-      const { src } = this.block.payload
-      if (src.startsWith('data')) {
-        return
-      }
-      const { block } = this
-      block.payload.align = align
-      this.$emit('update', block)
     }
   }
 })
@@ -110,7 +94,7 @@ export default Vue.extend({
 
 .image:hover,
 .image.is-focus {
-  border-color: #000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
 }
 
 .image.is-uploading {
@@ -148,12 +132,10 @@ img[src^='data:'] {
 .image:hover .image-toolbar,
 .image.is-focus .image-toolbar {
   position: absolute;
-  left: calc(50% - 80px);
-  bottom: -20px;
-  width: 154px;
-  height: 40px;
-  border: solid 2px #000;
-  background: #fff;
+  right: -10px;
+  top: -10px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -162,18 +144,16 @@ img[src^='data:'] {
 }
 
 .image-toolbar .toolbar-item {
-  width: 36px;
-  height: 36px;
+  width: 20px;
+  height: 20px;
   background: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 100000000000000;
-}
-
-.image-toolbar .toolbar-item + .toolbar-item {
-  border-left: solid 2px #000;
-  width: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: solid 1px #000;
 }
 </style>

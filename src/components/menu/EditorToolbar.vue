@@ -36,7 +36,7 @@
           class="editor-toolbar__status"
           :class="{ 'is-active': isSaving }"
         ></span>
-        <div class="editor-toolbar__button">
+        <div class="editor-toolbar__button" @click="handleClickPublish">
           公開する
         </div>
       </li>
@@ -78,12 +78,12 @@ export default Vue.extend({
     }
   },
   mounted() {
-    const $ = (e: string) => document.querySelector(e) as any
-    const tag = getTargetTag() as any
-    window.addEventListener('scroll', () => {
-      this.isFixed = $(tag)!.scrollTop > this.beforeScroll
-      this.beforeScroll = $(tag)!.scrollTop
-    })
+    // const $ = (e: string) => document.querySelector(e) as any
+    // const tag = getTargetTag() as any
+    // window.addEventListener('scroll', () => {
+    //   this.isFixed = $(tag)!.scrollTop > this.beforeScroll
+    //   this.beforeScroll = $(tag)!.scrollTop
+    // })
   },
   methods: {
     toggleIsOpen() {
@@ -121,6 +121,9 @@ export default Vue.extend({
       this.isOpen = false
       this.$emit('disable')
       this.$emit('upload', event)
+    },
+    handleClickPublish() {
+      this.$emit('publish')
     }
   }
 })
