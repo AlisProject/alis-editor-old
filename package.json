@@ -1,7 +1,7 @@
 {
   "name": "alis-editor",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/AlisEditor.common.js",
   "repository": "ssh://git@github.com/AlisProject/alis-editor.git",
   "author": "HANATANI Takuma <mail@potato4d.me>",
   "license": "MIT",
