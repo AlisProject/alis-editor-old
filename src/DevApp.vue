@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import AlisEditor from './AlisEditor.vue'
+import AlisEditor from './EditorWrapper'
 import { isMobile } from './utils/deviceUtil'
 import initalState from '../spec/mock/initialState'
 

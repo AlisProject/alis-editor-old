@@ -3,17 +3,32 @@ import { Block, BlockType } from '../types/Blocks'
 import { deleteTreeContentById, applyTreeById, findRootIdByBlockId } from '../utils/applyTree'
 import { cloneDeep } from 'lodash'
 
-class Store<State> {
+class Store<S> {
   private instance: Vue
 
-  constructor(initialState: State) {
+  constructor(initialState: S) {
     this.instance = new Vue({
-      data: initialState
+      data: Object.assign({}, initialState, { isInitilized: false })
     })
   }
 
-  get state(): State {
-    return this.instance.$data as State
+  get state(): EditorState {
+    return this.instance.$data as EditorState
+  }
+
+  get isSaving(): boolean {
+    return this.state.isSaving
+  }
+
+  initState(state: any) {
+    Object.entries(state).forEach(([k, v]) => {
+      this.instance.$data[k] = v
+    })
+    this.instance.$data.isInitialized = true
+  }
+
+  setIsSaving(next: boolean) {
+    this.instance.$data.isSaving = next
   }
 
   setBlocks(blocks: Block[]) {
@@ -46,6 +61,8 @@ class Store<State> {
 }
 
 interface EditorState {
+  isInitilized?: boolean
+  isSaving: boolean
   blocks: Block[]
 }
 

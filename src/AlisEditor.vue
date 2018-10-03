@@ -1,27 +1,29 @@
 <template lang="html">
   <div id="ALISEditor">
-    <EditorToolbar
-      @append="appendNewBlock(active, { type: $event })"
-      @upload="insertImageBlock(active, $event)"
-      :activeRoot="activeRoot || {}"
-    />
-    <div
-      @keydown="handleKeydown($event, getIdx(block.id))"
-      @keydown.enter="handleKeydownEnter(block.id, $event)"
-      v-for="block in store.state.blocks"
-      :key="block.id"
-    >
-      <EditorBlock
-        @update="updateBlock"
-        @delete="deleteBlock"
-        @append="appendNewBlock(block.id, {type: $event})"
-        @upload="insertImageBlock(block.id, $event)"
-        @active="setActive($event)"
-        @addimageuri="addImageURI(block.id, $event)"
-        :block="block"
-        :active="activeRoot && activeRoot.id === block.id"
+    <template v-if="store.state.isInitialized">
+      <EditorToolbar
+        @append="appendNewBlock(active, { type: $event })"
+        @upload="insertImageBlock(active, $event)"
+        :activeRoot="activeRoot || {}"
       />
-    </div>
+      <div
+        @keydown="handleKeydown"
+        @keydown.enter="handleKeydownEnter(block.id, $event)"
+        v-for="block in store.state.blocks"
+        :key="block.id"
+      >
+        <EditorBlock
+          @update="updateBlock"
+          @delete="deleteBlock"
+          @append="appendNewBlock(block.id, {type: $event})"
+          @upload="insertImageBlock(block.id, $event)"
+          @active="setActive($event)"
+          @addimageuri="addImageURI(block.id, $event)"
+          :block="block"
+          :active="activeRoot && activeRoot.id === block.id"
+        />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -39,7 +41,6 @@ import { EditorStore } from './store/'
 import { cloneDeep } from 'lodash'
 
 interface EditorState {
-  blocks: Block[]
   active: string | null
   activeIdx: number | null
   store: EditorStore
@@ -48,10 +49,18 @@ interface EditorState {
 
 export default Vue.extend({
   data(): EditorState {
-    const store = new EditorStore({ blocks: this.initialState })
+    if (!Vue.prototype.$editorStore) {
+      Vue.prototype.$editorStore = new EditorStore({
+        isSaving: false,
+        blocks: []
+      })
+    }
+    const store = Vue.prototype.$editorStore as EditorStore
+    store.initState({
+      blocks: (this.initialState as any) as Block[]
+    })
     return {
       store,
-      blocks: this.initialState,
       active: null,
       activeIdx: null,
       isPressedEnter: false
@@ -75,13 +84,14 @@ export default Vue.extend({
     }
   },
   methods: {
-    getIdx(id: string): number {
-      const rootBlockId = findRootIdByBlockId(id, this.store.state.blocks)
-      const idx = this.store.state.blocks.findIndex(b => b.id == rootBlockId)
-      return idx as number
-    },
     setActive(block: Block) {
       this.active = block.id
+    },
+    removeActive() {
+      requestAnimationFrame(() => {
+        document.querySelector('body')!.click
+        this.active = null
+      })
     },
     addImageURI(id: string, src: string) {
       this.appendNewBlock(id, {
@@ -90,56 +100,74 @@ export default Vue.extend({
         children: []
       })
     },
-    handleKeydown(event: KeyboardEvent, idx: number) {
+    handleKeydown(event: KeyboardEvent) {
       if (event.keyCode === 13) return
       this.isPressedEnter = false
     },
     handleKeydownEnter(id: string, event: KeyboardEvent) {
-      if (!this.isPressedEnter) {
-        this.isPressedEnter = true
+      const nowContent = findTreeContentById(id, this.store.state.blocks)
+      if (!nowContent) {
         return
       }
-      requestAnimationFrame(() => {
-        const index = Array.prototype.indexOf.call(
-          document.querySelector(':focus')!.childNodes,
-          window.getSelection().getRangeAt(0).commonAncestorContainer.parentNode
-        )
-        const l = document.querySelector(':focus')!.childNodes.length
-
-        const nowElement = document.createElement('div')
-        const newElement = document.createElement('div')
-        document.querySelector(':focus')!.childNodes.forEach((child, i) => {
-          child = child.cloneNode(true) as Node & ChildNode
-          if (index === -1) {
-            if (i !== l - 2) {
-              nowElement.appendChild(child)
-            }
-          } else {
-            if (i >= index - 1) {
-              console.log(child)
-              if (child.textContent) newElement.appendChild(child)
-            } else if (i < index - 1) {
-              if (child.textContent) nowElement.appendChild(child)
-            }
-          }
-        })
-        const nowBlock = { ...findTreeContentById(id, this.store.state.blocks) } as ParagraphBlock
-        nowBlock.payload.body = `${nowElement.innerHTML}`
-        this.updateBlock(nowBlock)
-        document.querySelector(':focus')!.innerHTML = `${nowElement.innerHTML}`
-        const newId = uuid()
-        this.appendNewBlock(id, {
-          type: BlockType.Paragraph,
-          payload: {
-            body: newElement.innerHTML
-          }
-        })
+      if (nowContent.type !== 'Paragraph') {
+        if (!this.isPressedEnter) {
+          this.isPressedEnter = true
+          return
+        }
         requestAnimationFrame(() => {
-          document.querySelector('body')!.click
-          this.active = null
+          this.doubleEnterGesture(nowContent, event)
         })
+      }
+      requestAnimationFrame(() => {
+        this.singleEnterGesture(nowContent, event)
       })
       this.isPressedEnter = false
+    },
+    singleEnterGesture(content: Block, event: KeyboardEvent) {
+      const newId = uuid()
+      this.appendNewBlock(content.id, {
+        type: BlockType.Paragraph,
+        payload: {
+          body: '<p></p>'
+        }
+      })
+      this.removeActive()
+    },
+    doubleEnterGesture(content: Block, event: KeyboardEvent) {
+      const index = Array.prototype.indexOf.call(
+        document.querySelector(':focus')!.childNodes,
+        window.getSelection().getRangeAt(0).commonAncestorContainer.parentNode
+      )
+      const l = document.querySelector(':focus')!.childNodes.length
+      const nowElement = document.createElement('div')
+      const newElement = document.createElement('div')
+      document.querySelector(':focus')!.childNodes.forEach((child, i) => {
+        child = child.cloneNode(true) as Node & ChildNode
+        if (!child.textContent) return
+        if (index === -1) {
+          if (i !== l - 2) {
+            nowElement.appendChild(child)
+          }
+          return
+        }
+        if (i >= index) {
+          newElement.appendChild(child)
+        } else {
+          nowElement.appendChild(child)
+        }
+      })
+      const nowBlock = { ...content } as ParagraphBlock
+      nowBlock.payload.body = `${nowElement.innerHTML}`
+      this.updateBlock(nowBlock)
+      document.querySelector(':focus')!.innerHTML = `${nowElement.innerHTML}`
+      const newId = uuid()
+      this.appendNewBlock(content.id, {
+        type: BlockType.Paragraph,
+        payload: {
+          body: newElement.innerHTML
+        }
+      })
+      this.removeActive()
     },
     insertImageBlock(id: string, event: DragEvent) {
       ;(async () => {
