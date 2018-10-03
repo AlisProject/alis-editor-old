@@ -106,20 +106,20 @@ export default Vue.extend({
         )
         const l = document.querySelector(':focus')!.childNodes.length
 
-        console.log(index, document.querySelector(':focus')!.childNodes.length)
-
         const nowElement = document.createElement('div')
         const newElement = document.createElement('div')
         document.querySelector(':focus')!.childNodes.forEach((child, i) => {
+          child = child.cloneNode(true) as Node & ChildNode
           if (index === -1) {
             if (i !== l - 2) {
               nowElement.appendChild(child)
             }
           } else {
             if (i >= index - 1) {
-              newElement.appendChild(child)
-            } else {
-              nowElement.appendChild(child)
+              console.log(child)
+              if (child.textContent) newElement.appendChild(child)
+            } else if (i < index - 1) {
+              if (child.textContent) nowElement.appendChild(child)
             }
           }
         })

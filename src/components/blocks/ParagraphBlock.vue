@@ -136,7 +136,7 @@ export default Vue.extend({
   min-height: 46px;
   font-family: 'YuGothic', 'Yu Gothic';
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
   color: #030303;
   letter-spacing: 0.3px;
   text-align: left;

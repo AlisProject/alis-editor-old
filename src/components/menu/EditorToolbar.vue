@@ -33,9 +33,9 @@
       </li>
       <li class="editor-toolbar__item editor-toolbar__item-stats">
         <span class="editor-toolbar__status">保存中</span>
-        <button class="editor-toolbar__button" type="button">
-          <div>公開する</div>
-        </button>
+        <div class="editor-toolbar__button">
+          公開する
+        </div>
       </li>
     </ul>
     <input type="file" style="display: none;" @change="handleUpload" />
@@ -141,9 +141,8 @@ export default Vue.extend({
 
 .editor-toolbar {
   display: grid;
-  width: 335px;
+  width: 340px;
   height: 100%;
-  max-width: calc(100% - 16px);
   list-style: none;
   margin: 0 auto;
   padding: 0;
@@ -169,9 +168,8 @@ export default Vue.extend({
   line-height: 12px;
 }
 
-.editor-toolbar__button,
-.editor-toolbar__button span {
-  width: 60px;
+.editor-toolbar__button {
+  width: 65px;
   height: 24px;
   display: flex;
   align-items: center;
@@ -184,5 +182,7 @@ export default Vue.extend({
   border: 0;
   font-weight: bold;
   margin-left: 8px;
+  letter-spacing: 0.5px;
+  font-size: 12px;
 }
 </style>
