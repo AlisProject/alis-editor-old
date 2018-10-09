@@ -11,7 +11,7 @@
     "build": "vue-cli-service build --target lib --name AlisEditor src/index.ts",
     "build:page": "vue-cli-service build src/entry.develop.ts",
     "format": "prettier './{src,spec}/**/**.{ts,vue}' --write",
-    "release": "mv .gitignore ._gitignore;git add -A;rm -rf dist;yarn build;git commit -m 'move gitignore';yarn standard-version;mv ._gitignore .gitignore;rm -rf dist;git add -A;git commit -m 'move gitignore';"
+    "release": "bash release.sh"
   },
   "dependencies": {
     "autolinker": "^1.7.1",
