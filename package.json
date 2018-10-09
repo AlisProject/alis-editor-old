@@ -1,7 +1,7 @@
 {
   "name": "alis-editor",
-  "version": "0.2.2",
-  "main": "index.js",
+  "version": "0.2.3",
+  "main": "dist/AlisEditor.common.js",
   "repository": "ssh://git@github.com/AlisProject/alis-editor.git",
   "author": "HANATANI Takuma <mail@potato4d.me>",
   "license": "MIT",
@@ -11,7 +11,7 @@
     "build": "vue-cli-service build --target lib --name AlisEditor src/index.ts",
     "build:page": "vue-cli-service build src/entry.develop.ts",
     "format": "prettier './{src,spec}/**/**.{ts,vue}' --write",
-    "release": "git branch -D release;git checkout -b release;rm .gitignore;rm -rf dist;yarn build;yarn standard-version"
+    "release": "mv .gitignore ._gitignore;rm -rf dist;yarn build;yarn standard-version;mv ._gitignore .gitignore"
   },
   "dependencies": {
     "autolinker": "^1.7.1",
