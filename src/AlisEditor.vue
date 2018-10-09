@@ -136,6 +136,7 @@ export default Vue.extend({
         requestAnimationFrame(() => {
           this.doubleEnterGesture(nowContent, event)
         })
+        return
       }
       requestAnimationFrame(() => {
         this.singleEnterGesture(nowContent, event)
@@ -160,7 +161,7 @@ export default Vue.extend({
       const l = document.querySelector(':focus')!.childNodes.length
       const nowElement = document.createElement('div')
       const newElement = document.createElement('div')
-      document.querySelector(':focus')!.childNodes.forEach((child, i) => {
+      ;(document.querySelector(':focus')!.childNodes as any).forEach((child: any, i: number) => {
         child = child.cloneNode(true) as Node & ChildNode
         if (!child.textContent) return
         if (index === -1) {
@@ -171,7 +172,7 @@ export default Vue.extend({
         }
         if (i >= index) {
           newElement.appendChild(child)
-        } else {
+        } else if (i < index) {
           nowElement.appendChild(child)
         }
       })

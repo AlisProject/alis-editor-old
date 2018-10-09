@@ -8,7 +8,7 @@ function getFileListFromEvent(event: any): FileList {
     }
   }
   if ('dataTransfer' in event) {
-    const { files } = (event as DragEvent).dataTransfer
+    const { files } = (event as DragEvent).dataTransfer as any
     if (files) {
       return files
     } else {

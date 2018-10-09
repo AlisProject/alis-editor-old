@@ -1,48 +1,48 @@
 <template>
-  <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }">
-    <ul class="editor-toolbar">
-      <li class="editor-toolbar__item" @click="appendHeading">
-        <ToolbarIcon
-          :src="require('../../assets/icon-bold.svg.js')"
-          :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
-        />
-      </li>
-      <li class="editor-toolbar__item" @click="appendHeading">
-        <ToolbarIcon
-          :src="require('../../assets/icon-semibold.svg.js')"
-          :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
-        />
-      </li>
-      <li class="editor-toolbar__item" @click="dispatchUpload">
-        <ToolbarIcon
-          :src="require('../../assets/icon-image.svg.js')"
-          :active="activeRoot.type === BlockType.Image"
-        />
-      </li>
-      <li class="editor-toolbar__item" @click="appendQuote">
-        <ToolbarIcon
-          :src="require('../../assets/icon-quote.svg.js')"
-          :active="activeRoot.type === BlockType.Quote"
-        />
-      </li>
-      <li class="editor-toolbar__item" @click="appendRule">
-        <ToolbarIcon
-          :src="require('../../assets/icon-rule.svg.js')"
-          :active="activeRoot.type === BlockType.Rule"
-        />
-      </li>
-      <li class="editor-toolbar__item editor-toolbar__item-stats">
-        <span
-          class="editor-toolbar__status"
-          :class="{ 'is-active': isSaving }"
-        ></span>
-        <div class="editor-toolbar__button" @click="handleClickPublish">
-          公開する
-        </div>
-      </li>
-    </ul>
-    <input type="file" style="display: none;" @change="handleUpload" />
-  </div>
+    <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }">
+      <ul class="editor-toolbar">
+        <li class="editor-toolbar__item" @click="appendHeading">
+          <ToolbarIcon
+            :src="require('../../assets/icon-bold.svg.js')"
+            :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
+          />
+        </li>
+        <li class="editor-toolbar__item" @click="appendHeading">
+          <ToolbarIcon
+            :src="require('../../assets/icon-semibold.svg.js')"
+            :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
+          />
+        </li>
+        <li class="editor-toolbar__item" @click="dispatchUpload">
+          <ToolbarIcon
+            :src="require('../../assets/icon-image.svg.js')"
+            :active="activeRoot.type === BlockType.Image"
+          />
+        </li>
+        <li class="editor-toolbar__item" @click="appendQuote">
+          <ToolbarIcon
+            :src="require('../../assets/icon-quote.svg.js')"
+            :active="activeRoot.type === BlockType.Quote"
+          />
+        </li>
+        <li class="editor-toolbar__item" @click="appendRule">
+          <ToolbarIcon
+            :src="require('../../assets/icon-rule.svg.js')"
+            :active="activeRoot.type === BlockType.Rule"
+          />
+        </li>
+        <li class="editor-toolbar__item editor-toolbar__item-stats">
+          <span
+            class="editor-toolbar__status"
+            :class="{ 'is-active': isSaving }"
+          ></span>
+          <div class="editor-toolbar__button" @click="handleClickPublish">
+            公開する
+          </div>
+        </li>
+      </ul>
+      <input type="file" style="display: none;" @change="handleUpload" />
+    </div>
 </template>
 
 <script lang="ts">
@@ -52,7 +52,7 @@ import { BlockType } from '../../types/Blocks'
 
 function getTargetTag() {
   if (navigator.userAgent.includes('Edge')) return 'body'
-  if (!(window as any).chrome && 'WebkitAppearance' in document.documentElement.style) return 'body'
+  if (!(window as any).chrome && 'WebkitAppearance' in (document as any).documentElement.style) return 'body'
   return 'html'
 }
 
@@ -78,12 +78,12 @@ export default Vue.extend({
     }
   },
   mounted() {
-    // const $ = (e: string) => document.querySelector(e) as any
-    // const tag = getTargetTag() as any
-    // window.addEventListener('scroll', () => {
-    //   this.isFixed = $(tag)!.scrollTop > this.beforeScroll
-    //   this.beforeScroll = $(tag)!.scrollTop
-    // })
+    const $ = (e: string) => document.querySelector(e) as any
+    const tag = getTargetTag() as any
+    window.addEventListener('scroll', () => {
+      this.isFixed = $(tag)!.scrollTop > this.beforeScroll
+      this.beforeScroll = $(tag)!.scrollTop
+    })
   },
   methods: {
     toggleIsOpen() {
