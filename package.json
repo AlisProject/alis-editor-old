@@ -1,6 +1,6 @@
 {
   "name": "alis-editor",
-  "version": "1.0.0",
+  "version": "0.2.1",
   "main": "index.js",
   "repository": "ssh://git@github.com/AlisProject/alis-editor.git",
   "author": "HANATANI Takuma <mail@potato4d.me>",
@@ -31,6 +31,7 @@
     "@vue/cli-plugin-typescript": "^3.0.0",
     "@vue/cli-service": "^3.0.0",
     "prettier": "^1.13.7",
+    "standard-version": "^4.4.0",
     "typescript": "^3.0.0",
     "vue-template-compiler": "^2.5.17"
   },
