@@ -133,6 +133,7 @@ export default Vue.extend({
           this.isPressedEnter = true
           return
         }
+        this.isPressedEnter = false
         requestAnimationFrame(() => {
           this.doubleEnterGesture(nowContent, event)
         })
