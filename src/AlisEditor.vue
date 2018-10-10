@@ -9,7 +9,7 @@
         :isSaving="store.state.isSaving"
       />
       <div
-        @keydown="handleKeydown"
+        @keydown="handleKeydown(block.id, $event)"
         @keydown.enter="handleKeydownEnter(block.id, $event)"
         v-for="block in store.state.blocks"
         :key="block.id"
@@ -115,8 +115,18 @@ export default Vue.extend({
         children: []
       })
     },
-    handleKeydown(event: KeyboardEvent) {
-      if (event.keyCode === 13) return
+    handleKeydown(id: string, event: KeyboardEvent) {
+      if (event.keyCode === 13) {
+        const childId = findRootIdByBlockId(id, this.store.state.blocks)
+        if (!childId) {
+          return
+        }
+        const nowContent = findTreeContentById(childId, this.store.state.blocks)
+        if (!nowContent || (nowContent && nowContent.type !== BlockType.Paragraph)) {
+          event.preventDefault()
+        }
+        return
+      }
       this.isPressedEnter = false
     },
     handleKeydownEnter(id: string, event: KeyboardEvent) {
@@ -145,11 +155,12 @@ export default Vue.extend({
       this.isPressedEnter = false
     },
     singleEnterGesture(content: Block, event: KeyboardEvent) {
+      event.preventDefault()
       const newId = uuid()
       this.appendNewBlock(content.id, {
         type: BlockType.Paragraph,
         payload: {
-          body: '<p></p>'
+          body: ''
         }
       })
       this.removeActive()

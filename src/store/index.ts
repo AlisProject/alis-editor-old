@@ -20,6 +20,10 @@ class Store<S> {
     return this.state.isSaving
   }
 
+  get blocks(): Block[] {
+    return (this.instance.$data as EditorState).blocks
+  }
+
   initState(state: any) {
     Object.entries(state).forEach(([k, v]) => {
       this.instance.$data[k] = v
@@ -37,12 +41,12 @@ class Store<S> {
   }
 
   updateBlock(content: Block) {
-    this.setBlocks([...applyTreeById(content.id, content, this.instance.$data.blocks)])
+    this.setBlocks([...applyTreeById(content.id, content, this.blocks)])
   }
 
   deleteBlock(content: Block) {
-    if (this.instance.$data.blocks.length < 2) return
-    this.setBlocks([...deleteTreeContentById(content.id, this.instance.$data.blocks)])
+    if (this.blocks.length < 2) return
+    this.setBlocks([...deleteTreeContentById(content.id, this.blocks)])
   }
 
   appendBlock(content: Block, beforeContent: Block) {
