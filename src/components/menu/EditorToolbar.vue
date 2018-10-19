@@ -79,11 +79,11 @@ export default Vue.extend({
   },
   mounted() {
     const $ = (e: string) => document.querySelector(e) as any
-    const tag = getTargetTag() as any
-    window.addEventListener('scroll', () => {
-      this.isFixed = $(tag)!.scrollTop > this.beforeScroll
-      this.beforeScroll = $(tag)!.scrollTop
-    })
+    // const tag = getTargetTag() as any
+    // window.addEventListener('scroll', () => {
+    //   this.isFixed = $(tag)!.scrollTop > this.beforeScroll
+    //   this.beforeScroll = $(tag)!.scrollTop
+    // })
   },
   methods: {
     toggleIsOpen() {
@@ -154,6 +154,23 @@ export default Vue.extend({
   margin: 0 auto;
   padding: 0;
   grid-template-columns: 44px 44px 44px 44px 44px 1fr;
+}
+
+
+@media (min-width: 1080px) {
+  .editor-toolbar {
+    width: 900px;
+  }
+
+  body .toolbar-wrapper.is-fixed {
+    top: inherit;
+    bottom: -60px;
+  }
+
+  body .toolbar-wrapper.is-fixed {
+    top: inherit;
+    bottom: 0px;
+  }
 }
 
 .editor-toolbar__item {

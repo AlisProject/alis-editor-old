@@ -33,7 +33,6 @@ import ImageBlock from './ImageBlock.vue'
 import ParagraphBlock from './ParagraphBlock.vue'
 import HeadingBlock from './HeadingBlock.vue'
 import QuoteBlock from './QuoteBlock.vue'
-import MobileInsert from '../MobileInsert.vue'
 import { setTimeout } from 'timers'
 
 export default Vue.extend({
@@ -42,8 +41,7 @@ export default Vue.extend({
     ParagraphBlock,
     HeadingBlock,
     QuoteBlock,
-    RuleBlock,
-    MobileInsert
+    RuleBlock
   },
   props: {
     block: Object as () => Block,

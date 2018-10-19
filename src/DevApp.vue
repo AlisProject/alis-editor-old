@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <div>
-      <img src="/sample-header.png">
+      <div style="text-align: center;">
+        <img src="/sample-header.png" style="margin: 40px auto 0;">
+      </div>
       <AlisEditor @export="handleExport" :initialState="initalState" />
     </div>
   </div>
