@@ -22,6 +22,12 @@
         @addimageuri="handleAddImage"
       />
     </template>
+    <InsertButton
+      v-if="block.type === 'Paragraph' && active"
+      @disable="handleDisable"
+      @append="handleAppendBlock"
+      @upload="handleUpload"
+    />
   </div>
 </template>
 
@@ -33,6 +39,7 @@ import ImageBlock from './ImageBlock.vue'
 import ParagraphBlock from './ParagraphBlock.vue'
 import HeadingBlock from './HeadingBlock.vue'
 import QuoteBlock from './QuoteBlock.vue'
+import InsertButton from '../InsertButton.vue'
 import { setTimeout } from 'timers'
 
 export default Vue.extend({
@@ -41,15 +48,17 @@ export default Vue.extend({
     ParagraphBlock,
     HeadingBlock,
     QuoteBlock,
-    RuleBlock
+    RuleBlock,
+    InsertButton
   },
   props: {
     block: Object as () => Block,
     active: Boolean
   },
-  data(): { onDrag: boolean } {
+  data(): { onDrag: boolean, showInsertButton: boolean } {
     return {
-      onDrag: false
+      onDrag: false,
+      showInsertButton: false
     }
   },
   methods: {

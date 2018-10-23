@@ -42,17 +42,24 @@ export default Vue.extend({
   methods: {
     toggleIsOpen() {
       this.isOpen = !this.isOpen
-      if (!this.isOpen) {
-        this.$emit('disable')
-      }
     },
     dispatchUpload() {
       ;(this.$el.querySelector('[type="file"]') as any).click()
     },
-    appendRule() {
+    append(type: BlockType) {
+      setTimeout(() => {
+        this.isOpen = false
+        this.$emit('append', type)
+        this.$emit('disable')
+      }, 100)
+    },
+    appendParagraph() {
       this.isOpen = false
-      this.$emit('append', BlockType.Rule)
+      this.$emit('append', BlockType.Paragraph)
       this.$emit('disable')
+    },
+    appendRule() {
+      this.append(BlockType.Rule)
     },
     appendQuote() {
       this.isOpen = false
@@ -68,6 +75,9 @@ export default Vue.extend({
       this.isOpen = false
       this.$emit('disable')
       this.$emit('upload', event)
+    },
+    handleClickPublish() {
+      this.$emit('publish')
     }
   }
 })
