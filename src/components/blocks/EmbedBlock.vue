@@ -48,8 +48,7 @@ export default Vue.extend({
     },
     async getEmbedContent(alisIframelyUrl: string) {
       const isTwitterResource =
-        alisIframelyUrl === 'https://twitter.com' ||
-        alisIframelyUrl.startsWith('https://twitter.com/')
+        alisIframelyUrl === 'https://twitter.com' || alisIframelyUrl.startsWith('https://twitter.com/')
       const isTweet = isTwitterResource && alisIframelyUrl.split('/')[4] === 'status'
       const isGistResource = alisIframelyUrl.startsWith('https://gist.github.com/')
       const isYouTubeResource = isYouTubeVideoURL(alisIframelyUrl)
@@ -58,25 +57,17 @@ export default Vue.extend({
       let result
 
       try {
-        result = (await getResourceFromIframely(
-          {
-            type: isTwitterResource ? 'oembed' : 'iframely',
-            url: alisIframelyUrl,
-            iframelyApikey: this.iframelyApikey
-          }
-        )).data
+        result = (await getResourceFromIframely({
+          type: isTwitterResource ? 'oembed' : 'iframely',
+          url: alisIframelyUrl,
+          iframelyApikey: this.iframelyApikey
+        })).data
       } catch (error) {
         console.error(error)
         return ''
       }
 
-      if (
-        isTweet ||
-        isGistResource ||
-        isYouTubeResource ||
-        isFacebookResource ||
-        isInstagramResource
-      ) {
+      if (isTweet || isGistResource || isYouTubeResource || isFacebookResource || isInstagramResource) {
         const anchorElement = document.createElement('a')
         anchorElement.setAttribute('href', alisIframelyUrl)
         anchorElement.setAttribute('data-iframely-url', '')
