@@ -10,7 +10,12 @@
     "format": "prettier './{src,spec}/**/**.{ts,vue}' --write",
     "release": "bash release.sh",
     "test": "vue-cli-service test:unit",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "release:prebuild": "yarn build",
+    "release:postbuild": "git push --follow-tags origin master && npm publish",
+    "release:major": "yarn release:prebuild; yarn standard-version --release-as major; yarn release:postbuild",
+    "release:minor": "yarn release:prebuild; yarn standard-version --release-as minor; yarn release:postbuild",
+    "release:match": "yarn release:prebuild; yarn standard-version; yarn release:postbuild"
   },
   "dependencies": {
     "autolinker": "^1.7.1",

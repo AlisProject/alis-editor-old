@@ -30,7 +30,9 @@ w/ Vue CLI UI
 $ yarn vue ui # Open Vue CLI v3 UI server
 ```
 
-## Testing
+## Development
+
+### Testing
 
 w/ jest
 
@@ -38,12 +40,32 @@ w/ jest
 $ yarn test
 ```
 
-## Lint and format
+### Lint and format
 
 w/ prettier
 
 ```bash
 $ yarn format
+```
+
+## Release
+
+### major
+
+```bash
+yarn release:major
+```
+
+### minor
+
+```bash
+yarn release:minor
+```
+
+### patch
+
+```bash
+yarn release:patch
 ```
 
 ## License
