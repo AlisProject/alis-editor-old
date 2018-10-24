@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { createDataURIImage } from '../utils/createImage'
+import { createDataURIImage } from '../../utils/createImage'
 
 export default Vue.extend({
   methods: {

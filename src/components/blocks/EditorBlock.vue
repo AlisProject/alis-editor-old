@@ -39,7 +39,7 @@ import ImageBlock from './ImageBlock.vue'
 import ParagraphBlock from './ParagraphBlock.vue'
 import HeadingBlock from './HeadingBlock.vue'
 import QuoteBlock from './QuoteBlock.vue'
-import InsertButton from '../InsertButton.vue'
+import InsertButton from '../utils/InsertButton.vue'
 import { setTimeout } from 'timers'
 
 export default Vue.extend({

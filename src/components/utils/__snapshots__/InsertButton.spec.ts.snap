@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InsertButton.vue renders correctly 1`] = `
+<div
+  class="insert-button"
+>
+  <div
+    class="insert-button__toggle"
+  >
+    <span>
+      +
+    </span>
+  </div>
+   
+  <!---->
+   
+  <input
+    type="file"
+  />
+</div>
+`;

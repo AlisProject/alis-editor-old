@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImageBlock.vue renders correctly 1`] = `
+<div
+  class="image"
+>
+  <img
+    src="https://github.com/potato4d.png"
+  />
+   
+  <shadowinput-stub />
+   
+  <!---->
+   
+  <div
+    class="image-toolbar"
+  >
+    <div
+      class="toolbar-item"
+    >
+      
+      ×
+    
+    </div>
+  </div>
+</div>
+`;

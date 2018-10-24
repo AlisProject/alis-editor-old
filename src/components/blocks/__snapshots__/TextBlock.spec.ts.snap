@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextBlock.vue renders correctly 1`] = `
+<textarea
+  data-id="123"
+  placeholder=""
+  rows="1"
+>
+  foo
+</textarea>
+`;

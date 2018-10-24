@@ -1,17 +1,15 @@
 {
   "name": "alis-editor",
   "version": "0.2.12",
-  "main": "dist/AlisEditor.common.js",
-  "repository": "ssh://git@github.com/AlisProject/alis-editor.git",
   "author": "HANATANI Takuma <mail@potato4d.me>",
-  "license": "MIT",
   "scripts": {
-    "dev": "yarn serve",
     "serve": "vue-cli-service serve src/entry.develop.ts",
     "build": "vue-cli-service build --target lib --name AlisEditor src/index.ts",
     "build:page": "vue-cli-service build src/entry.develop.ts",
+    "dev": "yarn serve",
     "format": "prettier './{src,spec}/**/**.{ts,vue}' --write",
-    "release": "bash release.sh"
+    "release": "bash release.sh",
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "autolinker": "^1.7.1",
@@ -24,15 +22,20 @@
   },
   "devDependencies": {
     "@types/autolinker": "^0.24.28",
+    "@types/jest": "^23.3.7",
     "@types/lodash": "^4.14.111",
     "@types/sanitize-html": "^1.18.0",
     "@types/uuid": "^3.4.3",
     "@vue/cli": "^3.0.1",
     "@vue/cli-plugin-babel": "^3.0.0",
     "@vue/cli-plugin-typescript": "^3.0.0",
+    "@vue/cli-plugin-unit-jest": "^3.0.5",
     "@vue/cli-service": "^3.0.0",
+    "@vue/test-utils": "^1.0.0-beta.25",
+    "babel-core": "7.0.0-bridge.0",
     "prettier": "^1.13.7",
     "standard-version": "^4.4.0",
+    "ts-jest": "^23.0.0",
     "typescript": "^3.0.0",
     "vue-template-compiler": "^2.5.17"
   },
@@ -40,5 +43,7 @@
     "printWidth": 120,
     "singleQuote": true,
     "semi": false
-  }
+  },
+  "main": "dist/AlisEditor.common.js",
+  "repository": "ssh://git@github.com/AlisProject/alis-editor.git"
 }

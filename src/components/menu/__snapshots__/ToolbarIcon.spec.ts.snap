@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ToolbarIcon.vue renders correctly 1`] = `
+<div
+  class="editor-toolbar__icon"
+>
+  <div
+    class="editor-toolbar__iconContent"
+  />
+</div>
+`;

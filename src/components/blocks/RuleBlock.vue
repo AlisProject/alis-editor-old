@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ShadowInput from '../ShadowInput.vue'
+import ShadowInput from '../utils/ShadowInput.vue'
 
 export default Vue.extend({
   components: {

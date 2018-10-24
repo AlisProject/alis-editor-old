@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { BlockType } from '../types/Blocks'
+import { BlockType } from '../../types/Blocks'
 
 export default Vue.extend({
   data() {

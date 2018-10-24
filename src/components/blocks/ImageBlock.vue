@@ -28,7 +28,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import { ImageBlock } from '../../types/Blocks'
 import { createBlogImageFromDataURI } from '../../utils/createImage'
-import ShadowInput from '../ShadowInput.vue'
+import ShadowInput from '../utils/ShadowInput.vue'
 
 axios.defaults.headers.authorization = 'Client-ID ' + process.env.VUE_APP_IMGUR_KEY
 console.log('Client-ID ' + process.env.VUE_APP_IMGUR_KEY)

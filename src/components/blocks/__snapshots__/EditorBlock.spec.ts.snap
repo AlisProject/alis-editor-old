@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditorBlock.vue renders correctly 1`] = `
+<div class="block">
+  <div class="wrapper paragraph">
+    <div contenteditable="true" class="target paragraph">
+      <p>foo</p>
+    </div>
+    <!---->
+  </div>
+  <!---->
+</div>
+`;
