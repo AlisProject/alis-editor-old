@@ -3,13 +3,13 @@
       <ul class="editor-toolbar">
         <li class="editor-toolbar__item" @click="appendHeading">
           <ToolbarIcon
-            :src="require('../../assets/icon-bold.svg.js')"
+            :src="require('../../assets/icon-h2.svg.js')"
             :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
           />
         </li>
         <li class="editor-toolbar__item" @click="appendHeading">
           <ToolbarIcon
-            :src="require('../../assets/icon-semibold.svg.js')"
+            :src="require('../../assets/icon-h3.svg.js')"
             :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
           />
         </li>
@@ -39,6 +39,35 @@
           <div class="editor-toolbar__button" @click="handleClickPublish">
             公開する
           </div>
+        </li>
+      </ul>
+      <ul class="editor-toolbar editor-toolbar--decoration" :class="{ 'is-active': isDecoration }">
+        <li class="editor-toolbar__item" @click="appendHeading">
+          <ToolbarIcon
+            :src="require('../../assets/icon-bold.svg.js')"
+            :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
+          />
+        </li>
+        <li class="editor-toolbar__item" @click="appendHeading">
+          <ToolbarIcon
+            :src="require('../../assets/icon-italic.svg.js')"
+            :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
+          />
+        </li>
+        <li class="editor-toolbar__item" @click="dispatchUpload">
+          <ToolbarIcon
+            :src="require('../../assets/icon-link.svg.js')"
+            :active="activeRoot.type === BlockType.Image"
+          />
+        </li>
+        <li class="editor-toolbar__item">
+          <!-- reserved -->
+        </li>
+        <li class="editor-toolbar__item">
+          <!-- reserved -->
+        </li>
+        <li class="editor-toolbar__item editor-toolbar__item-stats">
+          <!-- reserved -->
         </li>
       </ul>
       <input type="file" style="display: none;" @change="handleUpload" />
@@ -74,6 +103,7 @@ export default Vue.extend({
       BlockType,
       isFixed: true,
       isOpen: false,
+      isDecoration: false,
       beforeScroll: 0
     }
   },
@@ -154,6 +184,21 @@ export default Vue.extend({
   margin: 0 auto;
   padding: 0;
   grid-template-columns: 44px 44px 44px 44px 44px 1fr;
+}
+
+.editor-toolbar.editor-toolbar--decoration {
+  transition: all 0.2s ease-out;
+}
+.editor-toolbar.editor-toolbar--decoration.is-active {
+  transform: translateY(-44px);
+}
+
+.editor-toolbar.editor-toolbar--decoration .editor-toolbar__item {
+  background: #fff;
+}
+
+.editor-toolbar.editor-toolbar--decoration .editor-toolbar__item.editor-toolbar__item-stats {
+  background: transparent;
 }
 
 @media (min-width: 1080px) {
