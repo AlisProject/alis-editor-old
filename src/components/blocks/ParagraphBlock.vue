@@ -27,11 +27,12 @@
 <script lang="ts">
 import Vue from 'vue'
 import uuid from 'uuid/v4'
+import urlregex from 'url-regex'
 import { Block, ParagraphBlock, BlockType } from '../../types/Blocks'
 import { cloneDeep, debounce } from 'lodash'
 import { setTimeout } from 'timers'
-import Autolinker from 'autolinker'
-const autolinker = new Autolinker()
+import { autolinker } from '../../utils/autolinker'
+import { getIframelyUrlTemplate } from '../../utils/iframely'
 const sanitize = require('sanitize-html/src/index.js')
 
 export default Vue.extend({
@@ -91,7 +92,14 @@ export default Vue.extend({
         })
         if (sanitizedHtml) {
           if (requireUpdateDOM) {
-            this.$el.querySelector('.target')!.innerHTML = sanitizedHtml
+            if (urlregex().test(sanitizedHtml) && !sanitizedHtml.match(/([亜-熙ぁ-んァ-ヶ]+)/g)) {
+              this.$el.querySelector('.target')!.innerHTML = `<p><br>${getIframelyUrlTemplate(sanitizedHtml)}<br></p>`
+              requestAnimationFrame(() => {
+                ;(window as any).iframely.load()
+              })
+            } else {
+              this.$el.querySelector('.target')!.innerHTML = sanitizedHtml
+            }
           }
           const block = cloneDeep(this.block)
           block.payload.body = sanitizedHtml

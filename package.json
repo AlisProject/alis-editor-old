@@ -1,6 +1,6 @@
 {
   "name": "alis-editor",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "author": "HANATANI Takuma <mail@potato4d.me>",
   "scripts": {
     "serve": "vue-cli-service serve src/entry.develop.ts",
@@ -16,6 +16,7 @@
     "axios": "^0.18.0",
     "lodash": "^4.17.10",
     "sanitize-html": "^1.18.3",
+    "url-regex": "^4.1.1",
     "uuid": "^3.3.2",
     "vue": "^2.5.16",
     "vue-fixed-header": "^2.0.0"
@@ -25,6 +26,7 @@
     "@types/jest": "^23.3.7",
     "@types/lodash": "^4.14.111",
     "@types/sanitize-html": "^1.18.0",
+    "@types/url-regex": "^4.1.0",
     "@types/uuid": "^3.4.3",
     "@vue/cli": "^3.0.1",
     "@vue/cli-plugin-babel": "^3.0.0",

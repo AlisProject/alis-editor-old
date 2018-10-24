@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmbedBlock.vue renders correctly 1`] = `
+<div>
+  <div>
+    <br />
+    <div
+      contenteditable="false"
+      data-alis-iframely-url="https://twitter.com/_/status/1"
+    >
+      <a
+        data-iframely-url=""
+        href="https://twitter.com/_/status/1"
+      />
+    </div>
+    <br />
+  </div>
+</div>
+`;
