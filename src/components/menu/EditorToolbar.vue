@@ -297,5 +297,6 @@ export default Vue.extend({
   margin-left: 8px;
   letter-spacing: 0.5px;
   font-size: 12px;
+  cursor: pointer;
 }
 </style>
