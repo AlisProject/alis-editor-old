@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`HeadingBlock.vue renders correctly (preview mode) 1`] = `
+<h2>
+  
+  foo
+
+</h2>
+`;
+
 exports[`HeadingBlock.vue renders correctly 1`] = `
 <h2>
   
