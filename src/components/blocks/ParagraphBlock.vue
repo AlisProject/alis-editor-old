@@ -1,12 +1,12 @@
 <template>
-  <div class="wrapper paragraph">
+  <div class="wrapper paragraph" v-if="!preview">
     <div
-    contenteditable="true"
-    class="target paragraph"
-    @click="handleClick"
-    @keydown="handleKeyDown"
-    @input="handleInput"
-    @paste="handlePaste"
+      contenteditable="true"
+      class="target paragraph"
+      @click="handleClick"
+      @keydown="handleKeyDown"
+      @input="handleInput"
+      @paste="handlePaste"
     ></div>
     <div
       class="toolbar"
@@ -15,6 +15,12 @@
     >
       Link
     </div>
+  </div>
+  <div class="wrapper paragraph" v-else>
+    <div
+      contenteditable="false"
+      class="target paragraph"
+    ></div>
   </div>
 </template>
 
@@ -30,7 +36,11 @@ const sanitize = require('sanitize-html/src/index.js')
 
 export default Vue.extend({
   props: {
-    block: Object as () => ParagraphBlock
+    block: Object as () => ParagraphBlock,
+    preview: {
+      default: false,
+      type: Boolean
+    }
   },
   data() {
     return {
