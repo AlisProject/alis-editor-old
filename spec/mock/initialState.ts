@@ -36,7 +36,21 @@ export default [
   },
   {
     id: uuid(),
-    type: BlockType.Rule,
+    type: BlockType.Rule
+  },
+  {
+    id: uuid(),
+    type: BlockType.Quote,
+    children: [
+      {
+        id: uuid(),
+        type: BlockType.Text,
+        payload: {
+          body:
+            'でもそのうさぎがほんとうに、チョッキのポケットから懐中時計かいちゅうどけいをとりだしてそれをながめ、そしてまたあわててかけだしたとき、アリスもとびあがりました。というのも、チョッキのポケットなんかがあるうさぎはこれまで見たことがないし、そこからとりだす時計をもっているうさぎなんかも見たことないぞ、というのに急に気がついたからです。'
+        }
+      }
+    ]
   },
   {
     id: uuid(),

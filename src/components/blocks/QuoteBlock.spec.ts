@@ -1,4 +1,4 @@
-import { mount,config } from '@vue/test-utils'
+import { mount, config } from '@vue/test-utils'
 import QuoteBlock from './QuoteBlock.vue'
 import * as BlockTypes from '../../types/Blocks'
 config.logModifiedComponents = false
@@ -8,11 +8,42 @@ describe('QuoteBlock.vue', () => {
     const block: BlockTypes.QuoteBlock = {
       id: '123',
       type: BlockTypes.BlockType.Quote,
-      children: []
+      children: [
+        {
+          id: '456',
+          type: BlockTypes.BlockType.Text,
+          payload: {
+            body: 'foo'
+          }
+        }
+      ]
     }
     const wrapper = mount(QuoteBlock, {
       propsData: {
         block
+      }
+    })
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  test('renders correctly (preview mode)', () => {
+    const block: BlockTypes.QuoteBlock = {
+      id: '123',
+      type: BlockTypes.BlockType.Quote,
+      children: [
+        {
+          id: '456',
+          type: BlockTypes.BlockType.Text,
+          payload: {
+            body: 'foo'
+          }
+        }
+      ]
+    }
+    const wrapper = mount(QuoteBlock, {
+      propsData: {
+        block,
+        preview: true
       }
     })
     expect(wrapper.element).toMatchSnapshot()

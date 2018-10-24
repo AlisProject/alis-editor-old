@@ -1,3 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`QuoteBlock.vue renders correctly 1`] = `<blockquote />`;
+exports[`QuoteBlock.vue renders correctly (preview mode) 1`] = `
+<blockquote>
+  <span
+    class="text preview"
+  >
+    
+  foo
+
+  </span>
+</blockquote>
+`;
+
+exports[`QuoteBlock.vue renders correctly 1`] = `
+<blockquote>
+  <textarea
+    data-id="456"
+    placeholder=""
+    rows="1"
+  >
+    foo
+  </textarea>
+</blockquote>
+`;
