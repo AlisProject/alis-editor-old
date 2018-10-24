@@ -90,6 +90,7 @@ export default Vue.extend({
       this.intervalId = setInterval(() => {
         this.store.setIsSaving(JSON.stringify(this.store.state.blocks) !== this.beforeBlockSnapshot)
         this.beforeBlockSnapshot = JSON.stringify(this.store.state.blocks)
+        this.$emit('update', this.store.state.blocks)
       }, 2000)
     }
   },
