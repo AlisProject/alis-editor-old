@@ -20,7 +20,7 @@ export interface RuleBlock extends Block {
 }
 
 export interface EmbedBlock extends Block {
-  type: BlockType.Embed,
+  type: BlockType.Embed
   payload: {
     src: string
   }

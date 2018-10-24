@@ -24,7 +24,7 @@ export default Vue.extend({
     }
   },
   async mounted() {
-    (window as any).iframely.load()
+    ;(window as any).iframely.load()
   },
   methods: {
     handleFocus() {

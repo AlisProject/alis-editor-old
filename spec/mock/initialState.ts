@@ -36,7 +36,7 @@ export default [
   },
   {
     id: uuid(),
-    type: BlockType.Rule,
+    type: BlockType.Rule
   },
   {
     id: uuid(),
@@ -51,13 +51,6 @@ export default [
     type: BlockType.Embed,
     payload: {
       src: 'https://twitter.com/ALIS_media/status/1036753823102947329'
-    }
-  },
-  {
-    id: uuid(),
-    type: BlockType.Embed,
-    payload: {
-      src: 'https://gist.github.com/potato4d/59ad2d2f59c296cfd4a6e375588316b9'
     }
   },
   {

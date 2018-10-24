@@ -59,7 +59,7 @@ export default Vue.extend({
     active: Boolean,
     preview: Boolean
   },
-  data(): { onDrag: boolean, showInsertButton: boolean } {
+  data(): { onDrag: boolean; showInsertButton: boolean } {
     return {
       onDrag: false,
       showInsertButton: false

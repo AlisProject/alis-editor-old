@@ -156,7 +156,6 @@ export default Vue.extend({
   grid-template-columns: 44px 44px 44px 44px 44px 1fr;
 }
 
-
 @media (min-width: 1080px) {
   .editor-toolbar {
     width: 900px;

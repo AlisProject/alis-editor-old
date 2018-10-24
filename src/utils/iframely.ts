@@ -10,7 +10,7 @@ export function isYouTubeVideoURL(url: string) {
     /^https?:\/\/www\.youtube\.com\/user\/[a-zA-Z0-9_-]+\/?\?v=([a-zA-Z0-9_-]+)/i,
     /^https?:\/\/www\.youtube-nocookie\.com\/(?:v|embed)\/([a-zA-Z0-9_-]+)/i
   ]
-  const isYouTubeVideoURL = regexes.some((regex) => regex.test(url))
+  const isYouTubeVideoURL = regexes.some(regex => regex.test(url))
 
   return isYouTubeVideoURL
 }
@@ -26,7 +26,7 @@ export function isFacebookPostURL(url: string) {
     /^https?:\/\/(?:www|m|business)\.facebook\.com\/notes\/([a-zA-Z0-9.-]+)\/[^/]+\/(\d{10,})/i,
     /^https?:\/\/(?:www|m|business)\.facebook\.com\/media\/set\/\?set=[^/]+(\d{10,})/i
   ]
-  const isFacebookPostURL = regexes.some((regex) => regex.test(url))
+  const isFacebookPostURL = regexes.some(regex => regex.test(url))
 
   return isFacebookPostURL
 }
@@ -39,15 +39,13 @@ export function isInstagramURL(url: string) {
     /^https?:\/\/instagr\.am\/(?:[a-zA-Z0-9_-]+\/)?p\/([a-zA-Z0-9_-]+)/i,
     /^https?:\/\/instagram\.com\/(?:[a-zA-Z0-9_-]+\/)?(?:p|tv)\/([a-zA-Z0-9_-]+)$/i
   ]
-  const isInstagramURL = regexes.some((regex) => regex.test(url))
+  const isInstagramURL = regexes.some(regex => regex.test(url))
 
   return isInstagramURL
 }
 
-
 export function getIframelyHtml(url: string) {
-  const isTwitterResource =
-    url === 'https://twitter.com' || url.startsWith('https://twitter.com/')
+  const isTwitterResource = url === 'https://twitter.com' || url.startsWith('https://twitter.com/')
   const isTweet = isTwitterResource && url.split('/')[4] === 'status'
   const isGistResource = url.startsWith('https://gist.github.com/')
   const isYouTubeResource = isYouTubeVideoURL(url)

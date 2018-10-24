@@ -15,7 +15,7 @@ describe('EditorBlock.vue', () => {
     const wrapper = mount(EditorBlock, {
       propsData: {
         block
-      },
+      }
     })
     expect(wrapper.html()).toMatchSnapshot()
   })
