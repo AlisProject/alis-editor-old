@@ -23,6 +23,7 @@
           @active="setActive($event)"
           @addimageuri="addImageURI(block.id, $event)"
           :preview="preview"
+          :iframelyApikey="iframelyApikey"
           :block="block"
           :active="activeRoot && activeRoot.id === block.id"
         />
@@ -75,7 +76,7 @@ export default Vue.extend({
       beforeBlockSnapshot: ''
     }
   },
-  props: ['initialState', 'preview'],
+  props: ['initialState', 'preview', 'iframelyApikey'],
   components: {
     EditorBlock,
     EditorToolbar
@@ -270,5 +271,156 @@ export default Vue.extend({
 input,
 textarea {
   font-size: 2rem;
+}
+
+[data-alis-iframely-url] {
+  user-select: none;
+}
+
+.twitter-profile-card {
+  border-radius: 4px;
+  border: 1px solid #e2e8ed;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  padding: 20px;
+  text-decoration: none;
+  width: 100%;
+}
+
+.twitter-profile-card .title {
+  color: #030303;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+}
+
+.twitter-profile-card .description {
+  color: #6e6e6e;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.7px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.twitter-profile-card .site {
+  color: #6e6e6e;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+}
+
+.iframely-embed-card {
+  border-radius: 4px;
+  border: 1px solid #e3e3e3;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  height: 140px;
+  margin: 0;
+  padding: 20px;
+  position: relative;
+  text-decoration: none;
+  width: 100%;
+}
+
+.iframely-embed-card .title {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  color: #030303;
+  display: -webkit-box;
+  font-size: 16px;
+  font-weight: 500;
+  height: 22px;
+  letter-spacing: 0.8px;
+  line-height: 1.5;
+  margin: 0 120px 10px 0;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.iframely-embed-card .title.without-space {
+  margin: 0 0 10px 0;
+}
+
+.iframely-embed-card .description {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: #6e6e6e;
+  display: -webkit-box;
+  font-size: 14px;
+  font-weight: 500;
+  height: 42px;
+  letter-spacing: 0.7px;
+  line-height: 1.6;
+  margin: 0 120px 10px 0;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.iframely-embed-card .description.without-space {
+  margin: 0 0 10px 0;
+}
+
+.iframely-embed-card .thumbnail {
+  height: 100px;
+  object-fit: cover;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 100px;
+}
+
+.iframely-embed-card .site {
+  color: #6e6e6e;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+}
+
+@media screen and (max-width: 640px) {
+  .twitter-profile-card .title {
+    font-size: 14px;
+  }
+
+  .twitter-profile-card .description {
+    font-size: 12px;
+  }
+
+  .iframely-embed-card .title {
+    font-size: 14px;
+    margin: 0 0 12px 0;
+  }
+
+  .iframely-embed-card .description {
+    font-size: 12px;
+    height: 40px;
+    margin: 0 80px 12px 0;
+  }
+
+  .iframely-embed-card .description.without-space {
+    margin: 0 0 12px 0;
+  }
+
+  .iframely-embed-card .site {
+    font-size: 12px;
+  }
+
+  .iframely-embed-card .thumbnail {
+    height: 60px;
+    top: 50px;
+    width: 60px;
+  }
+
+  .iframely-embed {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: scroll;
+  }
 }
 </style>

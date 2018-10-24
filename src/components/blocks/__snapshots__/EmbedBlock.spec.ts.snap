@@ -1,19 +1,104 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`EmbedBlock.vue renders correctly 1`] = `
+exports[`EmbedBlock.vue renders OGP content correctly 1`] = `
 <div>
   <div>
-    <br />
     <div
       contenteditable="false"
-      data-alis-iframely-url="https://twitter.com/_/status/1"
+      data-alis-iframely-url="https://alis.to"
     >
+      
+        
       <a
-        data-iframely-url=""
-        href="https://twitter.com/_/status/1"
-      />
+        class="iframely-embed-card"
+        href="https://alis.to"
+        target="_blank"
+      >
+        
+          
+        <div
+          class="title"
+        >
+          ALIS | 信頼できる記事と人々を明らかにする全く新しいソーシャルメディア
+        </div>
+        
+          
+        <div
+          class="description"
+        >
+          クリプトの人気記事一覧
+        </div>
+        
+          
+        <img
+          class="thumbnail"
+          src="https://alis.to/d/nuxt/dist/touch-icon.png"
+        />
+        
+          
+        <div
+          class="site"
+        >
+          alis.to
+        </div>
+        
+        
+      </a>
+      
+      
     </div>
-    <br />
+  </div>
+</div>
+`;
+
+exports[`EmbedBlock.vue renders correctly 1`] = `
+<div>
+  <div />
+</div>
+`;
+
+exports[`EmbedBlock.vue renders twitter profile content correctly 1`] = `
+<div>
+  <div>
+    <div
+      contenteditable="false"
+      data-alis-iframely-url="https://twitter.com/alis_media"
+    >
+      
+        
+      <a
+        class="twitter-profile-card"
+        href="https://twitter.com/alis_media"
+        target="_blank"
+      >
+        
+          
+        <div
+          class="title"
+        >
+          ALIS (@ALIS_media) | Twitter
+        </div>
+        <div
+          class="description"
+        >
+          
+            The latest Tweets from ALIS (@ALIS_media). ALIS is social media platform using blockchain. We help people to find trustworthy articles and people quickly.
+            ALIS公式アカウントです。日々の活動状況やニュースを発信します。#ALIS $ALIS. Japan
+          
+        </div>
+        
+          
+        <div
+          class="site"
+        >
+          twitter.com
+        </div>
+        
+        
+      </a>
+      
+      
+    </div>
   </div>
 </div>
 `;

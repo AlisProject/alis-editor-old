@@ -10,7 +10,11 @@
       <button type="button" @click="switchPreview(true)">
         Viewerモード
       </button>
-      <AlisEditor :preview="preview" @export="handleExport" :initialState="initalState" />
+      <AlisEditor
+        :preview="preview"
+        :iframelyApikey="iframelyApikey"
+        @export="handleExport"
+        :initialState="initalState" />
     </div>
   </div>
 </template>
@@ -28,7 +32,8 @@ export default Vue.extend({
   data() {
     return {
       initalState,
-      preview: false
+      preview: false,
+      iframelyApikey: process.env.VUE_APP_IFRAMELY_API_KEY
     }
   },
   methods: {
