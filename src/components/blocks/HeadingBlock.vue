@@ -8,6 +8,7 @@
       :placeholder="'Type heading here...'"
       @input="handleInput(i, $event)"
       @delete="handleDelete(i)"
+      :preview="preview"
     />
     {{block.payload.body}}
   </h2>
@@ -20,6 +21,7 @@
       :placeholder="'Type heading here...'"
       @input="handleInput(i, $event)"
       @delete="handleDelete(i)"
+      :preview="preview"
     />
     {{block.payload.body}}
   </h3>
@@ -37,7 +39,11 @@ export default Vue.extend({
     TextBlock
   },
   props: {
-    block: Object as () => HeadingBlock
+    block: Object as () => HeadingBlock,
+    preview: {
+      default: false,
+      type: Boolean
+    }
   },
   methods: {
     handleInput(idx: number, value: string) {

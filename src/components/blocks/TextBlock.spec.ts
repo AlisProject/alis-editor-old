@@ -20,4 +20,22 @@ describe('TextBlock.vue', () => {
     })
     expect(wrapper.element).toMatchSnapshot()
   })
+
+  test('renders correctly (preview mode)', () => {
+    const block: BlockTypes.TextBlock = {
+      id: '123',
+      type: BlockTypes.BlockType.Text,
+      payload: {
+        body: 'foo'
+      }
+    }
+    const wrapper = mount(TextBlock, {
+      propsData: {
+        block,
+        preview: true
+      },
+      stubs: ['ShadowInput']
+    })
+    expect(wrapper.element).toMatchSnapshot()
+  })
 })

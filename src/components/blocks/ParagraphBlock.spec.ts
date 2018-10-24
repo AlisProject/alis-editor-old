@@ -19,4 +19,21 @@ describe('ParagraphBlock.vue', () => {
     })
     expect(wrapper.element).toMatchSnapshot()
   })
+
+  test('renders correctly (preview mode)', () => {
+    const block: BlockTypes.ParagraphBlock = {
+      id: '123',
+      type: BlockTypes.BlockType.Paragraph,
+      payload: {
+        body: 'foo'
+      }
+    }
+    const wrapper = mount(ParagraphBlock, {
+      propsData: {
+        block,
+        preview: true
+      }
+    })
+    expect(wrapper.element).toMatchSnapshot()
+  })
 })

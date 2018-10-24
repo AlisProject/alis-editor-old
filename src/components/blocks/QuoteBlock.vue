@@ -7,6 +7,7 @@
       :key="childBlock.id"
       @input="handleInput(i, $event)"
       @delete="handleDelete(i)"
+      :preview="preview"
     />
   </blockquote>
 </template>
@@ -23,7 +24,11 @@ export default Vue.extend({
     TextBlock
   },
   props: {
-    block: Object as () => QuoteBlock
+    block: Object as () => QuoteBlock,
+    preview: {
+      default: false,
+      type: Boolean
+    }
   },
   methods: {
     handleInput(idx: number, value: string) {

@@ -1,5 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ParagraphBlock.vue renders correctly (preview mode) 1`] = `
+<div
+  class="wrapper paragraph"
+>
+  <div
+    class="target paragraph"
+    contenteditable="false"
+  >
+    foo
+  </div>
+</div>
+`;
+
 exports[`ParagraphBlock.vue renders correctly 1`] = `
 <div
   class="wrapper paragraph"

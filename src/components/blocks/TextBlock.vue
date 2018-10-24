@@ -6,7 +6,14 @@
     :rows="rows"
     :data-id="block.id"
     :placeholder="placeholder || ''"
+    v-if="!preview"
   >{{block.payload.body}}</textarea>
+  <span
+    v-else
+    class="text preview"
+  >
+    {{block.payload.body}}
+  </span>
 </template>
 
 <script lang="ts">
@@ -16,7 +23,11 @@ import { TextBlock, BlockType } from '../../types/Blocks'
 export default Vue.extend({
   props: {
     block: Object as () => TextBlock,
-    placeholder: String
+    placeholder: String,
+    preview: {
+      default: false,
+      type: Boolean
+    }
   },
   computed: {
     rows() {
@@ -50,6 +61,11 @@ textarea {
   line-height: 1.65;
   overflow: hidden;
   background: transparent;
+  padding: 0 8px;
+}
+
+.text.preview {
+  line-height: 1.65;
   padding: 0 8px;
 }
 </style>

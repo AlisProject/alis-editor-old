@@ -22,4 +22,24 @@ describe('HeadingBlock.vue', () => {
     })
     expect(wrapper.element).toMatchSnapshot()
   })
+
+  test('renders correctly (preview mode)', () => {
+    const block: BlockTypes.HeadingBlock = {
+      id: '123',
+      type: BlockTypes.BlockType.Heading,
+      payload: {
+        size: 'h2',
+        body: 'foo'
+      },
+      children: []
+    }
+    const wrapper = mount(HeadingBlock, {
+      propsData: {
+        block,
+        preview: true
+      },
+      stubs: ['ShadowInput']
+    })
+    expect(wrapper.element).toMatchSnapshot()
+  })
 })
