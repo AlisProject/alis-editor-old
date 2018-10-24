@@ -8,6 +8,14 @@ export function createBlock(type: BlockType, extend?: any): Block {
 
 function createBlockTemplate(type: BlockType) {
   switch (type) {
+    case BlockType.Embed: {
+      return {
+        type: BlockType.Embed,
+        payload: {
+          src: ''
+        }
+      }
+    }
     case BlockType.Paragraph: {
       return {
         type: BlockType.Paragraph,

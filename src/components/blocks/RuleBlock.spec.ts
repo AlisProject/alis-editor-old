@@ -1,4 +1,4 @@
-import { mount,config } from '@vue/test-utils'
+import { mount, config } from '@vue/test-utils'
 import RuleBlock from './RuleBlock.vue'
 import * as BlockTypes from '../../types/Blocks'
 config.logModifiedComponents = false

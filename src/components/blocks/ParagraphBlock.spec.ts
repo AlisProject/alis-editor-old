@@ -15,7 +15,7 @@ describe('ParagraphBlock.vue', () => {
     const wrapper = mount(ParagraphBlock, {
       propsData: {
         block
-      },
+      }
     })
     expect(wrapper.element).toMatchSnapshot()
   })

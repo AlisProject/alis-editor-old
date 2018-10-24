@@ -43,6 +43,7 @@ import { isMobile } from './utils/deviceUtil'
 import { findRootIdByBlockId, findTreeContentById } from './utils/applyTree'
 import { EditorStore } from './store/'
 import { cloneDeep } from 'lodash'
+import urlregex from 'url-regex'
 
 interface EditorState {
   active: string | null
@@ -56,10 +57,10 @@ interface EditorState {
 export default Vue.extend({
   data(): EditorState {
     // if (!Vue.prototype.$editorStore) {
-      Vue.prototype.$editorStore = new EditorStore({
-        isSaving: false,
-        blocks: []
-      })
+    Vue.prototype.$editorStore = new EditorStore({
+      isSaving: false,
+      blocks: []
+    })
     // }
     const store = Vue.prototype.$editorStore as EditorStore
     store.initState({
@@ -189,17 +190,35 @@ export default Vue.extend({
           nowElement.appendChild(child)
         }
       })
-      const nowBlock = { ...content } as ParagraphBlock
+      const nowBlock = { ...content } as Block
       nowBlock.payload.body = `${nowElement.innerHTML}`
+      const rawText = nowBlock.payload.body.replace(/ /g, '')
+      if (urlregex().test(rawText) && !rawText.match(/([^a-zA-Z0-9]+)/g)) {
+        nowBlock.type = BlockType.Embed
+        nowBlock.payload = {
+          src: rawText
+        }
+      }
+
       this.updateBlock(nowBlock)
       document.querySelector(':focus')!.innerHTML = `${nowElement.innerHTML}`
       const newId = uuid()
-      this.appendNewBlock(content.id, {
-        type: BlockType.Paragraph,
-        payload: {
-          body: newElement.innerHTML
-        }
-      })
+      const rawNewText = newElement.innerHTML
+      if (urlregex().test(rawNewText) && !rawNewText.match(/([亜-熙ぁ-んァ-ヶ]+)/g)) {
+        this.appendNewBlock(content.id, {
+          type: BlockType.Embed,
+          payload: {
+            src: rawNewText
+          }
+        })
+      } else {
+        this.appendNewBlock(content.id, {
+          type: BlockType.Paragraph,
+          payload: {
+            body: newElement.innerHTML
+          }
+        })
+      }
       this.removeActive()
     },
     insertImageBlock(id: string, event: DragEvent) {

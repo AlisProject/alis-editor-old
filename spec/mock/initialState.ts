@@ -36,7 +36,7 @@ export default [
   },
   {
     id: uuid(),
-    type: BlockType.Rule,
+    type: BlockType.Rule
   },
   {
     id: uuid(),
@@ -44,6 +44,20 @@ export default [
     payload: {
       body:
         '<p>でもそのうさぎがほんとうに、チョッキのポケットから懐中時計かいちゅうどけいをとりだしてそれをながめ、そしてまたあわててかけだしたとき、アリスもとびあがりました。というのも、チョッキのポケットなんかがあるうさぎはこれまで見たことがないし、そこからとりだす時計をもっているうさぎなんかも見たことないぞ、というのに急に気がついたからです。</p>'
+    }
+  },
+  {
+    id: uuid(),
+    type: BlockType.Embed,
+    payload: {
+      src: 'https://twitter.com/ALIS_media/status/1036753823102947329'
+    }
+  },
+  {
+    id: uuid(),
+    type: BlockType.Embed,
+    payload: {
+      src: 'https://gadget-shot.com/review/43122'
     }
   },
   {

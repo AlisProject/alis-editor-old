@@ -40,6 +40,7 @@ import ImageBlock from './ImageBlock.vue'
 import ParagraphBlock from './ParagraphBlock.vue'
 import HeadingBlock from './HeadingBlock.vue'
 import QuoteBlock from './QuoteBlock.vue'
+import EmbedBlock from './EmbedBlock.vue'
 import InsertButton from '../utils/InsertButton.vue'
 import { setTimeout } from 'timers'
 
@@ -50,6 +51,7 @@ export default Vue.extend({
     HeadingBlock,
     QuoteBlock,
     RuleBlock,
+    EmbedBlock,
     InsertButton
   },
   props: {
@@ -57,7 +59,7 @@ export default Vue.extend({
     active: Boolean,
     preview: Boolean
   },
-  data(): { onDrag: boolean, showInsertButton: boolean } {
+  data(): { onDrag: boolean; showInsertButton: boolean } {
     return {
       onDrag: false,
       showInsertButton: false
