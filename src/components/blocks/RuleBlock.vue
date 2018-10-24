@@ -1,10 +1,13 @@
 <template>
-  <div class="rule">
+  <div class="rule" v-if="!preview">
     <hr/>
     <ShadowInput
       @delete="handleDelete"
       @addimageuri="handleAddImage"
     />
+  </div>
+  <div class="rule" v-else>
+    <hr/>
   </div>
 </template>
 
@@ -17,7 +20,11 @@ export default Vue.extend({
     ShadowInput
   },
   props: {
-    block: Object
+    block: Object,
+    preview: {
+      default: false,
+      type: Boolean
+    }
   },
   methods: {
     handleDelete() {

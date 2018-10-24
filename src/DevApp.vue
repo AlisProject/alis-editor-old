@@ -4,7 +4,13 @@
       <div style="text-align: center;">
         <img src="/sample-header.png" style="margin: 40px auto 0;">
       </div>
-      <AlisEditor @export="handleExport" :initialState="initalState" />
+      <button type="button" @click="switchPreview(false)">
+        Editorモード
+      </button>
+      <button type="button" @click="switchPreview(true)">
+        Viewerモード
+      </button>
+      <AlisEditor :preview="preview" @export="handleExport" :initialState="initalState" />
     </div>
   </div>
 </template>
@@ -21,10 +27,14 @@ export default Vue.extend({
   },
   data() {
     return {
-      initalState
+      initalState,
+      preview: false
     }
   },
   methods: {
+    switchPreview(preview: boolean) {
+      this.preview = preview
+    },
     handleExport(tree: any) {
       if (isMobile()) {
         alert(

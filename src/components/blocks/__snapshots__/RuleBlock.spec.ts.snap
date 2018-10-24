@@ -6,3 +6,9 @@ exports[`RuleBlock.vue renders correctly 1`] = `
   <shadowinput-stub></shadowinput-stub>
 </div>
 `;
+
+exports[`RuleBlock.vue renders correctly(preview mode) 1`] = `
+<div class="rule">
+  <hr>
+</div>
+`;

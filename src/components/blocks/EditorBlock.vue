@@ -15,6 +15,7 @@
       <component
         :is="`${block.type}Block`"
         :block="block"
+        :preview="preview"
         @input="handleInput"
         @update="handleUpdate"
         @delete="handleDelete"
@@ -53,7 +54,8 @@ export default Vue.extend({
   },
   props: {
     block: Object as () => Block,
-    active: Boolean
+    active: Boolean,
+    preview: Boolean
   },
   data(): { onDrag: boolean, showInsertButton: boolean } {
     return {

@@ -15,6 +15,21 @@ describe('RuleBlock.vue', () => {
       },
       stubs: ['ShadowInput']
     })
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper).toMatchSnapshot()
+  })
+
+  test('renders correctly(preview mode)', () => {
+    const block: BlockTypes.RuleBlock = {
+      id: '123',
+      type: BlockTypes.BlockType.Rule
+    }
+    const wrapper = mount(RuleBlock, {
+      propsData: {
+        block,
+        preview: true
+      },
+      stubs: ['ShadowInput']
+    })
+    expect(wrapper).toMatchSnapshot()
   })
 })

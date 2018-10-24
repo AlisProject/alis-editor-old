@@ -36,6 +36,10 @@ export default [
   },
   {
     id: uuid(),
+    type: BlockType.Rule,
+  },
+  {
+    id: uuid(),
     type: BlockType.Paragraph,
     payload: {
       body:

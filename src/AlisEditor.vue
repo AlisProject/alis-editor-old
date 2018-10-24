@@ -22,6 +22,7 @@
           @upload="insertImageBlock(block.id, $event)"
           @active="setActive($event)"
           @addimageuri="addImageURI(block.id, $event)"
+          :preview="preview"
           :block="block"
           :active="activeRoot && activeRoot.id === block.id"
         />
@@ -54,12 +55,12 @@ interface EditorState {
 
 export default Vue.extend({
   data(): EditorState {
-    if (!Vue.prototype.$editorStore) {
+    // if (!Vue.prototype.$editorStore) {
       Vue.prototype.$editorStore = new EditorStore({
         isSaving: false,
         blocks: []
       })
-    }
+    // }
     const store = Vue.prototype.$editorStore as EditorStore
     store.initState({
       blocks: (this.initialState as any) as Block[]
@@ -73,7 +74,7 @@ export default Vue.extend({
       beforeBlockSnapshot: ''
     }
   },
-  props: ['initialState'],
+  props: ['initialState', 'preview'],
   components: {
     EditorBlock,
     EditorToolbar
