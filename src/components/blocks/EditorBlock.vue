@@ -17,6 +17,7 @@
         :is="`${block.type}Block`"
         :block="block"
         :preview="preview"
+        :iframelyApikey="iframelyApikey"
         @input="handleInput"
         @update="handleUpdate"
         @delete="handleDelete"
@@ -40,6 +41,7 @@
         :is="`${block.type}Block`"
         :block="block"
         :preview="preview"
+        :iframelyApikey="iframelyApikey"
       />
     </template>
   </div>
@@ -73,7 +75,8 @@ export default Vue.extend({
     preview: {
       default: false,
       type: Boolean
-    }
+    },
+    iframelyApikey: String
   },
   data(): { onDrag: boolean; showInsertButton: boolean } {
     return {
