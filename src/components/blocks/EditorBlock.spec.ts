@@ -15,7 +15,24 @@ describe('EditorBlock.vue', () => {
     const wrapper = mount(EditorBlock, {
       propsData: {
         block
-      },
+      }
+    })
+    expect(wrapper.html()).toMatchSnapshot()
+  })
+
+  test('renders correctly (preview mode)', () => {
+    const block: BlockTypes.Block = {
+      id: '123',
+      type: BlockTypes.BlockType.Paragraph,
+      payload: {
+        body: '<p>foo</p>'
+      }
+    }
+    const wrapper = mount(EditorBlock, {
+      propsData: {
+        block,
+        preview: true
+      }
     })
     expect(wrapper.html()).toMatchSnapshot()
   })

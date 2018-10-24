@@ -10,6 +10,7 @@
     @drop.prevent="handleDrop"
     @dragover.prevent="handleDragover"
     @dragleave.prevent="handleDragLeave"
+    v-if="!preview"
   >
     <template v-if="block.type">
       <component
@@ -29,6 +30,18 @@
       @append="handleAppendBlock"
       @upload="handleUpload"
     />
+  </div>
+  <div
+    class="block"
+    v-else
+  >
+    <template v-if="block.type">
+      <component
+        :is="`${block.type}Block`"
+        :block="block"
+        :preview="preview"
+      />
+    </template>
   </div>
 </template>
 
@@ -55,7 +68,10 @@ export default Vue.extend({
   props: {
     block: Object as () => Block,
     active: Boolean,
-    preview: Boolean
+    preview: {
+      default: false,
+      type: Boolean
+    }
   },
   data(): { onDrag: boolean, showInsertButton: boolean } {
     return {
