@@ -4,7 +4,8 @@ export enum BlockType {
   Paragraph = 'Paragraph',
   Image = 'Image',
   Quote = 'Quote',
-  Heading = 'Heading'
+  Heading = 'Heading',
+  Embed = 'Embed'
 }
 
 export interface Block {
@@ -16,6 +17,13 @@ export interface Block {
 
 export interface RuleBlock extends Block {
   type: BlockType.Rule
+}
+
+export interface EmbedBlock extends Block {
+  type: BlockType.Embed,
+  payload: {
+    src: string
+  }
 }
 
 export interface ParagraphBlock extends Block {

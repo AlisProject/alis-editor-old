@@ -47,6 +47,27 @@ export default [
     }
   },
   {
+    id: uuid(),
+    type: BlockType.Embed,
+    payload: {
+      src: 'https://twitter.com/ALIS_media/status/1036753823102947329'
+    }
+  },
+  {
+    id: uuid(),
+    type: BlockType.Embed,
+    payload: {
+      src: 'https://gist.github.com/potato4d/59ad2d2f59c296cfd4a6e375588316b9'
+    }
+  },
+  {
+    id: uuid(),
+    type: BlockType.Embed,
+    payload: {
+      src: 'https://gadget-shot.com/review/43122'
+    }
+  },
+  {
     id: '9cf0f329-e53b-4340-a96b-e58a9ef8b61e',
     type: BlockType.Image,
     payload: {
