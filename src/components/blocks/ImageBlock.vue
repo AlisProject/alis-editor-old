@@ -8,6 +8,7 @@
     :style="{
       textAlign: block.payload.align
     }"
+    v-if="!preview"
   >
     <img :src="block.payload.src">
     <ShadowInput
@@ -20,6 +21,15 @@
         &times;
       </div>
     </div>
+  </div>
+  <div
+    class="image preview"
+    :style="{
+      textAlign: block.payload.align
+    }"
+    v-else
+  >
+    <img :src="block.payload.src">
   </div>
 </template>
 
@@ -38,7 +48,11 @@ export default Vue.extend({
     ShadowInput
   },
   props: {
-    block: Object as () => ImageBlock
+    block: Object as () => ImageBlock,
+    preview: {
+      default: false,
+      type: Boolean
+    }
   },
   data() {
     return {
@@ -95,6 +109,10 @@ export default Vue.extend({
 .image:hover,
 .image.is-focus {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
+}
+
+.image.preview:hover {
+  box-shadow: none;
 }
 
 .image.is-uploading {

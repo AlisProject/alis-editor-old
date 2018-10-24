@@ -1,5 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ImageBlock.vue renders correctly (preview mode) 1`] = `
+<div
+  class="image preview"
+>
+  <img
+    src="https://github.com/potato4d.png"
+  />
+</div>
+`;
+
 exports[`ImageBlock.vue renders correctly 1`] = `
 <div
   class="image"
