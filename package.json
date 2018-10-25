@@ -15,7 +15,7 @@
     "release:postbuild": "git push --follow-tags origin master && npm publish",
     "release:major": "yarn release:prebuild; yarn standard-version --release-as major; yarn release:postbuild",
     "release:minor": "yarn release:prebuild; yarn standard-version --release-as minor; yarn release:postbuild",
-    "release:match": "yarn release:prebuild; yarn standard-version; yarn release:postbuild"
+    "release:patch": "yarn release:prebuild; yarn standard-version; yarn release:postbuild"
   },
   "dependencies": {
     "autolinker": "^1.7.1",
