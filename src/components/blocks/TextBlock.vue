@@ -58,14 +58,14 @@ textarea {
   outline: none;
   resize: none;
   width: 100%;
-  line-height: 1.65;
+  line-height: 1.5;
   overflow: hidden;
   background: transparent;
-  padding: 0 8px;
+  padding: 0;
 }
 
 .text.preview {
-  line-height: 1.65;
-  padding: 0 8px;
+  line-height: 1.5;
+  padding: 0;
 }
 </style>
