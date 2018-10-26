@@ -2,6 +2,7 @@
   <div id="ALISEditor">
     <template v-if="store.state.isInitialized">
       <EditorToolbar
+        v-if="!config.preview"
         @append="appendNewBlock(active, { type: $event })"
         @upload="insertImageBlock(active, $event)"
         @publish="publish"
