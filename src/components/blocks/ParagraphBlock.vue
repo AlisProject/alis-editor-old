@@ -19,7 +19,7 @@
   <div class="wrapper paragraph" v-else>
     <div
       contenteditable="false"
-      class="target paragraph"
+      class="target paragraph preview"
     ></div>
   </div>
 </template>
@@ -146,26 +146,38 @@ export default Vue.extend({
 }
 
 .paragraph div.target {
-  border: 0;
-  outline: none;
-  resize: none;
-  width: 100%;
-  overflow: hidden;
   background: transparent;
-  padding: 8px 8px 0;
-  min-height: 46px;
+  border: 0;
+  color: #040404;
   font-family: 'YuGothic', 'Yu Gothic';
-  font-weight: 400;
   font-size: 16px;
-  color: #030303;
-  letter-spacing: 0.3px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+  min-height: 46px;
+  outline: none;
+  overflow: hidden;
+  padding: 8px 8px 0;
+  resize: none;
   text-align: left;
-  line-height: 28px;
+  width: 100%;
+  word-break: break-word;
 }
 
 .target.paragraph:empty::before {
   content: 'Type here...';
   color: #999;
   font-size: 1em;
+}
+
+.target.paragraph.preview:empty::before {
+  content: '';
+}
+
+@media screen and (max-width: 640px) {
+  .paragraph div.target {
+    color: #030303;
+    font-size: 14px;
+  }
 }
 </style>
