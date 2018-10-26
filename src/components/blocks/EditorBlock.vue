@@ -123,12 +123,8 @@ export default Vue.extend({
   border: solid 2px transparent;
 }
 
-.block.is-active {
-  background: rgba(0, 0, 0, 0.01);
-}
-
 .block.block--ondrag {
-  border: dotted 2px #555;
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .block.block--ondrag * {
