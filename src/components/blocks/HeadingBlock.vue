@@ -61,46 +61,62 @@ export default Vue.extend({
 <style scoped>
 h2,
 h3 {
-  line-height: 1;
+  color: #030303;
   font-family: 'YuGothic', 'Yu Gothic';
   font-weight: bold;
-  color: #030303;
-  letter-spacing: 1px;
-  text-align: left;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
   padding: 0;
+  text-align: left;
+  word-break: break-word;
+  margin: 8px 0;
 }
 
 h2 {
-  margin: 6px 0;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 h3 {
-  margin: 6px 0;
   font-size: 16px;
+}
+
+@media screen and (max-width: 640px) {
+  h2 {
+    font-size: 18px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
 }
 </style>
 
 <style>
-.block h2 textarea {
-  line-height: 1;
+.block h2 textarea,
+.block h3 textarea {
   font-family: 'YuGothic', 'Yu Gothic';
   font-weight: bold;
-  font-size: 18px;
-  color: #030303;
-  letter-spacing: 1px;
   text-align: left;
-  line-height: 25px;
+  letter-spacing: 0.1em;
+  color: #030303;
+  line-height: 1.5;
+}
+
+.block h2 textarea {
+  font-size: 20px;
 }
 
 .block h3 textarea {
-  line-height: 1;
-  font-family: 'YuGothic', 'Yu Gothic';
-  font-weight: bold;
   font-size: 16px;
-  color: #030303;
-  letter-spacing: 1px;
-  text-align: left;
-  line-height: 24px;
+}
+
+@media screen and (max-width: 640px) {
+  .block h2 textarea {
+    font-size: 18px;
+  }
+
+  .block h3 textarea {
+    font-size: 16px;
+  }
 }
 </style>
