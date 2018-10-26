@@ -45,15 +45,28 @@ export default Vue.extend({
 
 <style scoped>
 blockquote {
-  background: #f0f0f0;
-  border-radius: 4px;
-  margin: 8px 0;
-  padding: 8px;
+  font-family: 'YuGothic', 'Yu Gothic';
+  background: #f6f6f6;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  margin: 0.5em 0;
+  padding: 20px;
+  word-break: break-word;
 }
 
-@media (max-width: 768px) {
+blockquote textarea {
+  font-family: 'YuGothic', 'Yu Gothic';
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  margin: 0;
+  word-break: break-word;
+}
+
+@media (max-width: 640px) {
   blockquote {
-    margin: 8px;
+    font-size: 14px;
   }
 }
 </style>
