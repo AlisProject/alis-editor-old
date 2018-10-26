@@ -45,6 +45,9 @@ export default Vue.extend({
 
 .rule hr {
   margin: 0;
+  border: none;
+  border-top: dotted 3px #e3e3e3;
+  height: 2px;
 }
 
 .rule textarea {
