@@ -1,4 +1,4 @@
-import { AlisEditorConfig } from '../types/config'
+import { AlisEditorConfig } from '../types/Config'
 
 export const configProps = {
   type: Object as () => AlisEditorConfig,
