@@ -22,8 +22,7 @@
           @upload="insertImageBlock(block.id, $event)"
           @active="setActive($event)"
           @addimageuri="addImageURI(block.id, $event)"
-          :preview="config.preview"
-          :iframelyApikey="config.iframelyApikey"
+          :config="config"
           :block="block"
           :active="activeRoot && activeRoot.id === block.id"
         />
@@ -45,6 +44,7 @@ import { findRootIdByBlockId, findTreeContentById } from './utils/applyTree'
 import { EditorStore } from './store/'
 import { cloneDeep } from 'lodash'
 import urlregex from 'url-regex'
+import { configProps } from './utils/config'
 
 interface EditorState {
   active: string | null
@@ -53,13 +53,6 @@ interface EditorState {
   isPressedEnter: boolean
   intervalId: any
   beforeBlockSnapshot: string
-}
-
-interface AlisEditorConfig {
-  articleId: string
-  preview: boolean
-  iframelyApikey: string
-  uploadEndpoint: string
 }
 
 export default Vue.extend({
@@ -85,15 +78,7 @@ export default Vue.extend({
   },
   props: {
     initialState: Object as () => Block[],
-    config: {
-      type: Object as () => AlisEditorConfig,
-      default: {
-        articleId: '',
-        preview: false,
-        iframelyApikey: '',
-        uploadEndpoint: ''
-      }
-    }
+    config: configProps
   },
   components: {
     EditorBlock,
