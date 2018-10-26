@@ -10,14 +10,13 @@
     @drop.prevent="handleDrop"
     @dragover.prevent="handleDragover"
     @dragleave.prevent="handleDragLeave"
-    v-if="!preview"
+    v-if="!config.preview"
   >
     <template v-if="block.type">
       <component
         :is="`${block.type}Block`"
         :block="block"
-        :preview="preview"
-        :iframelyApikey="iframelyApikey"
+        v-bind="config"
         @input="handleInput"
         @update="handleUpdate"
         @delete="handleDelete"
@@ -40,8 +39,7 @@
       <component
         :is="`${block.type}Block`"
         :block="block"
-        :preview="preview"
-        :iframelyApikey="iframelyApikey"
+        v-bind="config"
       />
     </template>
   </div>
@@ -57,7 +55,7 @@ import HeadingBlock from './HeadingBlock.vue'
 import QuoteBlock from './QuoteBlock.vue'
 import EmbedBlock from './EmbedBlock.vue'
 import InsertButton from '../utils/InsertButton.vue'
-import { setTimeout } from 'timers'
+import { configProps } from '../../utils/config'
 
 export default Vue.extend({
   components: {
@@ -72,11 +70,7 @@ export default Vue.extend({
   props: {
     block: Object as () => Block,
     active: Boolean,
-    preview: {
-      default: false,
-      type: Boolean
-    },
-    iframelyApikey: String
+    config: configProps
   },
   data(): { onDrag: boolean; showInsertButton: boolean } {
     return {

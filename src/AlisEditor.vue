@@ -22,8 +22,7 @@
           @upload="insertImageBlock(block.id, $event)"
           @active="setActive($event)"
           @addimageuri="addImageURI(block.id, $event)"
-          :preview="preview"
-          :iframelyApikey="iframelyApikey"
+          :config="config"
           :block="block"
           :active="activeRoot && activeRoot.id === block.id"
         />
@@ -45,6 +44,7 @@ import { findRootIdByBlockId, findTreeContentById } from './utils/applyTree'
 import { EditorStore } from './store/'
 import { cloneDeep } from 'lodash'
 import urlregex from 'url-regex'
+import { configProps } from './utils/config'
 
 interface EditorState {
   active: string | null
@@ -76,7 +76,10 @@ export default Vue.extend({
       beforeBlockSnapshot: ''
     }
   },
-  props: ['initialState', 'preview', 'iframelyApikey'],
+  props: {
+    initialState: Object as () => Block[],
+    config: configProps
+  },
   components: {
     EditorBlock,
     EditorToolbar

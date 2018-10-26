@@ -11,8 +11,11 @@
         Viewerモード
       </button>
       <AlisEditor
-        :preview="preview"
-        :iframelyApikey="iframelyApikey"
+        :config="{
+          articleId: '12345',
+          preview,
+          iframelyApikey
+        }"
         @export="handleExport"
         :initialState="initalState" />
     </div>
@@ -23,7 +26,7 @@
 import Vue from 'vue'
 import AlisEditor from './EditorWrapper'
 import { isMobile } from './utils/deviceUtil'
-import initalState from '../spec/mock/initialState'
+import initalState from './spec/mock/initialState'
 
 export default Vue.extend({
   components: {
