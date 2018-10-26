@@ -22,8 +22,8 @@
           @upload="insertImageBlock(block.id, $event)"
           @active="setActive($event)"
           @addimageuri="addImageURI(block.id, $event)"
-          :preview="preview"
-          :iframelyApikey="iframelyApikey"
+          :preview="config.preview"
+          :iframelyApikey="config.iframelyApikey"
           :block="block"
           :active="activeRoot && activeRoot.id === block.id"
         />
@@ -55,6 +55,13 @@ interface EditorState {
   beforeBlockSnapshot: string
 }
 
+interface AlisEditorConfig {
+  articleId: string
+  preview: boolean
+  iframelyApikey: string
+  uploadEndpoint: string
+}
+
 export default Vue.extend({
   data(): EditorState {
     // if (!Vue.prototype.$editorStore) {
@@ -76,7 +83,18 @@ export default Vue.extend({
       beforeBlockSnapshot: ''
     }
   },
-  props: ['initialState', 'preview', 'iframelyApikey'],
+  props: {
+    initialState: Object as () => Block[],
+    config: {
+      type: Object as () => AlisEditorConfig,
+      default: {
+        articleId: '',
+        preview: false,
+        iframelyApikey: '',
+        uploadEndpoint: ''
+      }
+    }
+  },
   components: {
     EditorBlock,
     EditorToolbar

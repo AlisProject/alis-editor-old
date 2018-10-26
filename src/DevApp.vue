@@ -11,8 +11,11 @@
         Viewerモード
       </button>
       <AlisEditor
-        :preview="preview"
-        :iframelyApikey="iframelyApikey"
+        :config="{
+          articleId: '12345',
+          preview,
+          iframelyApikey
+        }"
         @export="handleExport"
         :initialState="initalState" />
     </div>
