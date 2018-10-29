@@ -1,9 +1,6 @@
 <template>
   <div id="app">
     <div>
-      <div style="text-align: center;">
-        <img src="/sample-header.png" style="margin: 40px auto 0;">
-      </div>
       <button type="button" @click="switchPreview(false)">
         Editorモード
       </button>
