@@ -3,4 +3,5 @@ export interface AlisEditorConfig {
   preview: boolean
   iframelyApikey: string
   uploadEndpoint: string
+  axiosConfig: any
 }

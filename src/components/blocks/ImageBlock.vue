@@ -53,6 +53,10 @@ export default Vue.extend({
     uploadEndpoint: {
       default: null,
       type: String
+    },
+    axiosConfig: {
+      type: Object,
+      default: {}
     }
   },
   data() {
@@ -73,9 +77,9 @@ export default Vue.extend({
     if (this.uploadEndpoint) {
       const articleImageData = src.substring((src.match(',') as any).index + 1)
       const imageContentType = src.substring((src.match(':') as any).index + 1, (src.match(';') as any).index)
-      const config = {
+      const config = Object.assign({}, this.axiosConfig, {
         headers: { 'content-type': imageContentType }
-      }
+      })
       console.log(this.uploadEndpoint)
       const { image_url } = (await axios.post(this.uploadEndpoint, { article_image: articleImageData }, config)).data
       const { block } = this

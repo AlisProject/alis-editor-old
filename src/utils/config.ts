@@ -6,6 +6,7 @@ export const configProps = {
     articleId: '',
     preview: false,
     iframelyApikey: '',
-    uploadEndpoint: ''
+    uploadEndpoint: '',
+    axiosConfig: {}
   })
 }
