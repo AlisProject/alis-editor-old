@@ -40,9 +40,6 @@ import { ImageBlock } from '../../types/Blocks'
 import { createBlogImageFromDataURI } from '../../utils/createImage'
 import ShadowInput from '../utils/ShadowInput.vue'
 
-axios.defaults.headers.authorization = 'Client-ID ' + process.env.VUE_APP_IMGUR_KEY
-console.log('Client-ID ' + process.env.VUE_APP_IMGUR_KEY)
-
 export default Vue.extend({
   components: {
     ShadowInput
@@ -52,6 +49,10 @@ export default Vue.extend({
     preview: {
       default: false,
       type: Boolean
+    },
+    uploadEndpoint: {
+      default: null,
+      type: String
     }
   },
   data() {
@@ -66,13 +67,30 @@ export default Vue.extend({
   },
   async mounted() {
     const { src } = this.block.payload
-    if (src.startsWith('data')) {
+    if (!src.startsWith('data')) {
+      return
+    }
+    if (this.uploadEndpoint) {
+      const articleImageData = src.substring((src.match(',') as any).index + 1)
+      const imageContentType = src.substring((src.match(':') as any).index + 1, (src.match(';') as any).index)
+      const config = {
+        headers: { 'content-type': imageContentType }
+      }
+      console.log(this.uploadEndpoint)
+      const { image_url } = (await axios.post(this.uploadEndpoint, { article_image: articleImageData }, config)).data
+      const { block } = this
+      block.payload.src = image_url
+      this.$emit('update', block)
+      return
+    } else {
+      console.warn('Image uploader is running at development mode.')
       const params = new FormData()
       params.append('image', createBlogImageFromDataURI(src))
       const { data } = await axios.post('https://api.imgur.com/3/image', params)
       const { block } = this
       block.payload.src = data.data.link
       this.$emit('update', block)
+      return
     }
   },
   methods: {

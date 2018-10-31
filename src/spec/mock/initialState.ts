@@ -29,7 +29,7 @@ export default [
         id: uuid(),
         type: BlockType.Text,
         payload: {
-          body: '第一節 白うさぎ'
+          body: '<script>alert(1)</script><h1>第一節 白うさぎ</h1>'
         }
       }
     ]
@@ -64,7 +64,7 @@ export default [
     id: uuid(),
     type: BlockType.Embed,
     payload: {
-      src: 'https://twitter.com/ALIS_media/status/1036753823102947329'
+      src: 'javascript:alert("XSS");'
     }
   },
   {
@@ -75,10 +75,18 @@ export default [
     }
   },
   {
-    id: '9cf0f329-e53b-4340-a96b-e58a9ef8b61e',
+    id: '9cf0f329-e53b-4340-a96b-e58a9ef8b61d',
     type: BlockType.Image,
     payload: {
       src: 'https://i.imgur.com/c4zRkB7.png'
+    },
+    children: []
+  },
+  {
+    id: '9cf0f329-e53b-4340-a96b-e58a9ef8b61e',
+    type: BlockType.Image,
+    payload: {
+      src: 'javascript:alert("XSS3");'
     },
     children: []
   },
@@ -94,7 +102,7 @@ export default [
     id: uuid(),
     type: BlockType.Paragraph,
     payload: {
-      body: 'http://www.gutenberg.org/ebooks/11'
+      body: '<p>http://www.gutenberg.org/ebooks/11</p>'
     }
   }
 ]

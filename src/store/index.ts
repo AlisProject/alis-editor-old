@@ -54,7 +54,7 @@ class Store<S> {
     const { blocks } = this.instance.$data
     const beforeId = findRootIdByBlockId(beforeContent.id, blocks)
     const beforeIndex = blocks.findIndex((b: Block) => b.id === beforeId)
-    if (!beforeIndex) {
+    if (!(beforeIndex + 1)) {
       return
     }
     blocks.splice(beforeIndex + 1, 0, content)
