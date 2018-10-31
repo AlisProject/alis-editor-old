@@ -41,6 +41,7 @@
           </div>
         </li>
       </ul>
+      <!--
       <ul class="editor-toolbar editor-toolbar--decoration" :class="{ 'is-active': isDecoration }">
         <li class="editor-toolbar__item" @click="appendHeading">
           <ToolbarIcon
@@ -61,15 +62,13 @@
           />
         </li>
         <li class="editor-toolbar__item">
-          <!-- reserved -->
         </li>
         <li class="editor-toolbar__item">
-          <!-- reserved -->
         </li>
         <li class="editor-toolbar__item editor-toolbar__item-stats">
-          <!-- reserved -->
         </li>
       </ul>
+      -->
       <input type="file" style="display: none;" @change="handleUpload" />
     </div>
 </template>
@@ -202,6 +201,10 @@ export default Vue.extend({
 }
 
 @media (min-width: 1080px) {
+  .toolbar-wrapper {
+    display: none;
+  }
+
   .editor-toolbar {
     width: 900px;
   }
