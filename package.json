@@ -1,6 +1,6 @@
 {
   "name": "alis-editor",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "author": "HANATANI Takuma <mail@potato4d.me>",
   "scripts": {
     "serve": "vue-cli-service serve src/entry.develop.ts",

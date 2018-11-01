@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/AlisProject/alis-editor/compare/v0.4.1...v0.5.0) (2018-11-01)
+
+
+### Bug Fixes
+
+* Fix toggle preview bug(on development only) ([5b30afe](https://github.com/AlisProject/alis-editor/commit/5b30afe))
+
+
+### Features
+
+* Fix autosize bug ([1511aa5](https://github.com/AlisProject/alis-editor/commit/1511aa5))
+* Implement textarea auto-resize ([82d620f](https://github.com/AlisProject/alis-editor/commit/82d620f))
+
+
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://github.com/AlisProject/alis-editor/compare/v0.4.0...v0.4.1) (2018-11-01)
 
