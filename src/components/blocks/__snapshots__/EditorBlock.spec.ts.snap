@@ -2,7 +2,7 @@
 
 exports[`EditorBlock.vue renders correctly (preview mode) 1`] = `
 <div class="block" preview="true">
-  <div class="wrapper paragraph" articleid="" iframelyapikey="" uploadendpoint="">
+  <div class="wrapper paragraph" articleid="" iframelyapikey="" uploadendpoint="" axiosconfig="[object Object]">
     <div contenteditable="true" class="target paragraph">
       <p>foo</p>
     </div>
@@ -14,7 +14,7 @@ exports[`EditorBlock.vue renders correctly (preview mode) 1`] = `
 
 exports[`EditorBlock.vue renders correctly 1`] = `
 <div class="block">
-  <div class="wrapper paragraph" articleid="" iframelyapikey="" uploadendpoint="">
+  <div class="wrapper paragraph" articleid="" iframelyapikey="" uploadendpoint="" axiosconfig="[object Object]">
     <div contenteditable="true" class="target paragraph">
       <p>foo</p>
     </div>

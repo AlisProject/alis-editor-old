@@ -57,7 +57,9 @@ function createBlockTemplate(type: BlockType) {
       return {
         type: BlockType.Image,
         payload: {
-          src: ''
+          src: '',
+          align: 'center',
+          caption: ''
         }
       }
     }

@@ -5,7 +5,7 @@ exports[`ParagraphBlock.vue renders correctly (preview mode) 1`] = `
   class="wrapper paragraph"
 >
   <div
-    class="target paragraph"
+    class="target paragraph preview"
     contenteditable="false"
   >
     foo

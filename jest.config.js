@@ -9,6 +9,7 @@ module.exports = {
   ],
   transform: {
     '^.+\\.vue$': 'vue-jest',
+    "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
     '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
     '^.+\\.ts$': 'ts-jest'
   },

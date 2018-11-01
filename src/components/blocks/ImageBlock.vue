@@ -1,6 +1,6 @@
 <template>
   <div
-    class="image"
+    class="aliseditor--image"
     :class="{
       'is-uploading': isUploading,
       'is-focus': isFocus
@@ -9,27 +9,55 @@
       textAlign: block.payload.align
     }"
     v-if="!preview"
+    @mouseover="handleHover"
   >
-    <img :src="block.payload.src">
-    <ShadowInput
-      @delete="handleDelete"
-      @addimageuri="handleAddImage"
-    />
-    <div class="image-uploading" v-if="isUploading">Uploading...</div>
-    <div class="image-toolbar" v-if="!isUploading">
-      <div class="toolbar-item" @click="handleDelete">
+    <div style="display: inline-block;position: relative">
+      <span class="image--wrapper">
+        <img :src="block.payload.src" class="main-image"><br>
+        <ShadowInput
+          @delete="handleDelete"
+          @addimageuri="handleAddImage"
+        />
+        <input
+          class="image--caption"
+          placeholder="説明文を入力"
+          :value="this.block.payload.caption"
+          @input="handleInputCaption"
+        >
+      </span>
+      <div class="image-uploading" v-if="isUploading">Uploading...</div>
+      <div class="image-toolbar" v-if="!isUploading">
+        <div class="toolbar-item" :class="{ 'is-active': this.block.payload.align === 'left' }"  @click="handleChangeAlign('left')">
+          <img src="../../assets/image/align-left.svg">
+        </div>
+        <div class="toolbar-item" :class="{ 'is-active': this.block.payload.align === 'center' || !this.block.payload.align }" @click="handleChangeAlign('center')">
+          <img src="../../assets/image/align-center.svg">
+        </div>
+        <div class="toolbar-item" :class="{ 'is-active': this.block.payload.align === 'right' }" @click="handleChangeAlign('right')">
+          <img src="../../assets/image/align-right.svg">
+        </div>
+      </div>
+      <div
+        class="delete-button"
+        @click="handleDelete"
+        :style="{
+          left: deleteButtonPosition.left
+        }">
         &times;
       </div>
     </div>
   </div>
   <div
-    class="image preview"
+    class="aliseditor--image preview"
     :style="{
       textAlign: block.payload.align
     }"
     v-else
   >
-    <img :src="block.payload.src">
+    <div class="preview-content">
+      <img :src="block.payload.src"><br>
+      <p class="caption">{{block.payload.caption}}</p>
+    </div>
   </div>
 </template>
 
@@ -61,7 +89,10 @@ export default Vue.extend({
   },
   data() {
     return {
-      isFocus: false
+      isFocus: false,
+      deleteButtonPosition: {
+        left: ''
+      }
     }
   },
   computed: {
@@ -103,23 +134,36 @@ export default Vue.extend({
     handleBlur() {
       this.isFocus = false
     },
-    handleKeydown(event: any) {
-      if (event.keyCode === 7) {
-        this.$emit('delete', this.block)
-      }
+    handleInputCaption(event: KeyboardEvent) {
+      const caption = (event.target as HTMLInputElement).value
+      const { block } = this
+      block.payload.caption = caption
+      this.$emit('update', block)
     },
     handleDelete() {
       this.$emit('delete', this.block)
     },
     handleAddImage(src: string) {
       this.$emit('addimageuri', src)
+    },
+    handleHover() {
+      this.deleteButtonPosition.left = `calc(50% + ${this.$el.querySelector('img')!.width * 0.5 - 40}px)`
+    },
+    handleChangeAlign(align: string) {
+      const { src } = this.block.payload
+      if (src.startsWith('data')) {
+        return
+      }
+      const { block } = this
+      block.payload.align = align
+      this.$emit('update', block)
     }
   }
 })
 </script>
 
 <style scoped>
-.image {
+.aliseditor--image {
   position: relative;
   border: solid 2px transparent;
   line-height: 0;
@@ -127,20 +171,33 @@ export default Vue.extend({
   margin: 0 8px;
 }
 
-.image:hover,
-.image.is-focus {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
+.aliseditor--image.preview {
+  font-size: 12px;
 }
 
-.image.preview:hover {
-  box-shadow: none;
+.aliseditor--image.preview .preview-content {
+  display: inline-block;
+  text-align: center;
 }
 
-.image.is-uploading {
+.aliseditor--image.preview .caption {
+  margin-top: 16px;
+}
+
+.aliseditor--image .main-image {
+  border: solid 2px transparent;
+}
+
+.aliseditor--image:not(.preview):hover .main-image,
+.aliseditor--image.is-focus .main-image {
+  border: solid 2px #000;
+}
+
+.aliseditor--image.is-uploading {
   background: #000;
 }
 
-.image .image-uploading {
+.aliseditor--image .image-uploading {
   position: absolute;
   left: 0;
   top: 0;
@@ -168,31 +225,69 @@ img[src^='data:'] {
   display: none;
 }
 
-.image:hover .image-toolbar,
-.image.is-focus .image-toolbar {
-  position: absolute;
-  right: -10px;
-  top: -10px;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 100000000000000;
+.image--wrapper {
+  display: inline-block;
+  text-align: center;
 }
 
-.image-toolbar .toolbar-item {
-  width: 20px;
-  height: 20px;
+.image--caption {
+  z-index: 110;
+  position: relative;
+  margin-top: 10px;
+  resize: none;
+  outline: none;
+  border: 0;
+  font-size: 12px;
+  width: 240px;
+  text-align: center;
+}
+
+.aliseditor--image:hover .image-toolbar,
+.aliseditor--image.is-focus .image-toolbar {
+  position: absolute;
+  left: calc(50% - 60px);
+  bottom: 40px;
+  width: 120px;
+  height: 40px;
   background: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 100000000000000;
-  border-radius: 50%;
-  overflow: hidden;
-  border: solid 1px #000;
+  filter: drop-shadow(0 3px 5px rgba(192, 192, 192, 0.5));
+}
+
+.image-toolbar .toolbar-item {
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+}
+
+.image-toolbar .toolbar-item.is-active {
+  background: #858dda;
+}
+
+.aliseditor--image:not(:hover) .delete-button {
+  display: none;
+}
+
+.delete-button {
+  position: absolute;
+  top: 10px;
+  background: #fff;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  filter: drop-shadow(0 3px 5px rgba(192, 192, 192, 0.5));
+  z-index: 120;
 }
 </style>

@@ -11,7 +11,8 @@
         :config="{
           articleId: '12345',
           preview,
-          iframelyApikey
+          iframelyApikey,
+          axiosConfig: {}
         }"
         @export="handleExport"
         :initialState="initalState" />

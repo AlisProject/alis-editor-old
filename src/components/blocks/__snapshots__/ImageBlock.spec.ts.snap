@@ -2,31 +2,81 @@
 
 exports[`ImageBlock.vue renders correctly (preview mode) 1`] = `
 <div
-  class="image preview"
+  class="aliseditor--image preview"
 >
-  <img
-    src="https://github.com/potato4d.png"
-  />
+  <div
+    class="preview-content"
+  >
+    <img
+      src="https://github.com/potato4d.png"
+    />
+    <br />
+     
+    <p
+      class="caption"
+    >
+      
+    </p>
+  </div>
 </div>
 `;
 
 exports[`ImageBlock.vue renders correctly 1`] = `
 <div
-  class="image"
+  class="aliseditor--image"
 >
-  <img
-    src="https://github.com/potato4d.png"
-  />
-   
-  <shadowinput-stub />
-   
-  <!---->
-   
   <div
-    class="image-toolbar"
+    style="display: inline-block; position: relative;"
   >
+    <span
+      class="image--wrapper"
+    >
+      <img
+        class="main-image"
+        src="https://github.com/potato4d.png"
+      />
+      <br />
+       
+      <shadowinput-stub />
+       
+      <input
+        class="image--caption"
+        placeholder="説明文を入力"
+      />
+    </span>
+     
+    <!---->
+     
     <div
-      class="toolbar-item"
+      class="image-toolbar"
+    >
+      <div
+        class="toolbar-item"
+      >
+        <img
+          src="../../assets/image/align-left.svg"
+        />
+      </div>
+       
+      <div
+        class="toolbar-item is-active"
+      >
+        <img
+          src="../../assets/image/align-center.svg"
+        />
+      </div>
+       
+      <div
+        class="toolbar-item"
+      >
+        <img
+          src="../../assets/image/align-right.svg"
+        />
+      </div>
+    </div>
+     
+    <div
+      class="delete-button"
     >
       
       ×

@@ -83,14 +83,6 @@ export default [
     children: []
   },
   {
-    id: '9cf0f329-e53b-4340-a96b-e58a9ef8b61e',
-    type: BlockType.Image,
-    payload: {
-      src: 'javascript:alert("XSS3");'
-    },
-    children: []
-  },
-  {
     id: 'fewaarfa-123rewgrszb-t42qgvzaeg-awetw',
     type: BlockType.Paragraph,
     payload: {

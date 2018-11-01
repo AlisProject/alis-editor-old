@@ -38,7 +38,7 @@ textarea {
   outline: none !important;
   display: block !important;
   position: absolute !important;
-  z-index: 100000 !important;
+  z-index: 110 !important;
   width: 100% !important;
   height: 100% !important;
   left: 0 !important;
@@ -46,5 +46,6 @@ textarea {
   border: 0 !important;
   padding: 0 !important;
   margin: 0 !important;
+  cursor: default;
 }
 </style>

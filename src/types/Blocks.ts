@@ -45,6 +45,7 @@ export interface ImageBlock extends Block {
   payload: {
     src: string
     align?: string
+    caption?: string
   }
   children: Block[]
 }
