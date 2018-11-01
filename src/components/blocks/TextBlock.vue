@@ -38,6 +38,13 @@ export default Vue.extend({
   mounted() {
     autosize(this.$el)
   },
+  watch: {
+    'preview': function() {
+      requestAnimationFrame(() => {
+        autosize(this.$el)
+      })
+    }
+  },
   methods: {
     handleFocus() {
       this.$emit('focus')
