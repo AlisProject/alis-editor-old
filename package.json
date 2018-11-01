@@ -9,7 +9,7 @@
     "dev": "yarn serve",
     "format": "prettier './{src,spec}/**/**.{ts,vue}' --write",
     "release": "bash release.sh",
-    "test": "vue-cli-service test:unit",
+    "test": "vue-cli-service test:unit --no-cache",
     "test:unit": "vue-cli-service test:unit",
     "release:prebuild": "yarn build",
     "release:postbuild": "git push --follow-tags origin master && npm publish",

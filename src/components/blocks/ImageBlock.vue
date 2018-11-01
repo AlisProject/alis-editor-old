@@ -28,13 +28,13 @@
       <div class="image-uploading" v-if="isUploading">Uploading...</div>
       <div class="image-toolbar" v-if="!isUploading">
         <div class="toolbar-item" :class="{ 'is-active': this.block.payload.align === 'left' }"  @click="handleChangeAlign('left')">
-          <img src="../../assets/image/align-left.svg">
+          <AlignLeft />
         </div>
         <div class="toolbar-item" :class="{ 'is-active': this.block.payload.align === 'center' || !this.block.payload.align }" @click="handleChangeAlign('center')">
-          <img src="../../assets/image/align-center.svg">
+          <AlignCenter />
         </div>
         <div class="toolbar-item" :class="{ 'is-active': this.block.payload.align === 'right' }" @click="handleChangeAlign('right')">
-          <img src="../../assets/image/align-right.svg">
+          <AlignRight />
         </div>
       </div>
       <div
@@ -67,10 +67,16 @@ import axios from 'axios'
 import { ImageBlock } from '../../types/Blocks'
 import { createBlogImageFromDataURI } from '../../utils/createImage'
 import ShadowInput from '../utils/ShadowInput.vue'
+import AlignLeft from '../vector/AlignLeft.vue'
+import AlignCenter from '../vector/AlignCenter.vue'
+import AlignRight from '../vector/AlignRight.vue'
 
 export default Vue.extend({
   components: {
-    ShadowInput
+    ShadowInput,
+    AlignLeft,
+    AlignCenter,
+    AlignRight
   },
   props: {
     block: Object as () => ImageBlock,

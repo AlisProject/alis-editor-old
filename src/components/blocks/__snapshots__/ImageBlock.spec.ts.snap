@@ -53,25 +53,136 @@ exports[`ImageBlock.vue renders correctly 1`] = `
       <div
         class="toolbar-item"
       >
-        <img
-          src="../../assets/image/align-left.svg"
-        />
+        <svg
+          class="feather feather-align-left"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <line
+            x1="17"
+            x2="3"
+            y1="10"
+            y2="10"
+          />
+           
+          <line
+            x1="21"
+            x2="3"
+            y1="6"
+            y2="6"
+          />
+           
+          <line
+            x1="21"
+            x2="3"
+            y1="14"
+            y2="14"
+          />
+           
+          <line
+            x1="17"
+            x2="3"
+            y1="18"
+            y2="18"
+          />
+        </svg>
       </div>
        
       <div
         class="toolbar-item is-active"
       >
-        <img
-          src="../../assets/image/align-center.svg"
-        />
+        <svg
+          class="feather feather-align-center"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <line
+            x1="18"
+            x2="6"
+            y1="10"
+            y2="10"
+          />
+           
+          <line
+            x1="21"
+            x2="3"
+            y1="6"
+            y2="6"
+          />
+           
+          <line
+            x1="21"
+            x2="3"
+            y1="14"
+            y2="14"
+          />
+           
+          <line
+            x1="18"
+            x2="6"
+            y1="18"
+            y2="18"
+          />
+        </svg>
       </div>
        
       <div
         class="toolbar-item"
       >
-        <img
-          src="../../assets/image/align-right.svg"
-        />
+        <svg
+          class="feather feather-align-right"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <line
+            x1="21"
+            x2="7"
+            y1="10"
+            y2="10"
+          />
+           
+          <line
+            x1="21"
+            x2="3"
+            y1="6"
+            y2="6"
+          />
+           
+          <line
+            x1="21"
+            x2="3"
+            y1="14"
+            y2="14"
+          />
+           
+          <line
+            x1="21"
+            x2="7"
+            y1="18"
+            y2="18"
+          />
+        </svg>
       </div>
     </div>
      
