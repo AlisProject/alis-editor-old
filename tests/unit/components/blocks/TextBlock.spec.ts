@@ -1,20 +1,18 @@
 import { mount, config } from '@vue/test-utils'
-import HeadingBlock from './HeadingBlock.vue'
-import * as BlockTypes from '../../types/Blocks'
+import TextBlock from '@/components/blocks/TextBlock.vue'
+import * as BlockTypes from '@/types/Blocks'
 config.logModifiedComponents = false
 
-describe('HeadingBlock.vue', () => {
+describe('TextBlock.vue', () => {
   test('renders correctly', () => {
-    const block: BlockTypes.HeadingBlock = {
+    const block: BlockTypes.TextBlock = {
       id: '123',
-      type: BlockTypes.BlockType.Heading,
+      type: BlockTypes.BlockType.Text,
       payload: {
-        size: 'h2',
         body: 'foo'
-      },
-      children: []
+      }
     }
-    const wrapper = mount(HeadingBlock, {
+    const wrapper = mount(TextBlock, {
       propsData: {
         block
       },
@@ -24,16 +22,14 @@ describe('HeadingBlock.vue', () => {
   })
 
   test('renders correctly (preview mode)', () => {
-    const block: BlockTypes.HeadingBlock = {
+    const block: BlockTypes.TextBlock = {
       id: '123',
-      type: BlockTypes.BlockType.Heading,
+      type: BlockTypes.BlockType.Text,
       payload: {
-        size: 'h2',
         body: 'foo'
-      },
-      children: []
+      }
     }
-    const wrapper = mount(HeadingBlock, {
+    const wrapper = mount(TextBlock, {
       propsData: {
         block,
         preview: true

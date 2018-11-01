@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import ToolbarIcon from './ToolbarIcon.vue'
+import ToolbarIcon from '@/components/menu/ToolbarIcon.vue'
 
 describe('ToolbarIcon.vue', () => {
   test('renders correctly', () => {

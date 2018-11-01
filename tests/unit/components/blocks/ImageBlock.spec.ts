@@ -1,5 +1,5 @@
 import { mount, config } from '@vue/test-utils'
-import ImageBlock from './ImageBlock.vue'
+import ImageBlock from '@/components/blocks/ImageBlock.vue'
 config.logModifiedComponents = false
 
 describe('ImageBlock.vue', () => {

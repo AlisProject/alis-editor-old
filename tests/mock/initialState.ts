@@ -1,5 +1,5 @@
 import uuid from 'uuid/v4'
-import { BlockType } from '../../types/Blocks'
+import { BlockType } from '@/types/Blocks'
 
 export default [
   {

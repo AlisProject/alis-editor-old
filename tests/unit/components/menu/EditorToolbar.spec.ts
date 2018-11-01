@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import EditorToolbar from './EditorToolbar.vue'
+import EditorToolbar from '@/components/menu/EditorToolbar.vue'
 
 describe('EditorToolbar.vue', () => {
   test('renders correctly', () => {

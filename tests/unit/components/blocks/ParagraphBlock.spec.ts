@@ -1,6 +1,6 @@
 import { mount, config } from '@vue/test-utils'
-import ParagraphBlock from './ParagraphBlock.vue'
-import * as BlockTypes from '../../types/Blocks'
+import ParagraphBlock from '@/components/blocks/ParagraphBlock.vue'
+import * as BlockTypes from '@/types/Blocks'
 config.logModifiedComponents = false
 
 describe('ParagraphBlock.vue', () => {

@@ -1,6 +1,6 @@
 import { mount, config } from '@vue/test-utils'
-import QuoteBlock from './QuoteBlock.vue'
-import * as BlockTypes from '../../types/Blocks'
+import QuoteBlock from '@/components/blocks/QuoteBlock.vue'
+import * as BlockTypes from '@/types/Blocks'
 config.logModifiedComponents = false
 
 describe('QuoteBlock.vue', () => {

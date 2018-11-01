@@ -1,6 +1,6 @@
 import { mount, config } from '@vue/test-utils'
-import EditorBlock from './EditorBlock.vue'
-import * as BlockTypes from '../../types/Blocks'
+import EditorBlock from '@/components/blocks/EditorBlock.vue'
+import * as BlockTypes from '@/types/Blocks'
 config.logModifiedComponents = false
 
 describe('EditorBlock.vue', () => {

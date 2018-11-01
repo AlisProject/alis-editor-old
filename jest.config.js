@@ -14,13 +14,14 @@ module.exports = {
     '^.+\\.ts$': 'ts-jest'
   },
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^~/(.*)$': '<rootDir>/src/$1'
   },
   snapshotSerializers: [
     'jest-serializer-vue'
   ],
   testMatch: [
-    '**/{src,spec}/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
+    '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
   ],
   testURL: 'http://localhost/',
   globals: {

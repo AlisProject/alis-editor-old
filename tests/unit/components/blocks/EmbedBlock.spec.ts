@@ -1,6 +1,6 @@
 import { mount, config } from '@vue/test-utils'
-import EmbedBlock from './EmbedBlock.vue'
-import * as BlockTypes from '../../types/Blocks'
+import EmbedBlock from '@/components/blocks/EmbedBlock.vue'
+import * as BlockTypes from '@/types/Blocks'
 config.logModifiedComponents = false
 
 describe('EmbedBlock.vue', () => {

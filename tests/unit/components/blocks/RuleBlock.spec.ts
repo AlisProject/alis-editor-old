@@ -1,6 +1,6 @@
 import { mount, config } from '@vue/test-utils'
-import RuleBlock from './RuleBlock.vue'
-import * as BlockTypes from '../../types/Blocks'
+import RuleBlock from '@/components/blocks/RuleBlock.vue'
+import * as BlockTypes from '@/types/Blocks'
 config.logModifiedComponents = false
 
 describe('RuleBlock.vue', () => {
