@@ -19,7 +19,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { TextBlock, BlockType } from '../../types/Blocks'
-import * as autosize from 'autosize'
+import autosize from 'autosize'
 
 export default Vue.extend({
   props: {
@@ -39,7 +39,7 @@ export default Vue.extend({
     autosize(this.$el)
   },
   watch: {
-    'preview': function() {
+    preview: function() {
       requestAnimationFrame(() => {
         autosize(this.$el)
       })
