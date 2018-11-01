@@ -19,6 +19,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { TextBlock, BlockType } from '../../types/Blocks'
+import * as autosize from 'autosize'
 
 export default Vue.extend({
   props: {
@@ -33,6 +34,9 @@ export default Vue.extend({
     rows() {
       return (this as any).block.payload.body.split('\n').length
     }
+  },
+  mounted() {
+    autosize(this.$el)
   },
   methods: {
     handleFocus() {

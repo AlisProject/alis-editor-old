@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "autolinker": "^1.7.1",
+    "autosize": "^4.0.2",
     "axios": "^0.18.0",
     "lodash": "^4.17.10",
     "sanitize-html": "^1.18.3",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@types/autolinker": "^0.24.28",
+    "@types/autosize": "^3.0.6",
     "@types/jest": "^23.3.7",
     "@types/lodash": "^4.14.111",
     "@types/sanitize-html": "^1.18.0",
