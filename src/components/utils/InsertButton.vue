@@ -110,7 +110,7 @@ export default Vue.extend({
   font-size: 25px;
   font-weight: normal;
   font-family: 'Yu Gothic', YuGothic;
-  box-shadow: 0 0 10px 0 hsla(0,0%,57%,.5);
+  box-shadow: 0 0 10px 0 hsla(0, 0%, 57%, 0.5);
 }
 
 .insert-button__toggle span {
