@@ -99,14 +99,18 @@ export default Vue.extend({
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid 1px #000;
+  border: solid 1px #ddd;
+  color: #ddd;
   border-radius: 50%;
   font-weight: bold;
-  line-height: 0;
   padding-left: 1px;
   padding-bottom: 1px;
   transition: all 0.05s linear;
   transform: rotate(0deg);
+  font-size: 25px;
+  font-weight: normal;
+  font-family: 'Yu Gothic', YuGothic;
+  box-shadow: 0 0 10px 0 hsla(0,0%,57%,.5);
 }
 
 .insert-button__toggle span {

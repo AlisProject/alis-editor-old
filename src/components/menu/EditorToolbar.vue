@@ -1,5 +1,5 @@
 <template>
-    <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }">
+    <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }" style="display: none;">
       <ul class="editor-toolbar">
         <li class="editor-toolbar__item" @click="appendHeading">
           <ToolbarIcon
