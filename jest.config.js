@@ -24,7 +24,10 @@ module.exports = {
     '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
   ],
   collectCoverageFrom: [
-    'src/**/*.{ts,vue}'
+    'src/**/*.{ts,vue}',
+    '!src/index.ts',
+    '!src/entry.develop.ts',
+    '!src/DevApp.vue'
   ],
   testURL: 'http://localhost/',
   globals: {

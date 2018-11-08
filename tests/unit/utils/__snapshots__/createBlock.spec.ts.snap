@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`utils/createBlock.ts Embed 1`] = `
+Object {
+  "id": "VVVV-XXXX-YYYY-ZZZZ",
+  "payload": Object {
+    "src": "",
+  },
+  "type": "Embed",
+}
+`;
+
+exports[`utils/createBlock.ts Heading 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "payload": Object {
+        "body": "",
+      },
+      "type": "Text",
+    },
+  ],
+  "id": "VVVV-XXXX-YYYY-ZZZZ",
+  "payload": Object {
+    "size": "h2",
+  },
+  "type": "Heading",
+}
+`;
+
+exports[`utils/createBlock.ts Image 1`] = `
+Object {
+  "id": "VVVV-XXXX-YYYY-ZZZZ",
+  "payload": Object {
+    "align": "center",
+    "caption": "",
+    "src": "",
+  },
+  "type": "Image",
+}
+`;
+
+exports[`utils/createBlock.ts Paragraph 1`] = `
+Object {
+  "id": "VVVV-XXXX-YYYY-ZZZZ",
+  "payload": Object {
+    "body": "",
+  },
+  "type": "Paragraph",
+}
+`;
+
+exports[`utils/createBlock.ts Quote 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "payload": Object {
+        "body": "",
+      },
+      "type": "Text",
+    },
+  ],
+  "id": "VVVV-XXXX-YYYY-ZZZZ",
+  "type": "Quote",
+}
+`;
+
+exports[`utils/createBlock.ts Rule 1`] = `
+Object {
+  "id": "VVVV-XXXX-YYYY-ZZZZ",
+  "type": "Rule",
+}
+`;
+
+exports[`utils/createBlock.ts Text 1`] = `
+Object {
+  "id": "VVVV-XXXX-YYYY-ZZZZ",
+}
+`;
