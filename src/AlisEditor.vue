@@ -1,5 +1,6 @@
 <template lang="html">
   <div id="ALISEditor">
+    <InsertPopup @replace="replaceBlockType" />
     <template v-if="store.state.isInitialized">
       <EditorToolbar
         v-if="!config.preview"
@@ -37,6 +38,7 @@ import Vue from 'vue'
 import uuid from 'uuid/v4'
 import EditorBlock from './components/blocks/EditorBlock.vue'
 import EditorToolbar from './components/menu/EditorToolbar.vue'
+import InsertPopup from './components/utils/InsertPopup.vue'
 import { Block, BlockType, ParagraphBlock } from './types/Blocks'
 import { createBlock } from './utils/createBlock'
 import { createDataURIImage } from './utils/createImage'
@@ -46,6 +48,7 @@ import { EditorStore } from './store/'
 import { cloneDeep } from 'lodash'
 import urlregex from 'url-regex'
 import { configProps } from './utils/config'
+const sanitize = require('sanitize-html/src/index.js')
 
 interface EditorState {
   active: string | null
@@ -81,7 +84,8 @@ export default Vue.extend({
   },
   components: {
     EditorBlock,
-    EditorToolbar
+    EditorToolbar,
+    InsertPopup
   },
   mounted() {
     this.beforeBlockSnapshot = JSON.stringify(this.store.state.blocks)
@@ -122,6 +126,19 @@ export default Vue.extend({
         payload: { src },
         children: []
       })
+    },
+    replaceBlockType(type: BlockType) {
+      const aR = this.activeRoot
+      if (!aR) {
+        return
+      }
+      const skeleton = createBlock(type, {})
+      console.log(skeleton)
+      skeleton.id = aR.id
+      ;(skeleton as any).children[0].payload.body = sanitize(aR.payload.body, {
+        allowedTags: []
+      })
+      this.updateBlock(skeleton)
     },
     handleKeydown(id: string, event: KeyboardEvent) {
       if (isMobile()) {
