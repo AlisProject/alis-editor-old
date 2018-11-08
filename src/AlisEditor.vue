@@ -40,7 +40,7 @@ import EditorToolbar from './components/menu/EditorToolbar.vue'
 import { Block, BlockType, ParagraphBlock } from './types/Blocks'
 import { createBlock } from './utils/createBlock'
 import { createDataURIImage } from './utils/createImage'
-import { isMobile } from './utils/deviceUtil'
+import { isMobile, isDesktop } from './utils/deviceUtil'
 import { findRootIdByBlockId, findTreeContentById } from './utils/applyTree'
 import { EditorStore } from './store/'
 import { cloneDeep } from 'lodash'
@@ -126,43 +126,66 @@ export default Vue.extend({
       })
     },
     handleKeydown(id: string, event: KeyboardEvent) {
-      if (event.keyCode === 13) {
-        const childId = findRootIdByBlockId(id, this.store.state.blocks)
-        if (!childId) {
+      if (isMobile()) {
+        if (event.keyCode === 13) {
+          const childId = findRootIdByBlockId(id, this.store.state.blocks)
+          if (!childId) {
+            return
+          }
+          const nowContent = findTreeContentById(childId, this.store.state.blocks)
+          if (!nowContent || (nowContent && nowContent.type !== BlockType.Paragraph)) {
+            event.preventDefault()
+          }
           return
         }
-        const nowContent = findTreeContentById(childId, this.store.state.blocks)
-        if (!nowContent || (nowContent && nowContent.type !== BlockType.Paragraph)) {
-          event.preventDefault()
-        }
-        return
       }
-      this.isPressedEnter = false
+      if (event.keyCode !== 13) {
+        this.isPressedEnter = false
+      }
     },
     handleKeydownEnter(id: string, event: KeyboardEvent) {
       const childId = findRootIdByBlockId(id, this.store.state.blocks)
       if (!childId) {
         return
       }
+
       const nowContent = findTreeContentById(childId, this.store.state.blocks)
       if (!nowContent) {
         return
       }
-      if (nowContent.type === 'Paragraph') {
-        if (!this.isPressedEnter) {
-          this.isPressedEnter = true
+
+      if (isDesktop()) {
+        if (event.shiftKey) {
           return
         }
-        this.isPressedEnter = false
+        event.preventDefault()
         requestAnimationFrame(() => {
-          this.doubleEnterGesture(nowContent, event)
+          this.appendNewBlock(nowContent.id, {
+            type: BlockType.Paragraph,
+            payload: {
+              body: ''
+            }
+          })
         })
-        return
       }
-      requestAnimationFrame(() => {
-        this.singleEnterGesture(nowContent, event)
-      })
-      this.isPressedEnter = false
+
+      if (isMobile()) {
+        if (nowContent.type === 'Paragraph') {
+          if (!this.isPressedEnter) {
+            this.isPressedEnter = true
+            return
+          }
+          this.isPressedEnter = false
+          requestAnimationFrame(() => {
+            this.doubleEnterGesture(nowContent, event)
+          })
+          return
+        }
+        requestAnimationFrame(() => {
+          this.singleEnterGesture(nowContent, event)
+        })
+        this.isPressedEnter = false
+      }
     },
     singleEnterGesture(content: Block, event: KeyboardEvent) {
       event.preventDefault()
