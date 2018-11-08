@@ -12,7 +12,11 @@
           articleId: '12345',
           preview,
           iframelyApikey,
-          axiosConfig: {}
+          axiosConfig: {
+            headers: {
+              authorization: imgurApiKey
+            }
+          }
         }"
         @export="handleExport"
         :initialState="initalState" />
@@ -34,7 +38,8 @@ export default Vue.extend({
     return {
       initalState,
       preview: false,
-      iframelyApikey: process.env.VUE_APP_IFRAMELY_API_KEY
+      iframelyApikey: process.env.VUE_APP_IFRAMELY_API_KEY,
+      imgurApiKey: `Client-ID ${process.env.VUE_APP_IMGUR_KEY}`
     }
   },
   methods: {

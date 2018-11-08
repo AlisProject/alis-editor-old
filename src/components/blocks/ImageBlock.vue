@@ -20,6 +20,9 @@
         />
         <input
           class="image--caption"
+          :style="{
+            opacity: `${+(!isUploading)}.0`
+          }"
           placeholder="説明文を入力"
           :value="this.block.payload.caption"
           @input="handleInputCaption"
@@ -124,9 +127,10 @@ export default Vue.extend({
       return
     } else {
       console.warn('Image uploader is running at development mode.')
+      const config = Object.assign({ headers: {} }, this.axiosConfig)
       const params = new FormData()
       params.append('image', createBlogImageFromDataURI(src))
-      const { data } = await axios.post('https://api.imgur.com/3/image', params)
+      const { data } = await axios.post('https://api.imgur.com/3/image', params, config)
       const { block } = this
       block.payload.src = data.data.link
       this.$emit('update', block)

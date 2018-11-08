@@ -51,7 +51,7 @@ blockquote {
   letter-spacing: 0.1em;
   line-height: 1.5;
   margin: 0.5em 0;
-  padding: 20px;
+  padding: 20px 20px 15px;
   word-break: break-word;
 }
 
@@ -59,7 +59,7 @@ blockquote textarea {
   font-family: 'YuGothic', 'Yu Gothic';
   font-size: 16px;
   letter-spacing: 0.1em;
-  line-height: 1.5;
+  line-height: 1.75;
   margin: 0;
   word-break: break-word;
 }

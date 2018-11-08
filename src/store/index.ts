@@ -37,7 +37,6 @@ class Store<S> {
 
   setBlocks(blocks: Block[]) {
     this.instance.$data.blocks = cloneDeep([...blocks])
-    console.log('UPDATE BLOCK:', this.instance.$data.blocks)
   }
 
   updateBlock(content: Block) {
