@@ -71,7 +71,7 @@ textarea {
 }
 
 .text.preview {
-  line-height: 1.5;
+  line-height: 1.75;
   padding: 0;
 }
 </style>

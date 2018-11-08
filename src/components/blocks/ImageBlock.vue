@@ -293,7 +293,8 @@ img[src^='data:'] {
   background: #858dda;
 }
 
-.aliseditor--image:not(:hover) .delete-button {
+.aliseditor--image:not(:hover) .delete-button,
+.aliseditor--image.is-uploading .delete-button {
   display: none;
 }
 
