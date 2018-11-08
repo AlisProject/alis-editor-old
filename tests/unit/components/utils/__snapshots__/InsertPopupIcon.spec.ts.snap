@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InsertPopupIcon.vue renders correctly 1`] = `
+<div
+  class="editor-insert-button__icon"
+>
+  <div
+    class="editor-insert-button__iconContent"
+  />
+</div>
+`;

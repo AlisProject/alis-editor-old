@@ -23,6 +23,9 @@ module.exports = {
   testMatch: [
     '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
   ],
+  collectCoverageFrom: [
+    'src/**/*.{ts,vue}'
+  ],
   testURL: 'http://localhost/',
   globals: {
     'ts-jest': {
