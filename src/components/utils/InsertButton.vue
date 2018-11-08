@@ -10,10 +10,21 @@
       <span>+</span>
     </div>
     <ul class="insert-button__list" v-if="isOpen">
-      <li class="insert-button__listItem" @click="dispatchUpload">画像</li>
-      <li class="insert-button__listItem" @click="appendRule">罫線</li>
-      <li class="insert-button__listItem" @click="appendQuote">引用</li>
-      <li class="insert-button__listItem" @click="appendHeading">大見出し</li>
+      <li class="insert-button__listItem" @click="dispatchUpload">
+        <InsertButtonIcon :src="require('../../assets/icon-image.svg.js')" />
+      </li>
+      <li class="insert-button__listItem" @click="appendRule">
+        <InsertButtonIcon :src="require('../../assets/icon-rule.svg.js')" />
+      </li>
+      <li class="insert-button__listItem" @click="appendQuote">
+        <InsertButtonIcon :src="require('../../assets/icon-quote.svg.js')" />
+      </li>
+      <li class="insert-button__listItem" @click="appendHeading">
+        <InsertButtonIcon :src="require('../../assets/icon-h2.svg.js')" />
+      </li>
+      <li class="insert-button__listItem" @click="appendHeading">
+        <InsertButtonIcon :src="require('../../assets/icon-h3.svg.js')" />
+      </li>
     </ul>
     <input type="file" @change="handleUpload" />
   </div>
@@ -21,6 +32,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import InsertButtonIcon from './InsertButtonIcon.vue'
 import { BlockType } from '../../types/Blocks'
 
 export default Vue.extend({
@@ -28,6 +40,9 @@ export default Vue.extend({
     return {
       isOpen: false
     }
+  },
+  components: {
+    InsertButtonIcon
   },
   methods: {
     toggleIsOpen() {
@@ -81,6 +96,7 @@ export default Vue.extend({
   margin: 8px;
   cursor: pointer;
   z-index: 1000000000000000000;
+  display: flex;
 }
 
 .insert-button .insert-button__toggle {
@@ -113,23 +129,39 @@ export default Vue.extend({
 }
 
 .insert-button .insert-button__list {
-  margin: 4px 0 0px 2px;
+  margin: 0;
   padding: 0;
   color: #fff;
-  border-radius: 4px;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.9);
   display: flex;
   list-style-type: none;
   font-size: 1.4rem;
 }
 
 .insert-button__list .insert-button__listItem {
-  padding: 4px 16px;
+  margin-left: 8px;
+  background: #fff;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px #ddd;
+  color: #ddd;
+  border-radius: 50%;
+  font-weight: bold;
+  padding-left: 1px;
+  padding-bottom: 1px;
+  transition: all 0.05s linear;
+  transform: rotate(0deg);
+  font-size: 25px;
+  font-weight: normal;
+  font-family: 'Yu Gothic', YuGothic;
+  box-shadow: 0 0 10px 0 hsla(0, 0%, 57%, 0.5);
 }
 
 .insert-button__list .insert-button__listItem:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: #f9f9f9;
 }
 
 .insert-button__list .insert-button__listItem + .insert-button__listItem {
