@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EditorBlock.vue renders correctly (preview mode) 1`] = `
-<div class="block" preview="true">
+<div data-block-id="123" class="block" preview="true">
   <div class="wrapper paragraph" articleid="" iframelyapikey="" uploadendpoint="" axiosconfig="[object Object]">
     <div contenteditable="true" class="target paragraph">
       <p>foo</p>
@@ -13,7 +13,7 @@ exports[`EditorBlock.vue renders correctly (preview mode) 1`] = `
 `;
 
 exports[`EditorBlock.vue renders correctly 1`] = `
-<div class="block">
+<div data-block-id="123" class="block">
   <div class="wrapper paragraph" articleid="" iframelyapikey="" uploadendpoint="" axiosconfig="[object Object]">
     <div contenteditable="true" class="target paragraph">
       <p>foo</p>

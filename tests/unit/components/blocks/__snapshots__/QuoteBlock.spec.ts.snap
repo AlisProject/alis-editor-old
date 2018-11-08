@@ -5,9 +5,7 @@ exports[`QuoteBlock.vue renders correctly (preview mode) 1`] = `
   <span
     class="text preview"
   >
-    
-  foo
-
+     foo 
   </span>
 </blockquote>
 `;
@@ -18,6 +16,7 @@ exports[`QuoteBlock.vue renders correctly 1`] = `
     data-id="456"
     placeholder=""
     rows="1"
+    style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
   >
     foo
   </textarea>

@@ -42,6 +42,7 @@ exports[`ImageBlock.vue renders correctly 1`] = `
       <input
         class="image--caption"
         placeholder="説明文を入力"
+        style="opacity: 1;"
       />
     </span>
      
