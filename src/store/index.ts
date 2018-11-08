@@ -58,6 +58,7 @@ class Store<S> {
     }
     blocks.splice(beforeIndex + 1, 0, content)
     this.setBlocks([...blocks])
+    return content
   }
 
   prependBlock(content: Block, afterContent: Block) {}

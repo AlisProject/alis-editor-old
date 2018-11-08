@@ -5,6 +5,7 @@
       'block--ondrag': onDrag,
       'is-active': active
     }"
+    :data-block-id="block.id"
     @keydown="handleDisable"
     @click="handleClick"
     @drop.prevent="handleDrop"

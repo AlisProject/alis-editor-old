@@ -160,11 +160,24 @@ export default Vue.extend({
         }
         event.preventDefault()
         requestAnimationFrame(() => {
-          this.appendNewBlock(nowContent.id, {
+          const b = this.appendNewBlock(nowContent.id, {
             type: BlockType.Paragraph,
             payload: {
-              body: ''
+              body: '<p></p>'
             }
+          })
+          if (!b) {
+            return
+          }
+          requestAnimationFrame(() => {
+            const el = document.querySelector(`[data-block-id="${b.id}"] .target`)
+            if (!el) return
+            const range = document.createRange()
+            const sel = window.getSelection()
+            range.setStart(el.childNodes[0], 0)
+            range.collapse(true)
+            sel.removeAllRanges()
+            sel.addRange(range)
           })
         })
       }
@@ -279,7 +292,7 @@ export default Vue.extend({
         console.log('idかbeforeContentがないよ')
         return
       }
-      this.store.appendBlock(createBlock(type, extend), beforeContent)
+      return this.store.appendBlock(createBlock(type, extend), beforeContent)
     }
   }
 })
