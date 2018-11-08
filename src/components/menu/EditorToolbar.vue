@@ -1,47 +1,33 @@
 <template>
-    <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }" style="display: none;">
-      <ul class="editor-toolbar">
-        <li class="editor-toolbar__item" @click="appendHeading">
-          <ToolbarIcon
-            :src="require('../../assets/icon-h2.svg.js')"
-            :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
-          />
-        </li>
-        <li class="editor-toolbar__item" @click="appendHeading">
-          <ToolbarIcon
-            :src="require('../../assets/icon-h3.svg.js')"
-            :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
-          />
-        </li>
-        <li class="editor-toolbar__item" @click="dispatchUpload">
-          <ToolbarIcon
-            :src="require('../../assets/icon-image.svg.js')"
-            :active="activeRoot.type === BlockType.Image"
-          />
-        </li>
-        <li class="editor-toolbar__item" @click="appendQuote">
-          <ToolbarIcon
-            :src="require('../../assets/icon-quote.svg.js')"
-            :active="activeRoot.type === BlockType.Quote"
-          />
-        </li>
-        <li class="editor-toolbar__item" @click="appendRule">
-          <ToolbarIcon
-            :src="require('../../assets/icon-rule.svg.js')"
-            :active="activeRoot.type === BlockType.Rule"
-          />
-        </li>
-        <li class="editor-toolbar__item editor-toolbar__item-stats">
-          <span
-            class="editor-toolbar__status"
-            :class="{ 'is-active': isSaving }"
-          ></span>
-          <div class="editor-toolbar__button" @click="handleClickPublish">
-            公開する
-          </div>
-        </li>
-      </ul>
-      <!--
+  <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }" style="display: none;">
+    <ul class="editor-toolbar">
+      <li class="editor-toolbar__item" @click="appendHeading">
+        <ToolbarIcon
+          :src="require('../../assets/icon-h2.svg.js')"
+          :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
+        />
+      </li>
+      <li class="editor-toolbar__item" @click="appendHeading">
+        <ToolbarIcon
+          :src="require('../../assets/icon-h3.svg.js')"
+          :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
+        />
+      </li>
+      <li class="editor-toolbar__item" @click="dispatchUpload">
+        <ToolbarIcon :src="require('../../assets/icon-image.svg.js')" :active="activeRoot.type === BlockType.Image" />
+      </li>
+      <li class="editor-toolbar__item" @click="appendQuote">
+        <ToolbarIcon :src="require('../../assets/icon-quote.svg.js')" :active="activeRoot.type === BlockType.Quote" />
+      </li>
+      <li class="editor-toolbar__item" @click="appendRule">
+        <ToolbarIcon :src="require('../../assets/icon-rule.svg.js')" :active="activeRoot.type === BlockType.Rule" />
+      </li>
+      <li class="editor-toolbar__item editor-toolbar__item-stats">
+        <span class="editor-toolbar__status" :class="{ 'is-active': isSaving }"></span>
+        <div class="editor-toolbar__button" @click="handleClickPublish">公開する</div>
+      </li>
+    </ul>
+    <!--
       <ul class="editor-toolbar editor-toolbar--decoration" :class="{ 'is-active': isDecoration }">
         <li class="editor-toolbar__item" @click="appendHeading">
           <ToolbarIcon
@@ -68,9 +54,9 @@
         <li class="editor-toolbar__item editor-toolbar__item-stats">
         </li>
       </ul>
-      -->
-      <input type="file" style="display: none;" @change="handleUpload" />
-    </div>
+    -->
+    <input type="file" style="display: none;" @change="handleUpload" />
+  </div>
 </template>
 
 <script lang="ts">

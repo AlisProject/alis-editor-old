@@ -1,14 +1,9 @@
 <template>
   <div class="rule" v-if="!preview">
-    <hr/>
-    <ShadowInput
-      @delete="handleDelete"
-      @addimageuri="handleAddImage"
-    />
+    <hr />
+    <ShadowInput @delete="handleDelete" @addimageuri="handleAddImage" />
   </div>
-  <div class="rule" v-else>
-    <hr/>
-  </div>
+  <div class="rule" v-else><hr /></div>
 </template>
 
 <script lang="ts">

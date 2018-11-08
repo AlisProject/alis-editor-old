@@ -31,16 +31,9 @@
       @upload="handleUpload"
     />
   </div>
-  <div
-    class="block"
-    v-else
-  >
+  <div class="block" v-else>
     <template v-if="block.type">
-      <component
-        :is="`${block.type}Block`"
-        :block="block"
-        v-bind="config"
-      />
+      <component :is="`${block.type}Block`" :block="block" v-bind="config" />
     </template>
   </div>
 </template>

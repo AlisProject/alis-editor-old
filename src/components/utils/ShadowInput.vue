@@ -1,9 +1,5 @@
 <template>
-  <textarea
-    class="shadow-input"
-    @keydown="handleKeydown"
-    @paste="handlePaste"
-  ></textarea>
+  <textarea class="shadow-input" @keydown="handleKeydown" @paste="handlePaste"></textarea>
 </template>
 
 <script lang="ts">

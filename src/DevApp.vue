@@ -1,12 +1,8 @@
 <template>
   <div id="app">
     <div>
-      <button type="button" @click="switchPreview(false)">
-        Editorモード
-      </button>
-      <button type="button" @click="switchPreview(true)">
-        Viewerモード
-      </button>
+      <button type="button" @click="switchPreview(false)">Editorモード</button>
+      <button type="button" @click="switchPreview(true)">Viewerモード</button>
       <AlisEditor
         :config="{
           articleId: '12345',
@@ -19,7 +15,8 @@
           }
         }"
         @export="handleExport"
-        :initialState="initalState" />
+        :initialState="initalState"
+      />
     </div>
   </div>
 </template>

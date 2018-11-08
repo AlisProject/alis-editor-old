@@ -10,7 +10,7 @@
       @delete="handleDelete(i)"
       :preview="preview"
     />
-    {{block.payload.body}}
+    {{ block.payload.body }}
   </h2>
   <h3 v-else>
     <component
@@ -23,7 +23,7 @@
       @delete="handleDelete(i)"
       :preview="preview"
     />
-    {{block.payload.body}}
+    {{ block.payload.body }}
   </h3>
 </template>
 

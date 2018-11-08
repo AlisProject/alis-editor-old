@@ -13,30 +13,39 @@
   >
     <div style="display: inline-block;position: relative">
       <span class="image--wrapper">
-        <img :src="block.payload.src" class="main-image"><br>
-        <ShadowInput
-          @delete="handleDelete"
-          @addimageuri="handleAddImage"
-        />
+        <img :src="block.payload.src" class="main-image" /><br />
+        <ShadowInput @delete="handleDelete" @addimageuri="handleAddImage" />
         <input
           class="image--caption"
           :style="{
-            opacity: `${+(!isUploading)}.0`
+            opacity: `${+!isUploading}.0`
           }"
           placeholder="説明文を入力"
           :value="this.block.payload.caption"
           @input="handleInputCaption"
-        >
+        />
       </span>
       <div class="image-uploading" v-if="isUploading">Uploading...</div>
       <div class="image-toolbar" v-if="!isUploading">
-        <div class="toolbar-item" :class="{ 'is-active': this.block.payload.align === 'left' }"  @click="handleChangeAlign('left')">
+        <div
+          class="toolbar-item"
+          :class="{ 'is-active': this.block.payload.align === 'left' }"
+          @click="handleChangeAlign('left')"
+        >
           <AlignLeft />
         </div>
-        <div class="toolbar-item" :class="{ 'is-active': this.block.payload.align === 'center' || !this.block.payload.align }" @click="handleChangeAlign('center')">
+        <div
+          class="toolbar-item"
+          :class="{ 'is-active': this.block.payload.align === 'center' || !this.block.payload.align }"
+          @click="handleChangeAlign('center')"
+        >
           <AlignCenter />
         </div>
-        <div class="toolbar-item" :class="{ 'is-active': this.block.payload.align === 'right' }" @click="handleChangeAlign('right')">
+        <div
+          class="toolbar-item"
+          :class="{ 'is-active': this.block.payload.align === 'right' }"
+          @click="handleChangeAlign('right')"
+        >
           <AlignRight />
         </div>
       </div>
@@ -45,7 +54,8 @@
         @click="handleDelete"
         :style="{
           left: deleteButtonPosition.left
-        }">
+        }"
+      >
         &times;
       </div>
     </div>
@@ -58,8 +68,8 @@
     v-else
   >
     <div class="preview-content">
-      <img :src="block.payload.src"><br>
-      <p class="caption">{{block.payload.caption}}</p>
+      <img :src="block.payload.src" /><br />
+      <p class="caption">{{ block.payload.caption }}</p>
     </div>
   </div>
 </template>

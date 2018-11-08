@@ -8,12 +8,7 @@
     :placeholder="placeholder || ''"
     v-if="!preview"
   >{{block.payload.body}}</textarea>
-  <span
-    v-else
-    class="text preview"
-  >
-    {{block.payload.body}}
-  </span>
+  <span v-else class="text preview"> {{ block.payload.body }} </span>
 </template>
 
 <script lang="ts">

@@ -19,7 +19,7 @@
           @input="updateBlock"
           @update="updateBlock"
           @delete="deleteBlock"
-          @append="appendNewBlock(block.id, {type: $event})"
+          @append="appendNewBlock(block.id, { type: $event })"
           @upload="insertImageBlock(block.id, $event)"
           @active="setActive($event)"
           @addimageuri="addImageURI(block.id, $event)"

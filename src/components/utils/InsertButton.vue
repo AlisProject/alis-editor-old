@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="insert-button"
-  >
+  <div class="insert-button">
     <div
       class="insert-button__toggle"
       @click="toggleIsOpen"
@@ -12,18 +10,10 @@
       <span>+</span>
     </div>
     <ul class="insert-button__list" v-if="isOpen">
-      <li class="insert-button__listItem" @click="dispatchUpload">
-        画像
-      </li>
-      <li class="insert-button__listItem" @click="appendRule">
-        罫線
-      </li>
-      <li class="insert-button__listItem" @click="appendQuote">
-        引用
-      </li>
-      <li class="insert-button__listItem" @click="appendHeading">
-        大見出し
-      </li>
+      <li class="insert-button__listItem" @click="dispatchUpload">画像</li>
+      <li class="insert-button__listItem" @click="appendRule">罫線</li>
+      <li class="insert-button__listItem" @click="appendQuote">引用</li>
+      <li class="insert-button__listItem" @click="appendHeading">大見出し</li>
     </ul>
     <input type="file" @change="handleUpload" />
   </div>

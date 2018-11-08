@@ -8,20 +8,9 @@
       @input="handleInput"
       @paste="handlePaste"
     ></div>
-    <div
-      class="toolbar"
-      v-if="isTextSelecting"
-      :style="toolbarStyle"
-    >
-      Link
-    </div>
+    <div class="toolbar" v-if="isTextSelecting" :style="toolbarStyle">Link</div>
   </div>
-  <div class="wrapper paragraph" v-else>
-    <div
-      contenteditable="false"
-      class="target paragraph preview"
-    ></div>
-  </div>
+  <div class="wrapper paragraph" v-else><div contenteditable="false" class="target paragraph preview"></div></div>
 </template>
 
 <script lang="ts">
