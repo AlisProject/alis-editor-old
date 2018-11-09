@@ -53,18 +53,31 @@ export default Vue.extend({
   components: {
     InsertPopupIcon
   },
+  mounted() {
+    document.addEventListener('selectionchange', this.onSelectionChange)
+  },
+  beforeDestroy() {
+    document.removeEventListener('selectionchange', this.onSelectionChange)
+  },
   watch: {
     activeRoot(value) {
       this.el = document.querySelector(`[data-block-id="${value.id}"]`)
       this.position.left = (document.querySelector('#ALISEditor') as any).offsetWidth * 0.5 - 110
       this.position.top = this.el.getBoundingClientRect().top - 50 + window.pageYOffset
       this.isActive = false
-      requestAnimationFrame(() => {
-        this.isActive = true
-      })
     }
   },
   methods: {
+    onSelectionChange(event: Event) {
+      console.log(event)
+      const selection = window.getSelection()
+      if (selection.isCollapsed) {
+        this.isActive = false
+        return
+      }
+      console.log(selection)
+      this.isActive = true
+    },
     execBold() {
       document.execCommand('bold')
     },
@@ -96,10 +109,11 @@ export default Vue.extend({
   width: 220px;
   position: absolute;
   z-index: 200;
+  opacity: 0;
 }
 
 .insert-popup.is-active {
-  animation: anim1 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: anim1 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 @keyframes anim1 {
