@@ -1,5 +1,5 @@
 <template>
-  <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }" style="display: none;">
+  <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }">
     <ul class="editor-toolbar">
       <li class="editor-toolbar__item" @click="appendHeading">
         <ToolbarIcon
@@ -186,7 +186,7 @@ export default Vue.extend({
   background: transparent;
 }
 
-@media (min-width: 1080px) {
+@media (min-width: 900px) {
   .toolbar-wrapper {
     display: none;
   }
