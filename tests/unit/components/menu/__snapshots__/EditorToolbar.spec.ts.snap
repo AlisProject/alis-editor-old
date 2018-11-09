@@ -3,7 +3,6 @@
 exports[`EditorToolbar.vue renders correctly 1`] = `
 <div
   class="toolbar-wrapper is-fixed"
-  style="display: none;"
 >
   <ul
     class="editor-toolbar"

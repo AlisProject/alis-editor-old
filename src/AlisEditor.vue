@@ -195,6 +195,7 @@ export default Vue.extend({
             return
           }
           requestAnimationFrame(() => {
+            this.active = b.id
             const el = document.querySelector(`[data-block-id="${b.id}"] .target`)
             if (!el) return
             const range = document.createRange()
@@ -203,6 +204,19 @@ export default Vue.extend({
             range.collapse(true)
             sel.removeAllRanges()
             sel.addRange(range)
+            const isLink =
+              nowContent.type === BlockType.Paragraph &&
+              urlregex().test(nowContent.payload.body) &&
+              !nowContent.payload.body.match(/([亜-熙ぁ-んァ-ヶ]+)/g)
+            if (isLink) {
+              this.updateBlock({
+                id: nowContent.id,
+                type: BlockType.Embed,
+                payload: {
+                  src: sanitize(nowContent.payload.body, { allowedTags: [] })
+                }
+              })
+            }
           })
         })
       }

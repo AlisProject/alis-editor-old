@@ -73,6 +73,9 @@ export default Vue.extend({
   },
   methods: {
     onSelectionChange(event: Event) {
+      if (!this.activeRoot) {
+        return
+      }
       if (this.activeRoot.type !== 'Paragraph') {
         return
       }

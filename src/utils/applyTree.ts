@@ -1,4 +1,5 @@
 import { Block, BlockType } from '../types/Blocks'
+import { cloneDeep } from 'lodash'
 
 /*
 
@@ -83,7 +84,7 @@ export function applyTreeById(id: string, newBlock: Block, blocks: Block[]) {
   const recursion = (parent: Block) => {
     if (foundBlock) return parent
     if (parent.id === id) {
-      parent = { ...newBlock }
+      parent = cloneDeep({ ...newBlock })
       foundBlock = true
       return parent
     }

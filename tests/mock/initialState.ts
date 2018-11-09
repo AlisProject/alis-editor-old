@@ -64,7 +64,7 @@ export default [
     id: uuid(),
     type: BlockType.Embed,
     payload: {
-      src: 'javascript:alert("XSS");'
+      src: 'https://twitter.com/okunokentaro/status/1060774738904014848'
     }
   },
   {
@@ -72,6 +72,13 @@ export default [
     type: BlockType.Embed,
     payload: {
       src: 'https://gadget-shot.com/review/43122'
+    }
+  },
+  {
+    id: uuid(),
+    type: BlockType.Paragraph,
+    payload: {
+      body: '<p>Hello</p>'
     }
   },
   {

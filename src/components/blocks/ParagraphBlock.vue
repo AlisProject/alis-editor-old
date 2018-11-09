@@ -81,14 +81,7 @@ export default Vue.extend({
         })
         if (sanitizedHtml) {
           if (requireUpdateDOM) {
-            if (urlregex().test(sanitizedHtml) && !sanitizedHtml.match(/([亜-熙ぁ-んァ-ヶ]+)/g)) {
-              this.$el.querySelector('.target')!.innerHTML = `<p><br>${getIframelyUrlTemplate(sanitizedHtml)}<br></p>`
-              requestAnimationFrame(() => {
-                ;(window as any).iframely.load()
-              })
-            } else {
-              this.$el.querySelector('.target')!.innerHTML = sanitizedHtml
-            }
+            this.$el.querySelector('.target')!.innerHTML = sanitizedHtml
           }
           const block = cloneDeep(this.block)
           block.payload.body = sanitizedHtml
