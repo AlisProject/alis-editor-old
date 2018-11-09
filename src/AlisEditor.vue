@@ -132,13 +132,23 @@ export default Vue.extend({
       if (!aR) {
         return
       }
-      const skeleton = createBlock(type, {})
-      console.log(skeleton)
-      skeleton.id = aR.id
-      ;(skeleton as any).children[0].payload.body = sanitize(aR.payload.body, {
-        allowedTags: []
-      })
-      this.updateBlock(skeleton)
+      if (aR.type === BlockType.Paragraph) {
+        // 個別ブロックにする処理
+        const skeleton = createBlock(type, {})
+        console.log(skeleton)
+        skeleton.id = aR.id
+        ;(skeleton as any).children[0].payload.body = sanitize(aR.payload.body, {
+          allowedTags: []
+        })
+        this.updateBlock(skeleton)
+      } else if (type === aR.type) {
+        // 個別ブロックを Paragraph に戻す処理
+        const skeleton = createBlock(BlockType.Paragraph, {})
+        console.log(skeleton)
+        skeleton.id = aR.id
+        skeleton.payload.body = `<p>${(aR as any).children[0].payload.body}</p>`
+        this.updateBlock(skeleton)
+      }
     },
     handleKeydown(id: string, event: KeyboardEvent) {
       if (isMobile()) {

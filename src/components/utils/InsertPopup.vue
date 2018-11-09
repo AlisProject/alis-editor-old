@@ -60,22 +60,27 @@ export default Vue.extend({
     document.removeEventListener('selectionchange', this.onSelectionChange)
   },
   watch: {
-    activeRoot(value) {
-      this.el = document.querySelector(`[data-block-id="${value.id}"]`)
+    activeRoot(aR) {
+      this.el = document.querySelector(`[data-block-id="${aR.id}"]`)
       this.position.left = (document.querySelector('#ALISEditor') as any).offsetWidth * 0.5 - 110
       this.position.top = this.el.getBoundingClientRect().top - 50 + window.pageYOffset
-      this.isActive = false
+      if (aR.type === 'Paragraph') {
+        this.isActive = false
+      } else {
+        this.isActive = true
+      }
     }
   },
   methods: {
     onSelectionChange(event: Event) {
-      console.log(event)
+      if (this.activeRoot.type !== 'Paragraph') {
+        return
+      }
       const selection = window.getSelection()
       if (selection.isCollapsed) {
         this.isActive = false
         return
       }
-      console.log(selection)
       this.isActive = true
     },
     execBold() {
