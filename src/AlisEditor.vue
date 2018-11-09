@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="ALISEditor">
-    <InsertPopup @replace="replaceBlockType" />
+    <InsertPopup @replace="replaceBlockType" :activeRoot="activeRoot" />
     <template v-if="store.state.isInitialized">
       <EditorToolbar
         v-if="!config.preview"

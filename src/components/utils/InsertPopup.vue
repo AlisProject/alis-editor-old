@@ -1,22 +1,32 @@
 <template>
-  <div class="insert-popup">
-    <button class="insert-popup__item" @click="execBold">
-      <InsertPopupIcon :src="require('../../assets/icon-bold.svg.js')" />
-    </button>
-    <button class="insert-popup__item" @click="execItalic">
-      <InsertPopupIcon :src="require('../../assets/icon-italic.svg.js')" />
-    </button>
-    <button class="insert-popup__item" @click="execQuote">
-      <InsertPopupIcon :src="require('../../assets/icon-quote.svg.js')" />
-    </button>
-    <button class="insert-popup__item" @click="execHeading">
-      <InsertPopupIcon :src="require('../../assets/icon-h2.svg.js')" />
-    </button>
-    <!--
-      <button class="insert-popup__item" @click="execSubHeading">
-        <InsertPopupIcon :src="require('../../assets/icon-h3.svg.js')" />
+  <div>
+    <div
+      class="insert-popup"
+      v-if="activeRoot"
+      :class="{ 'is-active': isActive }"
+      :style="{
+        left: `${this.position.left}px`,
+        top: `${this.position.top}px`
+      }"
+    >
+      <button class="insert-popup__item" @click="execBold">
+        <InsertPopupIcon :src="require('../../assets/icon-bold.svg.js')" />
       </button>
-    -->
+      <button class="insert-popup__item" @click="execItalic">
+        <InsertPopupIcon :src="require('../../assets/icon-italic.svg.js')" />
+      </button>
+      <button class="insert-popup__item" @click="execQuote">
+        <InsertPopupIcon :src="require('../../assets/icon-quote.svg.js')" />
+      </button>
+      <button class="insert-popup__item" @click="execHeading">
+        <InsertPopupIcon :src="require('../../assets/icon-h2.svg.js')" />
+      </button>
+      <!--
+        <button class="insert-popup__item" @click="execSubHeading">
+          <InsertPopupIcon :src="require('../../assets/icon-h3.svg.js')" />
+        </button>
+      -->
+    </div>
   </div>
 </template>
 
@@ -26,13 +36,33 @@ import InsertPopupIcon from './InsertPopupIcon.vue'
 import { BlockType } from '../../types/Blocks'
 
 export default Vue.extend({
-  data() {
+  props: {
+    activeRoot: Object
+  },
+  data(): any {
     return {
-      isOpen: false
+      isOpen: false,
+      isActive: false,
+      el: null,
+      position: {
+        left: 0.0,
+        top: 0.0
+      }
     }
   },
   components: {
     InsertPopupIcon
+  },
+  watch: {
+    activeRoot(value) {
+      this.el = document.querySelector(`[data-block-id="${value.id}"]`)
+      this.position.left = (document.querySelector('#ALISEditor') as any).offsetWidth * 0.5 - 110
+      this.position.top = this.el.getBoundingClientRect().top - 50 + window.pageYOffset
+      this.isActive = false
+      requestAnimationFrame(() => {
+        this.isActive = true
+      })
+    }
   },
   methods: {
     execBold() {
@@ -64,7 +94,23 @@ export default Vue.extend({
   font-size: 1.4rem;
   background: #41446a;
   width: 220px;
-  position: relative;
+  position: absolute;
+  z-index: 200;
+}
+
+.insert-popup.is-active {
+  animation: anim1 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes anim1 {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
 }
 
 .insert-popup::after {
