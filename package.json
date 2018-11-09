@@ -7,7 +7,7 @@
     "build": "vue-cli-service build --target lib --name AlisEditor src/index.ts",
     "build:page": "vue-cli-service build src/entry.develop.ts",
     "dev": "yarn serve",
-    "format": "prettier './{src,spec}/**/**.{ts,vue}' --write",
+    "format": "prettier './{src,tests}/**/**.{ts,vue}' --write",
     "release": "bash release.sh",
     "test": "vue-cli-service test:unit --no-cache",
     "test:unit": "vue-cli-service test:unit",

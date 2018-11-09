@@ -5,13 +5,9 @@ describe('utils/createBlock.ts', () => {
   Object.entries(BlockType).forEach(([K, V]) => {
     test(K, () => {
       expect(
-        Object.assign(
-          {},
-          createBlock(V, {}),
-          {
-            id: 'VVVV-XXXX-YYYY-ZZZZ'
-          }
-        )
+        Object.assign({}, createBlock(V, {}), {
+          id: 'VVVV-XXXX-YYYY-ZZZZ'
+        })
       ).toMatchSnapshot()
     })
   })
