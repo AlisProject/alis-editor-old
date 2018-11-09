@@ -27,6 +27,7 @@ module.exports = {
     'src/**/*.{ts,vue}',
     '!src/index.ts',
     '!src/entry.develop.ts',
+    '!src/EditorWrapper.ts',
     '!src/DevApp.vue'
   ],
   testURL: 'http://localhost/',

@@ -32,7 +32,7 @@ class Store<S> {
   }
 
   setIsSaving(next: boolean) {
-    this.instance.$data.isSaving = next
+    this.instance.$data.isSaving = !!next
   }
 
   setBlocks(blocks: Block[]) {
