@@ -66,7 +66,7 @@ export default Vue.extend({
       this.position.top = this.el.getBoundingClientRect().top - 50 + window.pageYOffset
       if (aR.type === 'Paragraph') {
         this.isActive = false
-      } else {
+      } else if (!['Image', 'Embed', 'Rule'].includes(aR.type)) {
         this.isActive = true
       }
     }
@@ -118,9 +118,11 @@ export default Vue.extend({
   position: absolute;
   z-index: 200;
   opacity: 0;
+  pointer-events: none;
 }
 
 .insert-popup.is-active {
+  pointer-events: initial;
   animation: anim1 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 

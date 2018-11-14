@@ -16,15 +16,6 @@
       <li class="insert-button__listItem" @click="appendRule">
         <InsertButtonIcon :src="require('../../assets/icon-rule.svg.js')" />
       </li>
-      <li class="insert-button__listItem" @click="appendQuote">
-        <InsertButtonIcon :src="require('../../assets/icon-quote.svg.js')" />
-      </li>
-      <li class="insert-button__listItem" @click="appendHeading">
-        <InsertButtonIcon :src="require('../../assets/icon-h2.svg.js')" />
-      </li>
-      <li class="insert-button__listItem" @click="appendHeading">
-        <InsertButtonIcon :src="require('../../assets/icon-h3.svg.js')" />
-      </li>
     </ul>
     <input type="file" @change="handleUpload" />
   </div>
@@ -54,8 +45,8 @@ export default Vue.extend({
     append(type: BlockType) {
       setTimeout(() => {
         this.isOpen = false
+        this.$emit('append', BlockType.Paragraph)
         this.$emit('append', type)
-        this.$emit('disable')
       }, 100)
     },
     appendParagraph() {
@@ -65,16 +56,6 @@ export default Vue.extend({
     },
     appendRule() {
       this.append(BlockType.Rule)
-    },
-    appendQuote() {
-      this.isOpen = false
-      this.$emit('append', BlockType.Quote)
-      this.$emit('disable')
-    },
-    appendHeading() {
-      this.isOpen = false
-      this.$emit('append', BlockType.Heading)
-      this.$emit('disable')
     },
     handleUpload(event: Event) {
       this.isOpen = false

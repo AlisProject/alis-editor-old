@@ -183,6 +183,9 @@ export default Vue.extend({
         if (event.shiftKey) {
           return
         }
+        if (nowContent.type === BlockType.Image) {
+          return
+        }
         event.preventDefault()
         requestAnimationFrame(() => {
           const b = this.appendNewBlock(nowContent.id, {

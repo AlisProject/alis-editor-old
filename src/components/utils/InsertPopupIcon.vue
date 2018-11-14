@@ -1,6 +1,6 @@
 <template>
-  <div class="editor-insert-button__icon" :class="{ 'is-active': active }">
-    <div class="editor-insert-button__iconContent" v-html="src" />
+  <div class="editor-insert-popup__icon" :class="{ 'is-active': active }">
+    <div class="editor-insert-popup__iconContent" v-html="src" />
   </div>
 </template>
 
@@ -13,8 +13,8 @@ export default {
 }
 </script>
 
-<style>
-.editor-insert-button__icon {
+<style scoped>
+.editor-insert-popup__icon {
   width: 100%;
   height: 100%;
   display: flex;
@@ -24,16 +24,16 @@ export default {
   cursor: pointer;
 }
 
-.editor-insert-button__iconContent {
+.editor-insert-popup__iconContent {
   transform: scale(1);
 }
 
-.editor-insert-button__icon .fill-target {
+.editor-insert-popup__icon .fill-target {
   fill: #fff;
 }
 
-.editor-insert-button__icon.is-active .fill-target,
-.editor-insert-button__icon:hover .fill-target {
+.editor-insert-popup__icon.is-active .fill-target,
+.editor-insert-popup__icon:hover .fill-target {
   fill: #848cd9;
 }
 </style>
