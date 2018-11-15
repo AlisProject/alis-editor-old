@@ -12,6 +12,9 @@ describe('ImageBlock.vue', () => {
           payload: {
             src: 'https://github.com/potato4d.png'
           }
+        },
+        axiosConfig: {
+
         }
       },
       stubs: ['ShadowInput']
@@ -28,6 +31,9 @@ describe('ImageBlock.vue', () => {
           payload: {
             src: 'https://github.com/potato4d.png'
           }
+        },
+        axiosConfig: {
+
         },
         preview: true
       },
