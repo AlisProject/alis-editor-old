@@ -1,6 +1,21 @@
 import { Block, BlockType } from '../types/Blocks'
 import { cloneDeep } from 'lodash'
 
+export function findBeforeRootContentByRootBlockId(id: string, blocks: Block[]): Block | null {
+  return (result => (result.found ? result.block : null))(
+    blocks.reduce(
+      (before: any, after: Block, idx: number) => {
+        return (before || {}).found
+          ? before
+          : after.id === id
+          ? { found: true, block: before.block }
+          : { found: false, block: after }
+      },
+      { found: false, block: null }
+    )
+  )
+}
+
 /*
 
 以下において、 '456' から '123' を返却する関数

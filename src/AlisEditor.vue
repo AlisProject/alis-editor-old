@@ -40,10 +40,10 @@ import EditorBlock from './components/blocks/EditorBlock.vue'
 import EditorToolbar from './components/menu/EditorToolbar.vue'
 import InsertPopup from './components/utils/InsertPopup.vue'
 import { Block, BlockType, ParagraphBlock } from './types/Blocks'
-import { createBlock } from './utils/createBlock'
+import { createBlock, isContentEditableBlock } from './utils/createBlock'
 import { createDataURIImage } from './utils/createImage'
 import { isMobile, isDesktop } from './utils/deviceUtil'
-import { findRootIdByBlockId, findTreeContentById } from './utils/applyTree'
+import { findRootIdByBlockId, findTreeContentById, findBeforeRootContentByRootBlockId } from './utils/applyTree'
 import { EditorStore } from './store/'
 import { cloneDeep } from 'lodash'
 import urlregex from 'url-regex'
@@ -321,7 +321,35 @@ export default Vue.extend({
       this.$emit('export', this.store.state.blocks)
     },
     deleteBlock(content: Block) {
+      const beforeContent = findBeforeRootContentByRootBlockId(content.id, this.store.state.blocks)
+      if (beforeContent) {
+        this.active = beforeContent.id
+      }
       this.store.deleteBlock(content)
+      if (!beforeContent) {
+        return
+      }
+      if ([BlockType.Rule, BlockType.Embed].includes(beforeContent.type)) {
+        this.deleteBlock(beforeContent)
+      } else if (isContentEditableBlock(beforeContent)) {
+        requestAnimationFrame(() => {
+          const el = document.querySelector(`[data-block-id="${beforeContent.id}"] .target`)
+          console.log(el)
+          if (!el) return
+          const range = document.createRange()
+          const selection = window.getSelection()
+          const node = el.childNodes[el.childNodes.length - 1]
+          const textNode = node.childNodes[node.childNodes.length - 1]
+          if (!node || !textNode) {
+            return
+          }
+          selection.removeAllRanges()
+          range.setStart(textNode, (textNode.textContent || '').length)
+          range.setEnd(textNode, (textNode.textContent || '').length)
+          range.collapse(true)
+          selection.addRange(range)
+        })
+      }
     },
     updateBlock(content: Block) {
       this.store.updateBlock(content)

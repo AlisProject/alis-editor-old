@@ -147,7 +147,7 @@ export default Vue.extend({
 }
 
 .target.paragraph:empty::before {
-  content: 'Type here...';
+  content: '';
   color: #999;
   font-size: 1em;
 }

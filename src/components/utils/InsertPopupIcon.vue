@@ -13,7 +13,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .editor-insert-popup__icon {
   width: 100%;
   height: 100%;

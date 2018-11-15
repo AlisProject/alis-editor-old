@@ -1,6 +1,10 @@
 import uuid from 'uuid/v4'
 import { Block, BlockType } from '../types/Blocks'
 
+export function isContentEditableBlock(block: Block) {
+  return [BlockType.Paragraph].includes(block.type)
+}
+
 export function createBlock(type: BlockType, extend?: any): Block {
   extend = extend || {}
   return Object.assign({ id: uuid() }, createBlockTemplate(type), extend)
