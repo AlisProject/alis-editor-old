@@ -2,10 +2,10 @@
 
 exports[`InsertPopupIcon.vue renders correctly 1`] = `
 <div
-  class="editor-insert-button__icon"
+  class="editor-insert-popup__icon"
 >
   <div
-    class="editor-insert-button__iconContent"
+    class="editor-insert-popup__iconContent"
   />
 </div>
 `;
