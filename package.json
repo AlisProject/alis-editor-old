@@ -10,6 +10,7 @@
     "format": "prettier './{src,tests}/**/**.{ts,vue}' --write",
     "release": "bash release.sh",
     "test": "vue-cli-service test:unit --no-cache",
+    "test:ci": "vue-cli-service test:unit --no-cache --runInBand",
     "test:unit": "vue-cli-service test:unit",
     "release:prebuild": "yarn build",
     "release:postbuild": "git push --follow-tags origin master && npm publish",
