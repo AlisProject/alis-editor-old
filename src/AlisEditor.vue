@@ -61,11 +61,10 @@ interface EditorState {
 
 export default Vue.extend({
   data(): EditorState {
-    Vue.prototype.$editorStore = new EditorStore({
+    const store = new EditorStore({
       isSaving: false,
       blocks: []
     })
-    const store = Vue.prototype.$editorStore as EditorStore
     store.initState({
       blocks: (this.initialState as any) as Block[]
     })
