@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { Block, BlockType } from '../types/Blocks'
-import { deleteTreeContentById, applyTreeById, findRootIdByBlockId } from '../utils/applyTree'
+import { deleteTreeContentById, applyTreeById, findRootIdByBlockId } from '../utils/treeUtil'
 import { cloneDeep } from 'lodash'
 
 class Store<S> {
