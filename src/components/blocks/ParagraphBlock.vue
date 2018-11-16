@@ -21,7 +21,7 @@ import { cloneDeep, debounce } from 'lodash'
 import { setTimeout } from 'timers'
 import { autolinker } from '../../utils/autolinker'
 import { getIframelyUrlTemplate } from '../../utils/iframely'
-const sanitize = require('sanitize-html/src/index.js')
+import * as sanitizer from '../../utils/sanitizer'
 
 export default Vue.extend({
   props: {
@@ -75,9 +75,7 @@ export default Vue.extend({
     updateDOM(target: any, requireUpdateDOM?: boolean) {
       requestAnimationFrame(() => {
         const selection = document.getSelection()
-        const sanitizedHtml = sanitize(target.innerHTML, {
-          allowedTags: ['p', 'b', 'i', 'em', 'strong', 'a', 'br']
-        })
+        const sanitizedHtml = sanitizer.sanitizeCommonTags(target.innerHTML)
         if (sanitizedHtml) {
           if (requireUpdateDOM) {
             this.$el.querySelector('.target')!.innerHTML = sanitizedHtml
