@@ -16,7 +16,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import uuid from 'uuid/v4'
-import urlregex from 'url-regex'
 import { Block, ParagraphBlock, BlockType } from '../../types/Blocks'
 import { cloneDeep, debounce } from 'lodash'
 import { setTimeout } from 'timers'
@@ -89,17 +88,6 @@ export default Vue.extend({
         } else {
           this.$emit('delete', this.block)
         }
-        // setTimeout(() => {
-        //   try {
-        //     const node = selection.anchorNode
-        //     const offset = selection.anchorOffset
-        //     selection.removeAllRanges()
-        //     const range = document.createRange()
-        //     range.setStart(node, offset)
-        //     range.setEnd(node, offset)
-        //     selection.addRange(range)
-        //   } catch (e) {}
-        // }, 0)
       })
     }
   }

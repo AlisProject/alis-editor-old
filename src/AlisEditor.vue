@@ -200,12 +200,7 @@ export default Vue.extend({
       }
       event.preventDefault()
       requestAnimationFrame(() => {
-        const b = this.appendNewBlock(nowContent.id, {
-          type: BlockType.Paragraph,
-          payload: {
-            body: '<p></p>'
-          }
-        })
+        const b = this.appendNewBlock(nowContent.id, createBlock(BlockType.Paragraph))
         if (!b) {
           return
         }
@@ -354,7 +349,7 @@ export default Vue.extend({
       delete extend.type
       const beforeContent = findTreeContentById(id, this.store.state.blocks)
       if (!id || !beforeContent) {
-        console.error('Missing params "id" or "beforeContent"')
+        console.error('Missing params "id" or "beforeContent"g')
         return
       }
       return this.store.appendBlock(createBlock(type, extend), beforeContent)
