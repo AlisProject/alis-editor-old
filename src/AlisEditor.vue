@@ -6,7 +6,6 @@
         v-if="!config.preview"
         @append="appendNewBlock(active, { type: $event })"
         @upload="insertImageBlock(active, $event)"
-        @publish="publish"
         :activeRoot="activeRoot || {}"
         :isSaving="store.state.isSaving"
       />
@@ -44,17 +43,16 @@ import { createBlock, isContentEditableBlock } from './utils/createBlock'
 import { createDataURIImage } from './utils/createImage'
 import { isMobile, isDesktop } from './utils/deviceUtil'
 import { findRootIdByBlockId, findTreeContentById, findBeforeRootContentByRootBlockId } from './utils/treeUtil'
-import { EditorStore } from './store/'
-import { cloneDeep } from 'lodash'
+import * as Store from './store/'
 import urlregex from 'url-regex'
-import { configProps } from './utils/config'
+import * as config from './utils/config'
 import * as browserSelection from './utils/browserSelection'
-const sanitize = require('sanitize-html/src/index.js')
+import * as sanitizer from './utils/sanitizer'
 
 interface EditorState {
   active: string | null
   activeIdx: number | null
-  store: EditorStore
+  store: Store.EditorStore
   isPressedEnter: boolean
   intervalId: any
   beforeBlockSnapshot: string
@@ -62,7 +60,7 @@ interface EditorState {
 
 export default Vue.extend({
   data(): EditorState {
-    const store = new EditorStore({
+    const store = new Store.EditorStore({
       isSaving: false,
       blocks: []
     })
@@ -80,7 +78,7 @@ export default Vue.extend({
   },
   props: {
     initialState: Array as () => Block[],
-    config: configProps
+    config: config.configProps
   },
   components: {
     EditorBlock,
@@ -132,19 +130,23 @@ export default Vue.extend({
       }
       if (aR.type === BlockType.Paragraph) {
         // 個別ブロックにする処理
-        const skeleton = createBlock(type, {})
-        console.log(skeleton)
-        skeleton.id = aR.id
-        ;(skeleton as any).children[0].payload.body = sanitize(aR.payload.body, {
-          allowedTags: []
+        const skeleton = createBlock(type, {
+          id: aR.id,
+          children: [
+            createBlock(BlockType.Text, {
+              payload: {
+                body: sanitizer.sanitizeAllTags(aR.payload.body)
+              }
+            })
+          ]
         })
         this.updateBlock(skeleton)
       } else if (type === aR.type) {
         // 個別ブロックを Paragraph に戻す処理
-        const skeleton = createBlock(BlockType.Paragraph, {})
-        console.log(skeleton)
-        skeleton.id = aR.id
-        skeleton.payload.body = `<p>${(aR as any).children[0].payload.body}</p>`
+        const skeleton = createBlock(BlockType.Paragraph, {
+          id: aR.id,
+          payload: { body: `<p>${(aR as any).children[0].payload.body}</p>` }
+        })
         this.updateBlock(skeleton)
       }
     },
@@ -219,7 +221,7 @@ export default Vue.extend({
             id: nowContent.id,
             type: BlockType.Embed,
             payload: {
-              src: sanitize(nowContent.payload.body, { allowedTags: [] })
+              src: sanitizer.sanitizeAllTags(nowContent.payload.body)
             }
           })
         })
@@ -327,9 +329,6 @@ export default Vue.extend({
         })
       })()
     },
-    publish() {
-      this.$emit('export', this.store.state.blocks)
-    },
     deleteBlock(content: Block) {
       const beforeContent = findBeforeRootContentByRootBlockId(content.id, this.store.state.blocks)
       if (beforeContent) {
@@ -355,7 +354,7 @@ export default Vue.extend({
       delete extend.type
       const beforeContent = findTreeContentById(id, this.store.state.blocks)
       if (!id || !beforeContent) {
-        console.log('idかbeforeContentがないよ')
+        console.error('Missing params "id" or "beforeContent"')
         return
       }
       return this.store.appendBlock(createBlock(type, extend), beforeContent)
