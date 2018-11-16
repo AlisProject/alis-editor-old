@@ -48,7 +48,7 @@ import ParagraphBlock from './ParagraphBlock.vue'
 import HeadingBlock from './HeadingBlock.vue'
 import QuoteBlock from './QuoteBlock.vue'
 import EmbedBlock from './EmbedBlock.vue'
-import InsertButton from '../utils/InsertButton.vue'
+import InsertButton from '../menu/InsertButton.vue'
 import { configProps } from '../../utils/config'
 
 export default Vue.extend({
