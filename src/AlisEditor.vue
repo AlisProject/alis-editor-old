@@ -48,6 +48,7 @@ import { EditorStore } from './store/'
 import { cloneDeep } from 'lodash'
 import urlregex from 'url-regex'
 import { configProps } from './utils/config'
+import * as browserSelection from './utils/browserSelection'
 const sanitize = require('sanitize-html/src/index.js')
 
 interface EditorState {
@@ -167,79 +168,91 @@ export default Vue.extend({
     },
     handleKeydownEnter(id: string, event: KeyboardEvent): void {
       const childId = findRootIdByBlockId(id, this.store.state.blocks)
-      if (!childId) {
-        return
-      }
-
+      if (!childId) return
       const nowContent = findTreeContentById(childId, this.store.state.blocks)
-      if (!nowContent) {
-        return
-      }
+      if (!nowContent) return
 
       if (isDesktop()) {
-        if (event.shiftKey) {
-          return
-        }
-        if (nowContent.type === BlockType.Image) {
-          return
-        }
-        event.preventDefault()
-        requestAnimationFrame(() => {
-          const b = this.appendNewBlock(nowContent.id, {
-            type: BlockType.Paragraph,
-            payload: {
-              body: '<p></p>'
-            }
-          })
-          if (!b) {
-            return
-          }
-          requestAnimationFrame(() => {
-            this.active = b.id
-            const el = document.querySelector(`[data-block-id="${b.id}"] .target`)
-            if (!el) return
-            const range = document.createRange()
-            const sel = window.getSelection()
-            range.setStart(el.childNodes[0], 0)
-            range.collapse(true)
-            sel.removeAllRanges()
-            sel.addRange(range)
-            const isLink =
-              nowContent.type === BlockType.Paragraph &&
-              urlregex().test(nowContent.payload.body) &&
-              !nowContent.payload.body.match(/([亜-熙ぁ-んァ-ヶ]+)/g)
-            if (isLink) {
-              this.updateBlock({
-                id: nowContent.id,
-                type: BlockType.Embed,
-                payload: {
-                  src: sanitize(nowContent.payload.body, { allowedTags: [] })
-                }
-              })
-            }
-          })
-        })
+        this.desktopKeyDownEnter({ id, event, childId, nowContent })
       }
-
       if (isMobile()) {
-        if (nowContent.type === 'Paragraph') {
-          if (!this.isPressedEnter) {
-            this.isPressedEnter = true
-            return
-          }
-          this.isPressedEnter = false
-          requestAnimationFrame(() => {
-            this.doubleEnterGesture(nowContent, event)
-          })
-          return
-        }
-        requestAnimationFrame(() => {
-          this.singleEnterGesture(nowContent, event)
-        })
-        this.isPressedEnter = false
+        this.mobileKeyDownEnter({ id, event, childId, nowContent })
       }
     },
-    singleEnterGesture(content: Block, event: KeyboardEvent) {
+    desktopKeyDownEnter({
+      id,
+      event,
+      childId,
+      nowContent
+    }: {
+      id: string
+      event: KeyboardEvent
+      childId: string
+      nowContent: Block
+    }) {
+      if (event.shiftKey) {
+        return
+      }
+      if (nowContent.type === BlockType.Image) {
+        return
+      }
+      event.preventDefault()
+      requestAnimationFrame(() => {
+        const b = this.appendNewBlock(nowContent.id, {
+          type: BlockType.Paragraph,
+          payload: {
+            body: '<p></p>'
+          }
+        })
+        if (!b) {
+          return
+        }
+        requestAnimationFrame(() => {
+          this.active = b.id
+          browserSelection.selectContentEditableFirstCharFromBlock(b)
+          const isLink =
+            nowContent.type === BlockType.Paragraph &&
+            urlregex().test(nowContent.payload.body) &&
+            !nowContent.payload.body.match(/([亜-熙ぁ-んァ-ヶ]+)/g)
+          if (!isLink) return
+          this.updateBlock({
+            id: nowContent.id,
+            type: BlockType.Embed,
+            payload: {
+              src: sanitize(nowContent.payload.body, { allowedTags: [] })
+            }
+          })
+        })
+      })
+    },
+    mobileKeyDownEnter({
+      id,
+      event,
+      childId,
+      nowContent
+    }: {
+      id: string
+      event: KeyboardEvent
+      childId: string
+      nowContent: Block
+    }) {
+      if (nowContent.type === 'Paragraph') {
+        if (!this.isPressedEnter) {
+          this.isPressedEnter = true
+          return
+        }
+        this.isPressedEnter = false
+        requestAnimationFrame(() => {
+          this.mobileDoubleEnterGesture(nowContent, event)
+        })
+        return
+      }
+      requestAnimationFrame(() => {
+        this.mobileSingleEnterGesture(nowContent, event)
+      })
+      this.isPressedEnter = false
+    },
+    mobileSingleEnterGesture(content: Block, event: KeyboardEvent) {
       event.preventDefault()
       const newId = uuid()
       this.appendNewBlock(content.id, {
@@ -250,7 +263,7 @@ export default Vue.extend({
       })
       this.removeActive()
     },
-    doubleEnterGesture(content: Block, event: KeyboardEvent) {
+    mobileDoubleEnterGesture(content: Block, event: KeyboardEvent) {
       const index = Array.prototype.indexOf.call(
         document.querySelector(':focus')!.childNodes,
         window.getSelection().getRangeAt(0).commonAncestorContainer.parentNode
@@ -330,21 +343,7 @@ export default Vue.extend({
         this.deleteBlock(beforeContent)
       } else if (isContentEditableBlock(beforeContent)) {
         requestAnimationFrame(() => {
-          const el = document.querySelector(`[data-block-id="${beforeContent.id}"] .target`)
-          console.log(el)
-          if (!el) return
-          const range = document.createRange()
-          const selection = window.getSelection()
-          const node = el.childNodes[el.childNodes.length - 1]
-          const textNode = node.childNodes[node.childNodes.length - 1]
-          if (!node || !textNode) {
-            return
-          }
-          selection.removeAllRanges()
-          range.setStart(textNode, (textNode.textContent || '').length)
-          range.setEnd(textNode, (textNode.textContent || '').length)
-          range.collapse(true)
-          selection.addRange(range)
+          browserSelection.selectContentEditableLastCharFromBlock(beforeContent)
         })
       }
     },
