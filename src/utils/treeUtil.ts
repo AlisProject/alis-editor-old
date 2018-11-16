@@ -16,21 +16,6 @@ export function findBeforeRootContentByRootBlockId(id: string, blocks: Block[]):
   )
 }
 
-/*
-
-以下において、 '456' から '123' を返却する関数
-
-[
-  {
-    id: '123',
-    children: [
-      {
-        id: '456'
-      }
-    ]
-  }
-]
-*/
 export function findRootIdByBlockId(id: string, blocks: Block[]) {
   if (blocks.find((block: Block) => block.id === id)) {
     return blocks.find((block: Block) => block.id === id)!.id
@@ -53,24 +38,6 @@ export function findRootIdByBlockId(id: string, blocks: Block[]) {
   return content ? content.id : false
 }
 
-/*
-
-以下において、 '456' から '456' の ID のBlock を返す関数
-
-[
-  {
-    id: '123',
-    children: [
-      {
-        id: '456'
-      }
-    ]
-  },
-  {
-    id: '789'
-  }
-]
-*/
 export function findTreeContentById(id: string, blocks: Block[]) {
   let foundBlock = false
   let content: any = null
@@ -90,9 +57,6 @@ export function findTreeContentById(id: string, blocks: Block[]) {
   return content ? (content as Block) : false
 }
 
-/*
-ID を指定して置換する関数
-*/
 export function applyTreeById(id: string, newBlock: Block, blocks: Block[]) {
   let foundBlock = false
 
@@ -112,9 +76,6 @@ export function applyTreeById(id: string, newBlock: Block, blocks: Block[]) {
   return blocks.map(block => recursion(block))
 }
 
-/*
-子要素であっても確実に削除し、子要素がなくなった inner 親要素(Paragraph) などを削除する関数
-*/
 export function deleteTreeContentById(id: string, blocks: Block[]) {
   const parentBlocks = blocks.filter(b => b.id !== id)
   if (parentBlocks.length !== blocks.length) {
@@ -132,6 +93,10 @@ export function deleteTreeContentById(id: string, blocks: Block[]) {
       parent.children = parent.children.filter(c => recursion(c))
     }
     return true
+  }
+
+  if (!foundBlock) {
+    return blocks.map(b => b)
   }
 
   return blocks

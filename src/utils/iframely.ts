@@ -59,13 +59,7 @@ export function getIframelyHtml(url: string) {
   const isYouTubeResource = isYouTubeVideoURL(url)
   const isFacebookResource = isFacebookPostURL(url)
   const isInstagramResource = isInstagramURL(url)
-  console.log(
-    isTweet,
-    isGistResource,
-    isYouTubeResource,
-    isFacebookResource,
-    isInstagramResource
-  )
+  console.log(isTweet, isGistResource, isYouTubeResource, isFacebookResource, isInstagramResource)
 }
 
 export function getIframelyUrlTemplate(url: string) {
