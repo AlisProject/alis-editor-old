@@ -1,7 +1,15 @@
 import { BlockType } from '../../../src/types/Blocks'
-import { createBlock } from '../../../src/utils/createBlock'
+import { createBlock, isContentEditableBlock } from '../../../src/utils/createBlock'
 
 describe('utils/createBlock.ts', () => {
+  describe('isContentEditableBlock', () => {
+    test('valid', () => {
+      expect(isContentEditableBlock(createBlock(BlockType.Paragraph))).toBe(true)
+    })
+    test('invalid', () => {
+      expect(isContentEditableBlock(createBlock(BlockType.Rule))).toBe(false)
+    })
+  })
   Object.entries(BlockType).forEach(([K, V]) => {
     test(K, () => {
       expect(
