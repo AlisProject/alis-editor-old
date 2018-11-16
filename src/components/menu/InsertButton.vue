@@ -10,12 +10,8 @@
       <span>+</span>
     </div>
     <ul class="insert-button__list" v-if="isOpen">
-      <li class="insert-button__listItem" @click="dispatchUpload">
-        <InsertButtonIcon :src="SvgIcon.image" />
-      </li>
-      <li class="insert-button__listItem" @click="appendRule">
-        <InsertButtonIcon :src="SvgIcon.rule" />
-      </li>
+      <li class="insert-button__listItem" @click="dispatchUpload"><InsertButtonIcon :src="SvgIcon.image" /></li>
+      <li class="insert-button__listItem" @click="appendRule"><InsertButtonIcon :src="SvgIcon.rule" /></li>
     </ul>
     <input type="file" @change="handleUpload" />
   </div>

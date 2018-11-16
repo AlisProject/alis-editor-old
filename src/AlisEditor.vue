@@ -57,6 +57,13 @@ interface EditorState {
   beforeBlockSnapshot: string
 }
 
+interface DeviceKeyDownEventArgument {
+  id: string
+  event: KeyboardEvent
+  childId: string
+  nowContent: Block
+}
+
 export default Vue.extend({
   data(): EditorState {
     const store = new Store.EditorStore({
@@ -182,17 +189,7 @@ export default Vue.extend({
         this.mobileKeyDownEnter({ id, event, childId, nowContent })
       }
     },
-    desktopKeyDownEnter({
-      id,
-      event,
-      childId,
-      nowContent
-    }: {
-      id: string
-      event: KeyboardEvent
-      childId: string
-      nowContent: Block
-    }) {
+    desktopKeyDownEnter({ id, event, childId, nowContent }: DeviceKeyDownEventArgument) {
       if (event.shiftKey) {
         return
       }
@@ -220,17 +217,7 @@ export default Vue.extend({
         })
       })
     },
-    mobileKeyDownEnter({
-      id,
-      event,
-      childId,
-      nowContent
-    }: {
-      id: string
-      event: KeyboardEvent
-      childId: string
-      nowContent: Block
-    }) {
+    mobileKeyDownEnter({ id, event, childId, nowContent }: DeviceKeyDownEventArgument) {
       if (nowContent.type === 'Paragraph') {
         if (!this.isPressedEnter) {
           this.isPressedEnter = true

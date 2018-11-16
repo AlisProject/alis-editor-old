@@ -9,18 +9,10 @@
         top: `${this.position.top}px`
       }"
     >
-      <button class="insert-popup__item" @click="execBold">
-        <InsertPopupIcon :src="SvgIcon.bold" />
-      </button>
-      <button class="insert-popup__item" @click="execItalic">
-        <InsertPopupIcon :src="SvgIcon.italic" />
-      </button>
-      <button class="insert-popup__item" @click="execQuote">
-        <InsertPopupIcon :src="SvgIcon.quote" />
-      </button>
-      <button class="insert-popup__item" @click="execHeading">
-        <InsertPopupIcon :src="SvgIcon.h2" />
-      </button>
+      <button class="insert-popup__item" @click="execBold"><InsertPopupIcon :src="SvgIcon.bold" /></button>
+      <button class="insert-popup__item" @click="execItalic"><InsertPopupIcon :src="SvgIcon.italic" /></button>
+      <button class="insert-popup__item" @click="execQuote"><InsertPopupIcon :src="SvgIcon.quote" /></button>
+      <button class="insert-popup__item" @click="execHeading"><InsertPopupIcon :src="SvgIcon.h2" /></button>
       <!--
         <button class="insert-popup__item" @click="execSubHeading">
           <InsertPopupIcon :src="require('../../assets/icon-h3.svg.js')" />
