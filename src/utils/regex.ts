@@ -8,8 +8,8 @@ export function isAlphaNumericSymbol(str: string) {
   return !!str.match(/^[\x21-\x7e]+$/)
 }
 
-export function isNotAlphaNumericSymbol(str: string) {
-  return !!str.match(/^[^\x21-\x7e]+$/)
+export function isIncludeNotAlphaNumericSymbol(str: string) {
+  return !!str.match(/[^\x21-\x7e]/)
 }
 
 export function isJapanese(str: string) {
@@ -17,5 +17,5 @@ export function isJapanese(str: string) {
 }
 
 export function isValidEmbedString(str: string) {
-  return isURL(str) && !isNotAlphaNumericSymbol(str)
+  return isURL(str) && !isIncludeNotAlphaNumericSymbol(str)
 }

@@ -44,10 +44,10 @@ import { createDataURIImage } from './utils/createImage'
 import { isMobile, isDesktop } from './utils/deviceUtil'
 import { findRootIdByBlockId, findTreeContentById, findBeforeRootContentByRootBlockId } from './utils/treeUtil'
 import * as Store from './store/'
-import urlregex from 'url-regex'
 import * as config from './utils/config'
 import * as browserSelection from './utils/browserSelection'
 import * as sanitizer from './utils/sanitizer'
+import * as regex from './utils/regex'
 
 interface EditorState {
   active: string | null
@@ -207,10 +207,7 @@ export default Vue.extend({
         requestAnimationFrame(() => {
           this.active = b.id
           browserSelection.selectContentEditableFirstCharFromBlock(b)
-          const isLink =
-            nowContent.type === BlockType.Paragraph &&
-            urlregex().test(nowContent.payload.body) &&
-            !nowContent.payload.body.match(/([亜-熙ぁ-んァ-ヶ]+)/g)
+          const isLink = nowContent.type === BlockType.Paragraph && regex.isValidEmbedString(nowContent.payload.body)
           if (!isLink) return
           this.updateBlock({
             id: nowContent.id,
@@ -286,7 +283,7 @@ export default Vue.extend({
       const nowBlock = { ...content } as Block
       nowBlock.payload.body = `${nowElement.innerHTML}`
       const rawText = nowBlock.payload.body.replace(/ /g, '')
-      if (urlregex().test(rawText) && !rawText.match(/([^a-zA-Z0-9]+)/g)) {
+      if (regex.isValidEmbedString(rawText)) {
         nowBlock.type = BlockType.Embed
         nowBlock.payload = {
           src: rawText
@@ -297,7 +294,7 @@ export default Vue.extend({
       document.querySelector(':focus')!.innerHTML = `${nowElement.innerHTML}`
       const newId = uuid()
       const rawNewText = newElement.innerHTML
-      if (urlregex().test(rawNewText) && !rawNewText.match(/([亜-熙ぁ-んァ-ヶ]+)/g)) {
+      if (regex.isValidEmbedString(rawNewText)) {
         this.appendNewBlock(content.id, {
           type: BlockType.Embed,
           payload: {
