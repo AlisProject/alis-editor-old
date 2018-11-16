@@ -75,7 +75,10 @@ export default Vue.extend({
     }
   },
   props: {
-    initialState: Array as () => Block[],
+    initialState: {
+      type: Array as () => Block[],
+      default: []
+    },
     config: config.configProps
   },
   components: {
