@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/AlisProject/alis-editor/compare/v0.7.0...v0.8.0) (2018-11-16)
+
+
+### Features
+
+* Apply changes ~ 2018/11/15 ([965d1e9](https://github.com/AlisProject/alis-editor/commit/965d1e9))
+* Implement auto embed in Desktop Paragraph ([31dc4b0](https://github.com/AlisProject/alis-editor/commit/31dc4b0))
+* Implement embed/ruler remover and block remove pointer function ([ed69586](https://github.com/AlisProject/alis-editor/commit/ed69586))
+* Implement rollback block type ([bddce65](https://github.com/AlisProject/alis-editor/commit/bddce65))
+
+
+
 <a name="0.7.0"></a>
 # [0.7.0](https://github.com/AlisProject/alis-editor/compare/v0.6.0...v0.7.0) (2018-11-09)
 
