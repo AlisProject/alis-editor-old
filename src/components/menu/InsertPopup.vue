@@ -10,16 +10,16 @@
       }"
     >
       <button class="insert-popup__item" @click="execBold">
-        <InsertPopupIcon :src="require('../../assets/icon-bold.svg.js')" />
+        <InsertPopupIcon :src="SvgIcon.bold" />
       </button>
       <button class="insert-popup__item" @click="execItalic">
-        <InsertPopupIcon :src="require('../../assets/icon-italic.svg.js')" />
+        <InsertPopupIcon :src="SvgIcon.italic" />
       </button>
       <button class="insert-popup__item" @click="execQuote">
-        <InsertPopupIcon :src="require('../../assets/icon-quote.svg.js')" />
+        <InsertPopupIcon :src="SvgIcon.quote" />
       </button>
       <button class="insert-popup__item" @click="execHeading">
-        <InsertPopupIcon :src="require('../../assets/icon-h2.svg.js')" />
+        <InsertPopupIcon :src="SvgIcon.h2" />
       </button>
       <!--
         <button class="insert-popup__item" @click="execSubHeading">
@@ -34,6 +34,7 @@
 import Vue from 'vue'
 import InsertPopupIcon from './InsertPopupIcon.vue'
 import { BlockType } from '../../types/Blocks'
+import * as SvgIcon from '../vector/SvgIcon'
 
 export default Vue.extend({
   props: {
@@ -52,6 +53,11 @@ export default Vue.extend({
   },
   components: {
     InsertPopupIcon
+  },
+  computed: {
+    SvgIcon() {
+      return SvgIcon
+    }
   },
   mounted() {
     document.addEventListener('selectionchange', this.onSelectionChange)

@@ -11,10 +11,10 @@
     </div>
     <ul class="insert-button__list" v-if="isOpen">
       <li class="insert-button__listItem" @click="dispatchUpload">
-        <InsertButtonIcon :src="require('../../assets/icon-image.svg.js')" />
+        <InsertButtonIcon :src="SvgIcon.image" />
       </li>
       <li class="insert-button__listItem" @click="appendRule">
-        <InsertButtonIcon :src="require('../../assets/icon-rule.svg.js')" />
+        <InsertButtonIcon :src="SvgIcon.rule" />
       </li>
     </ul>
     <input type="file" @change="handleUpload" />
@@ -25,6 +25,7 @@
 import Vue from 'vue'
 import InsertButtonIcon from './InsertButtonIcon.vue'
 import { BlockType } from '../../types/Blocks'
+import * as SvgIcon from '../vector/SvgIcon'
 
 export default Vue.extend({
   data() {
@@ -34,6 +35,11 @@ export default Vue.extend({
   },
   components: {
     InsertButtonIcon
+  },
+  computed: {
+    SvgIcon() {
+      return SvgIcon
+    }
   },
   methods: {
     toggleIsOpen() {

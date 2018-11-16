@@ -3,24 +3,24 @@
     <ul class="editor-toolbar">
       <li class="editor-toolbar__item" @click="appendHeading">
         <ToolbarIcon
-          :src="require('../../assets/icon-h2.svg.js')"
+          :src="SvgIcon.h2"
           :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
         />
       </li>
       <li class="editor-toolbar__item" @click="appendHeading">
         <ToolbarIcon
-          :src="require('../../assets/icon-h3.svg.js')"
+          :src="SvgIcon.h3"
           :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
         />
       </li>
       <li class="editor-toolbar__item" @click="dispatchUpload">
-        <ToolbarIcon :src="require('../../assets/icon-image.svg.js')" :active="activeRoot.type === BlockType.Image" />
+        <ToolbarIcon :src="SvgIcon.image" :active="activeRoot.type === BlockType.Image" />
       </li>
       <li class="editor-toolbar__item" @click="appendQuote">
-        <ToolbarIcon :src="require('../../assets/icon-quote.svg.js')" :active="activeRoot.type === BlockType.Quote" />
+        <ToolbarIcon :src="SvgIcon.quote" :active="activeRoot.type === BlockType.Quote" />
       </li>
       <li class="editor-toolbar__item" @click="appendRule">
-        <ToolbarIcon :src="require('../../assets/icon-rule.svg.js')" :active="activeRoot.type === BlockType.Rule" />
+        <ToolbarIcon :src="SvgIcon.rule" :active="activeRoot.type === BlockType.Rule" />
       </li>
       <li class="editor-toolbar__item editor-toolbar__item-stats">
         <span class="editor-toolbar__status" :class="{ 'is-active': isSaving }"></span>
@@ -31,19 +31,19 @@
       <ul class="editor-toolbar editor-toolbar--decoration" :class="{ 'is-active': isDecoration }">
         <li class="editor-toolbar__item" @click="appendHeading">
           <ToolbarIcon
-            :src="require('../../assets/icon-bold.svg.js')"
+            :src="SvgIcon.bold"
             :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
           />
         </li>
         <li class="editor-toolbar__item" @click="appendHeading">
           <ToolbarIcon
-            :src="require('../../assets/icon-italic.svg.js')"
+            :src="SvgIcon.italic"
             :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
           />
         </li>
         <li class="editor-toolbar__item" @click="dispatchUpload">
           <ToolbarIcon
-            :src="require('../../assets/icon-link.svg.js')"
+            :src="SvgIcon.link"
             :active="activeRoot.type === BlockType.Image"
           />
         </li>
@@ -62,6 +62,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import ToolbarIcon from './ToolbarIcon.vue'
+import * as SvgIcon from '../vector/SvgIcon'
 import { BlockType } from '../../types/Blocks'
 
 function getTargetTag() {
@@ -82,6 +83,11 @@ export default Vue.extend({
   },
   components: {
     ToolbarIcon
+  },
+  computed: {
+    SvgIcon() {
+      return SvgIcon
+    }
   },
   data() {
     return {
