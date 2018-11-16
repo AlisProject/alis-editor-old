@@ -1,5 +1,11 @@
 import axios from 'axios'
 
+interface IframelyEmbedTemplate {
+  url: string
+  links: any
+  meta: any
+}
+
 export function isYouTubeVideoURL(url: string) {
   // 参考：
   // https://github.com/itteco/iframely/blob/ef79303fdd8400ca958827a787a3f18bb9044073/plugins/domains/youtube.com/youtube.video.js
@@ -53,6 +59,7 @@ export function getIframelyHtml(url: string) {
   const isYouTubeResource = isYouTubeVideoURL(url)
   const isFacebookResource = isFacebookPostURL(url)
   const isInstagramResource = isInstagramURL(url)
+  console.log(isTweet, isGistResource, isYouTubeResource, isFacebookResource, isInstagramResource)
 }
 
 export function getIframelyUrlTemplate(url: string) {
@@ -155,18 +162,8 @@ export function getTwitterProfileTemplate({
   return div.innerHTML
 }
 
-export function getIframelyEmbedTemplate({ url, meta, links }: { url: string; meta: any; links: any }) {
-  // This method returns DOM string like this.
-  //
-  // `<div data-alis-iframely-url="${url}" contenteditable="false">
-  //   <a href="${url}" target="_blank" class="iframely-embed-card">
-  //     <div class="title">${meta.title || ''}</div>
-  //     <div class="description">${meta.description || ''}</div>
-  //     <img class="thumbnail" src="${(links.thumbnail && links.thumbnail[0].href) ||
-  //       (links.icon && links.icon[0].href)}"> <!-- if hasThumbnail returns true -->
-  //     <div class="site">${domain}</div>
-  //   </a>
-  // </div>`
+export function getIframelyEmbedTemplate(template: IframelyEmbedTemplate) {
+  const { url, meta, links } = template
 
   const domain = url.split('/')[2]
   const thumbnail = (links.thumbnail && links.thumbnail[0].href) || (links.icon && links.icon[0].href)

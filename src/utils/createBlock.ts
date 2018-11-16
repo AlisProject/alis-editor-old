@@ -24,7 +24,7 @@ function createBlockTemplate(type: BlockType) {
       return {
         type: BlockType.Paragraph,
         payload: {
-          body: ''
+          body: '<p></p>'
         }
       }
     }

@@ -13,9 +13,7 @@ describe('ImageBlock.vue', () => {
             src: 'https://github.com/potato4d.png'
           }
         },
-        axiosConfig: {
-
-        }
+        axiosConfig: {}
       },
       stubs: ['ShadowInput']
     })
@@ -32,9 +30,7 @@ describe('ImageBlock.vue', () => {
             src: 'https://github.com/potato4d.png'
           }
         },
-        axiosConfig: {
-
-        },
+        axiosConfig: {},
         preview: true
       },
       stubs: ['ShadowInput']

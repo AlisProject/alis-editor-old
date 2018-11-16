@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import ShadowInput from '@/components/utils/ShadowInput.vue'
+import ShadowInput from '@/components/blocks/ShadowInput.vue'
 
 describe('ShadowInput.vue', () => {
   test('renders correctly', () => {

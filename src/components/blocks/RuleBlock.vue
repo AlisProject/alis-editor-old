@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ShadowInput from '../utils/ShadowInput.vue'
+import ShadowInput from '../blocks/ShadowInput.vue'
 
 export default Vue.extend({
   components: {

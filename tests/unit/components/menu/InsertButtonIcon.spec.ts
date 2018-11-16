@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import InsertButtonIcon from '@/components/utils/InsertButtonIcon.vue'
+import InsertButtonIcon from '@/components/menu/InsertButtonIcon.vue'
 
 describe('InsertButtonIcon.vue', () => {
   test('renders correctly', () => {

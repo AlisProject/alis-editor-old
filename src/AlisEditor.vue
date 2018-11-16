@@ -6,7 +6,6 @@
         v-if="!config.preview"
         @append="appendNewBlock(active, { type: $event })"
         @upload="insertImageBlock(active, $event)"
-        @publish="publish"
         :activeRoot="activeRoot || {}"
         :isSaving="store.state.isSaving"
       />
@@ -38,22 +37,21 @@ import Vue from 'vue'
 import uuid from 'uuid/v4'
 import EditorBlock from './components/blocks/EditorBlock.vue'
 import EditorToolbar from './components/menu/EditorToolbar.vue'
-import InsertPopup from './components/utils/InsertPopup.vue'
+import InsertPopup from './components/menu/InsertPopup.vue'
 import { Block, BlockType, ParagraphBlock } from './types/Blocks'
 import { createBlock, isContentEditableBlock } from './utils/createBlock'
 import { createDataURIImage } from './utils/createImage'
 import { isMobile, isDesktop } from './utils/deviceUtil'
-import { findRootIdByBlockId, findTreeContentById, findBeforeRootContentByRootBlockId } from './utils/applyTree'
-import { EditorStore } from './store/'
-import { cloneDeep } from 'lodash'
-import urlregex from 'url-regex'
-import { configProps } from './utils/config'
-const sanitize = require('sanitize-html/src/index.js')
+import { findRootIdByBlockId, findTreeContentById, findBeforeRootContentByRootBlockId } from './utils/treeUtil'
+import * as Store from './store/'
+import * as config from './utils/config'
+import * as browserSelection from './utils/browserSelection'
+import * as sanitizer from './utils/sanitizer'
+import * as regex from './utils/regex'
 
 interface EditorState {
   active: string | null
-  activeIdx: number | null
-  store: EditorStore
+  store: Store.EditorStore
   isPressedEnter: boolean
   intervalId: any
   beforeBlockSnapshot: string
@@ -61,26 +59,27 @@ interface EditorState {
 
 export default Vue.extend({
   data(): EditorState {
-    Vue.prototype.$editorStore = new EditorStore({
+    const store = new Store.EditorStore({
       isSaving: false,
       blocks: []
     })
-    const store = Vue.prototype.$editorStore as EditorStore
     store.initState({
       blocks: (this.initialState as any) as Block[]
     })
     return {
       store,
       active: null,
-      activeIdx: null,
       isPressedEnter: false,
       intervalId: null,
       beforeBlockSnapshot: ''
     }
   },
   props: {
-    initialState: Array as () => Block[],
-    config: configProps
+    initialState: {
+      type: Array as () => Block[],
+      default: []
+    },
+    config: config.configProps
   },
   components: {
     EditorBlock,
@@ -89,19 +88,7 @@ export default Vue.extend({
   },
   mounted() {
     this.beforeBlockSnapshot = JSON.stringify(this.store.state.blocks)
-    window.addEventListener('blur', () => {
-      // this.active = null
-    })
-
-    if (!this.intervalId) {
-      this.intervalId = setInterval(() => {
-        if (JSON.stringify(this.store.state.blocks) !== this.beforeBlockSnapshot) {
-          this.$emit('update', this.store.state.blocks)
-        }
-        this.store.setIsSaving(JSON.stringify(this.store.state.blocks) !== this.beforeBlockSnapshot)
-        this.beforeBlockSnapshot = JSON.stringify(this.store.state.blocks)
-      }, 2000)
-    }
+    this.registerScheduledSave()
   },
   computed: {
     activeRoot(): Block | null {
@@ -111,46 +98,60 @@ export default Vue.extend({
     }
   },
   methods: {
-    setActive(block: Block) {
+    registerScheduledSave(): void {
+      if (this.intervalId) return
+      this.intervalId = setInterval(() => {
+        if (JSON.stringify(this.store.state.blocks) !== this.beforeBlockSnapshot) {
+          this.$emit('update', this.store.state.blocks)
+        }
+        this.store.setIsSaving(JSON.stringify(this.store.state.blocks) !== this.beforeBlockSnapshot)
+        this.beforeBlockSnapshot = JSON.stringify(this.store.state.blocks)
+      }, 2000)
+    },
+    setActive(block: Block): void {
       this.active = block.id
     },
-    removeActive() {
+    removeActive(): void {
       requestAnimationFrame(() => {
         document.querySelector('body')!.click
         this.active = null
       })
     },
-    addImageURI(id: string, src: string) {
+    addImageURI(id: string, src: string): void {
       this.appendNewBlock(id, {
         type: BlockType.Image,
         payload: { src },
         children: []
       })
     },
-    replaceBlockType(type: BlockType) {
+    replaceBlockType(type: BlockType): void {
       const aR = this.activeRoot
       if (!aR) {
         return
       }
       if (aR.type === BlockType.Paragraph) {
         // 個別ブロックにする処理
-        const skeleton = createBlock(type, {})
-        console.log(skeleton)
-        skeleton.id = aR.id
-        ;(skeleton as any).children[0].payload.body = sanitize(aR.payload.body, {
-          allowedTags: []
+        const skeleton = createBlock(type, {
+          id: aR.id,
+          children: [
+            createBlock(BlockType.Text, {
+              payload: {
+                body: sanitizer.sanitizeAllTags(aR.payload.body)
+              }
+            })
+          ]
         })
         this.updateBlock(skeleton)
       } else if (type === aR.type) {
         // 個別ブロックを Paragraph に戻す処理
-        const skeleton = createBlock(BlockType.Paragraph, {})
-        console.log(skeleton)
-        skeleton.id = aR.id
-        skeleton.payload.body = `<p>${(aR as any).children[0].payload.body}</p>`
+        const skeleton = createBlock(BlockType.Paragraph, {
+          id: aR.id,
+          payload: { body: `<p>${(aR as any).children[0].payload.body}</p>` }
+        })
         this.updateBlock(skeleton)
       }
     },
-    handleKeydown(id: string, event: KeyboardEvent) {
+    handleKeydown(id: string, event: KeyboardEvent): void {
       if (isMobile()) {
         if (event.keyCode === 13) {
           const childId = findRootIdByBlockId(id, this.store.state.blocks)
@@ -168,81 +169,85 @@ export default Vue.extend({
         this.isPressedEnter = false
       }
     },
-    handleKeydownEnter(id: string, event: KeyboardEvent) {
+    handleKeydownEnter(id: string, event: KeyboardEvent): void {
       const childId = findRootIdByBlockId(id, this.store.state.blocks)
-      if (!childId) {
-        return
-      }
-
+      if (!childId) return
       const nowContent = findTreeContentById(childId, this.store.state.blocks)
-      if (!nowContent) {
-        return
-      }
+      if (!nowContent) return
 
       if (isDesktop()) {
-        if (event.shiftKey) {
-          return
-        }
-        if (nowContent.type === BlockType.Image) {
-          return
-        }
-        event.preventDefault()
-        requestAnimationFrame(() => {
-          const b = this.appendNewBlock(nowContent.id, {
-            type: BlockType.Paragraph,
-            payload: {
-              body: '<p></p>'
-            }
-          })
-          if (!b) {
-            return
-          }
-          requestAnimationFrame(() => {
-            this.active = b.id
-            const el = document.querySelector(`[data-block-id="${b.id}"] .target`)
-            if (!el) return
-            const range = document.createRange()
-            const sel = window.getSelection()
-            range.setStart(el.childNodes[0], 0)
-            range.collapse(true)
-            sel.removeAllRanges()
-            sel.addRange(range)
-            const isLink =
-              nowContent.type === BlockType.Paragraph &&
-              urlregex().test(nowContent.payload.body) &&
-              !nowContent.payload.body.match(/([亜-熙ぁ-んァ-ヶ]+)/g)
-            if (isLink) {
-              this.updateBlock({
-                id: nowContent.id,
-                type: BlockType.Embed,
-                payload: {
-                  src: sanitize(nowContent.payload.body, { allowedTags: [] })
-                }
-              })
-            }
-          })
-        })
+        this.desktopKeyDownEnter({ id, event, childId, nowContent })
       }
-
       if (isMobile()) {
-        if (nowContent.type === 'Paragraph') {
-          if (!this.isPressedEnter) {
-            this.isPressedEnter = true
-            return
-          }
-          this.isPressedEnter = false
-          requestAnimationFrame(() => {
-            this.doubleEnterGesture(nowContent, event)
-          })
-          return
-        }
-        requestAnimationFrame(() => {
-          this.singleEnterGesture(nowContent, event)
-        })
-        this.isPressedEnter = false
+        this.mobileKeyDownEnter({ id, event, childId, nowContent })
       }
     },
-    singleEnterGesture(content: Block, event: KeyboardEvent) {
+    desktopKeyDownEnter({
+      id,
+      event,
+      childId,
+      nowContent
+    }: {
+      id: string
+      event: KeyboardEvent
+      childId: string
+      nowContent: Block
+    }) {
+      if (event.shiftKey) {
+        return
+      }
+      if (nowContent.type === BlockType.Image) {
+        return
+      }
+      event.preventDefault()
+      requestAnimationFrame(() => {
+        const b = this.appendNewBlock(nowContent.id, createBlock(BlockType.Paragraph))
+        if (!b) {
+          return
+        }
+        requestAnimationFrame(() => {
+          this.active = b.id
+          browserSelection.selectContentEditableFirstCharFromBlock(b)
+          const isLink = nowContent.type === BlockType.Paragraph && regex.isValidEmbedString(nowContent.payload.body)
+          if (!isLink) return
+          this.updateBlock({
+            id: nowContent.id,
+            type: BlockType.Embed,
+            payload: {
+              src: sanitizer.sanitizeAllTags(nowContent.payload.body)
+            }
+          })
+        })
+      })
+    },
+    mobileKeyDownEnter({
+      id,
+      event,
+      childId,
+      nowContent
+    }: {
+      id: string
+      event: KeyboardEvent
+      childId: string
+      nowContent: Block
+    }) {
+      if (nowContent.type === 'Paragraph') {
+        if (!this.isPressedEnter) {
+          this.isPressedEnter = true
+          return
+        }
+        this.isPressedEnter = false
+        requestAnimationFrame(() => {
+          this.mobileDoubleEnterGesture(nowContent, event)
+        })
+        return
+      }
+      requestAnimationFrame(() => {
+        this.mobileSingleEnterGesture(nowContent, event)
+      })
+      this.isPressedEnter = false
+    },
+    mobileSingleEnterGesture(content: Block, event: KeyboardEvent) {
       event.preventDefault()
       const newId = uuid()
       this.appendNewBlock(content.id, {
@@ -253,7 +258,7 @@ export default Vue.extend({
       })
       this.removeActive()
     },
-    doubleEnterGesture(content: Block, event: KeyboardEvent) {
+    mobileDoubleEnterGesture(content: Block, event: KeyboardEvent) {
       const index = Array.prototype.indexOf.call(
         document.querySelector(':focus')!.childNodes,
         window.getSelection().getRangeAt(0).commonAncestorContainer.parentNode
@@ -279,7 +284,7 @@ export default Vue.extend({
       const nowBlock = { ...content } as Block
       nowBlock.payload.body = `${nowElement.innerHTML}`
       const rawText = nowBlock.payload.body.replace(/ /g, '')
-      if (urlregex().test(rawText) && !rawText.match(/([^a-zA-Z0-9]+)/g)) {
+      if (regex.isValidEmbedString(rawText)) {
         nowBlock.type = BlockType.Embed
         nowBlock.payload = {
           src: rawText
@@ -290,7 +295,7 @@ export default Vue.extend({
       document.querySelector(':focus')!.innerHTML = `${nowElement.innerHTML}`
       const newId = uuid()
       const rawNewText = newElement.innerHTML
-      if (urlregex().test(rawNewText) && !rawNewText.match(/([亜-熙ぁ-んァ-ヶ]+)/g)) {
+      if (regex.isValidEmbedString(rawNewText)) {
         this.appendNewBlock(content.id, {
           type: BlockType.Embed,
           payload: {
@@ -317,9 +322,6 @@ export default Vue.extend({
         })
       })()
     },
-    publish() {
-      this.$emit('export', this.store.state.blocks)
-    },
     deleteBlock(content: Block) {
       const beforeContent = findBeforeRootContentByRootBlockId(content.id, this.store.state.blocks)
       if (beforeContent) {
@@ -333,21 +335,7 @@ export default Vue.extend({
         this.deleteBlock(beforeContent)
       } else if (isContentEditableBlock(beforeContent)) {
         requestAnimationFrame(() => {
-          const el = document.querySelector(`[data-block-id="${beforeContent.id}"] .target`)
-          console.log(el)
-          if (!el) return
-          const range = document.createRange()
-          const selection = window.getSelection()
-          const node = el.childNodes[el.childNodes.length - 1]
-          const textNode = node.childNodes[node.childNodes.length - 1]
-          if (!node || !textNode) {
-            return
-          }
-          selection.removeAllRanges()
-          range.setStart(textNode, (textNode.textContent || '').length)
-          range.setEnd(textNode, (textNode.textContent || '').length)
-          range.collapse(true)
-          selection.addRange(range)
+          browserSelection.selectContentEditableLastCharFromBlock(beforeContent)
         })
       }
     },
@@ -359,7 +347,7 @@ export default Vue.extend({
       delete extend.type
       const beforeContent = findTreeContentById(id, this.store.state.blocks)
       if (!id || !beforeContent) {
-        console.log('idかbeforeContentがないよ')
+        console.error('Missing params "id" or "beforeContent"g')
         return
       }
       return this.store.appendBlock(createBlock(type, extend), beforeContent)

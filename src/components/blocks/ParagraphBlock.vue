@@ -16,13 +16,12 @@
 <script lang="ts">
 import Vue from 'vue'
 import uuid from 'uuid/v4'
-import urlregex from 'url-regex'
 import { Block, ParagraphBlock, BlockType } from '../../types/Blocks'
 import { cloneDeep, debounce } from 'lodash'
 import { setTimeout } from 'timers'
 import { autolinker } from '../../utils/autolinker'
 import { getIframelyUrlTemplate } from '../../utils/iframely'
-const sanitize = require('sanitize-html/src/index.js')
+import * as sanitizer from '../../utils/sanitizer'
 
 export default Vue.extend({
   props: {
@@ -76,9 +75,7 @@ export default Vue.extend({
     updateDOM(target: any, requireUpdateDOM?: boolean) {
       requestAnimationFrame(() => {
         const selection = document.getSelection()
-        const sanitizedHtml = sanitize(target.innerHTML, {
-          allowedTags: ['p', 'b', 'i', 'em', 'strong', 'a', 'br']
-        })
+        const sanitizedHtml = sanitizer.sanitizeCommonTags(target.innerHTML)
         if (sanitizedHtml) {
           if (requireUpdateDOM) {
             this.$el.querySelector('.target')!.innerHTML = sanitizedHtml
@@ -89,17 +86,6 @@ export default Vue.extend({
         } else {
           this.$emit('delete', this.block)
         }
-        // setTimeout(() => {
-        //   try {
-        //     const node = selection.anchorNode
-        //     const offset = selection.anchorOffset
-        //     selection.removeAllRanges()
-        //     const range = document.createRange()
-        //     range.setStart(node, offset)
-        //     range.setEnd(node, offset)
-        //     selection.addRange(range)
-        //   } catch (e) {}
-        // }, 0)
       })
     }
   }
