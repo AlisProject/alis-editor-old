@@ -88,19 +88,7 @@ export default Vue.extend({
   },
   mounted() {
     this.beforeBlockSnapshot = JSON.stringify(this.store.state.blocks)
-    window.addEventListener('blur', () => {
-      // this.active = null
-    })
-
-    if (!this.intervalId) {
-      this.intervalId = setInterval(() => {
-        if (JSON.stringify(this.store.state.blocks) !== this.beforeBlockSnapshot) {
-          this.$emit('update', this.store.state.blocks)
-        }
-        this.store.setIsSaving(JSON.stringify(this.store.state.blocks) !== this.beforeBlockSnapshot)
-        this.beforeBlockSnapshot = JSON.stringify(this.store.state.blocks)
-      }, 2000)
-    }
+    this.registerScheduledSave()
   },
   computed: {
     activeRoot(): Block | null {
@@ -110,23 +98,33 @@ export default Vue.extend({
     }
   },
   methods: {
-    setActive(block: Block) {
+    registerScheduledSave(): void {
+      if (this.intervalId) return
+      this.intervalId = setInterval(() => {
+        if (JSON.stringify(this.store.state.blocks) !== this.beforeBlockSnapshot) {
+          this.$emit('update', this.store.state.blocks)
+        }
+        this.store.setIsSaving(JSON.stringify(this.store.state.blocks) !== this.beforeBlockSnapshot)
+        this.beforeBlockSnapshot = JSON.stringify(this.store.state.blocks)
+      }, 2000)
+    },
+    setActive(block: Block): void {
       this.active = block.id
     },
-    removeActive() {
+    removeActive(): void {
       requestAnimationFrame(() => {
         document.querySelector('body')!.click
         this.active = null
       })
     },
-    addImageURI(id: string, src: string) {
+    addImageURI(id: string, src: string): void {
       this.appendNewBlock(id, {
         type: BlockType.Image,
         payload: { src },
         children: []
       })
     },
-    replaceBlockType(type: BlockType) {
+    replaceBlockType(type: BlockType): void {
       const aR = this.activeRoot
       if (!aR) {
         return
@@ -149,7 +147,7 @@ export default Vue.extend({
         this.updateBlock(skeleton)
       }
     },
-    handleKeydown(id: string, event: KeyboardEvent) {
+    handleKeydown(id: string, event: KeyboardEvent): void {
       if (isMobile()) {
         if (event.keyCode === 13) {
           const childId = findRootIdByBlockId(id, this.store.state.blocks)
@@ -167,7 +165,7 @@ export default Vue.extend({
         this.isPressedEnter = false
       }
     },
-    handleKeydownEnter(id: string, event: KeyboardEvent) {
+    handleKeydownEnter(id: string, event: KeyboardEvent): void {
       const childId = findRootIdByBlockId(id, this.store.state.blocks)
       if (!childId) {
         return
