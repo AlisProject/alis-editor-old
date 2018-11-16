@@ -51,7 +51,6 @@ import * as regex from './utils/regex'
 
 interface EditorState {
   active: string | null
-  activeIdx: number | null
   store: Store.EditorStore
   isPressedEnter: boolean
   intervalId: any
@@ -70,7 +69,6 @@ export default Vue.extend({
     return {
       store,
       active: null,
-      activeIdx: null,
       isPressedEnter: false,
       intervalId: null,
       beforeBlockSnapshot: ''
