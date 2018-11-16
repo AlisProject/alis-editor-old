@@ -105,7 +105,7 @@ export default Vue.extend({
       this.isOpen = !this.isOpen
     },
     dispatchUpload() {
-      ;(this.$el.querySelector('[type="file"]') as any).click()
+      (this.$el.querySelector('[type="file"]') as any).click()
     },
     append(type: BlockType) {
       setTimeout(() => {

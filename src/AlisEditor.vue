@@ -310,7 +310,7 @@ export default Vue.extend({
       this.removeActive()
     },
     insertImageBlock(id: string, event: DragEvent) {
-      ;(async () => {
+      (async () => {
         const src = await createDataURIImage(event)
         this.appendNewBlock(id, {
           type: BlockType.Image,

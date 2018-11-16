@@ -4,7 +4,7 @@ import { cloneDeep } from 'lodash'
 export function findBeforeRootContentByRootBlockId(id: string, blocks: Block[]): Block | null {
   return (result => (result.found ? result.block : null))(
     blocks.reduce(
-      (before: any, after: Block, idx: number) => {
+      (before: any, after: Block) => {
         return (before || {}).found
           ? before
           : after.id === id

@@ -15,7 +15,7 @@ export default Vue.extend({
       this.$emit('delete', event)
     },
     handlePaste(event: any) {
-      ;(async () => {
+      (async () => {
         const src = await createDataURIImage(event)
         this.$emit('addimageuri', src)
       })()
