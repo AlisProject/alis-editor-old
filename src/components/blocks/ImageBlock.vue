@@ -120,7 +120,7 @@ export default Vue.extend({
     }
   },
   async mounted() {
-    autosize(this.$el.querySelector('.image--caption'))
+    autosize((this as any).$el.querySelector('.image--caption'))
     const { src } = this.block.payload
     if (!src.startsWith('data')) {
       return
