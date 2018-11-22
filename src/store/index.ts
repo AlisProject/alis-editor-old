@@ -49,7 +49,6 @@ class Store<S> {
   }
 
   appendBlock(content: Block, beforeContent: Block) {
-    console.log(beforeContent.id)
     const { blocks } = this.instance.$data
     const beforeId = findRootIdByBlockId(beforeContent.id, blocks)
     const beforeIndex = blocks.findIndex((b: Block) => b.id === beforeId)
@@ -57,6 +56,13 @@ class Store<S> {
       return
     }
     blocks.splice(beforeIndex + 1, 0, content)
+    this.setBlocks([...blocks])
+    return content
+  }
+
+  appendParagraphBlockInitialPosition(content: Block) {
+    const { blocks } = this.instance.$data
+    blocks.splice(0, 0, content)
     this.setBlocks([...blocks])
     return content
   }

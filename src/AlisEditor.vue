@@ -55,6 +55,7 @@ interface EditorState {
   isPressedEnter: boolean
   intervalId: any
   beforeBlockSnapshot: string
+  insertInitialPositionTrigger: boolean
 }
 
 interface DeviceKeyDownEventArgument {
@@ -78,7 +79,8 @@ export default Vue.extend({
       active: null,
       isPressedEnter: false,
       intervalId: null,
-      beforeBlockSnapshot: ''
+      beforeBlockSnapshot: '',
+      insertInitialPositionTrigger: this.isPressedEnterInTitle
     }
   },
   props: {
@@ -86,7 +88,8 @@ export default Vue.extend({
       type: Array as () => Block[],
       default: []
     },
-    config: config.configProps
+    config: config.configProps,
+    isPressedEnterInTitle: Boolean
   },
   components: {
     EditorBlock,
@@ -102,6 +105,12 @@ export default Vue.extend({
       const id = findRootIdByBlockId(this.active || '', this.store.state.blocks)
       if (!id) return null
       return findTreeContentById(id, this.store.state.blocks) || null
+    }
+  },
+  watch: {
+    isPressedEnterInTitle: function() {
+      this.appendNewBlockInitialPosition()
+      this.insertInitialPositionTrigger = !(this.insertInitialPositionTrigger)
     }
   },
   methods: {
@@ -338,6 +347,9 @@ export default Vue.extend({
         return
       }
       return this.store.appendBlock(createBlock(type, extend), beforeContent)
+    },
+    appendNewBlockInitialPosition() {
+      return this.store.appendParagraphBlockInitialPosition(createBlock(BlockType.Paragraph, {}))
     }
   }
 })
