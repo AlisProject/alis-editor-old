@@ -75,7 +75,6 @@ export default Vue.extend({
         div.appendChild(anchorElement)
 
         return div.innerHTML
-        // return getIframelyEmbedTemplate({ ...result })
       }
 
       if (isTwitterResource) {
