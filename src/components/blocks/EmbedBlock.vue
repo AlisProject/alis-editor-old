@@ -32,6 +32,7 @@ export default Vue.extend({
   },
   async mounted() {
     this.html = await this.getEmbedContent(this.block.payload.src)
+    await this.$nextTick()
     ;(window as any).iframely.load()
   },
   methods: {
@@ -74,6 +75,7 @@ export default Vue.extend({
         div.appendChild(anchorElement)
 
         return div.innerHTML
+        // return getIframelyEmbedTemplate({ ...result })
       }
 
       if (isTwitterResource) {
