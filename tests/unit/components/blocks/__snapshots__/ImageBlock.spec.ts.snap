@@ -39,10 +39,10 @@ exports[`ImageBlock.vue renders correctly 1`] = `
        
       <shadowinput-stub />
        
-      <input
+      <textarea
         class="image--caption"
         placeholder="説明文を入力"
-        style="opacity: 1;"
+        style="opacity: 1; overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
       />
     </span>
      
