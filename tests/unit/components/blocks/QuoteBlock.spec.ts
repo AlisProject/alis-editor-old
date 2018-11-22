@@ -8,15 +8,9 @@ describe('QuoteBlock.vue', () => {
     const block: BlockTypes.QuoteBlock = {
       id: '123',
       type: BlockTypes.BlockType.Quote,
-      children: [
-        {
-          id: '456',
-          type: BlockTypes.BlockType.Text,
-          payload: {
-            body: 'foo'
-          }
-        }
-      ]
+      payload: {
+        body: 'foo'
+      }
     }
     const wrapper = mount(QuoteBlock, {
       propsData: {
@@ -30,15 +24,9 @@ describe('QuoteBlock.vue', () => {
     const block: BlockTypes.QuoteBlock = {
       id: '123',
       type: BlockTypes.BlockType.Quote,
-      children: [
-        {
-          id: '456',
-          type: BlockTypes.BlockType.Text,
-          payload: {
-            body: 'foo'
-          }
-        }
-      ]
+      payload: {
+        body: 'foo'
+      }
     }
     const wrapper = mount(QuoteBlock, {
       propsData: {

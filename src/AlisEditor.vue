@@ -39,7 +39,7 @@ import EditorBlock from './components/blocks/EditorBlock.vue'
 import EditorToolbar from './components/menu/EditorToolbar.vue'
 import InsertPopup from './components/menu/InsertPopup.vue'
 import { Block, BlockType, ParagraphBlock } from './types/Blocks'
-import { createBlock, isContentEditableBlock } from './utils/createBlock'
+import { createBlock, isContentEditableBlock, isContentEditableBlockType } from './utils/createBlock'
 import { createDataURIImage } from './utils/createImage'
 import { isMobile, isDesktop } from './utils/deviceUtil'
 import { findRootIdByBlockId, findTreeContentById, findBeforeRootContentByRootBlockId } from './utils/treeUtil'
@@ -48,6 +48,7 @@ import * as config from './utils/config'
 import * as browserSelection from './utils/browserSelection'
 import * as sanitizer from './utils/sanitizer'
 import * as regex from './utils/regex'
+import { cloneDeep } from 'lodash'
 
 interface EditorState {
   active: string | null
@@ -131,31 +132,56 @@ export default Vue.extend({
         children: []
       })
     },
-    replaceBlockType(type: BlockType): void {
+    replaceBlockType(orderType: BlockType): void {
       const aR = this.activeRoot
       if (!aR) {
         return
       }
-      if (aR.type === BlockType.Paragraph) {
-        // 個別ブロックにする処理
-        const skeleton = createBlock(type, {
-          id: aR.id,
-          children: [
-            createBlock(BlockType.Text, {
-              payload: {
-                body: sanitizer.sanitizeAllTags(aR.payload.body)
-              }
-            })
-          ]
-        })
+      const nextType = aR.type === BlockType.Paragraph ? orderType : BlockType.Paragraph
+
+      // if (isContentEditableBlock(aR)) {
+      if (orderType === BlockType.Quote) {
+        // Quote <-> Paragraph の相互変換処理
+        const nextType = aR.type === BlockType.Paragraph ? BlockType.Quote : BlockType.Paragraph
+        const skeleton = createBlock(
+          nextType,
+          cloneDeep({
+            id: aR.id,
+            payload: aR.payload
+          })
+        )
         this.updateBlock(skeleton)
-      } else if (type === aR.type) {
-        // 個別ブロックを Paragraph に戻す処理
-        const skeleton = createBlock(BlockType.Paragraph, {
+        return
+      }
+
+      if (aR.type !== BlockType.Paragraph && orderType !== BlockType.Paragraph && aR.type !== orderType) {
+        return
+      }
+
+      // Paragraph <-> 個別ブロック変換
+      if (aR.type === BlockType.Paragraph) {
+        const skeleton = createBlock(
+          nextType,
+          cloneDeep({
+            id: aR.id,
+            children: [
+              createBlock(BlockType.Text, {
+                payload: {
+                  body: sanitizer.sanitizeAllTags(aR.payload.body)
+                }
+              })
+            ]
+          })
+        )
+        this.updateBlock(skeleton)
+        return
+      } else {
+        const skeleton = createBlock(nextType, {
           id: aR.id,
           payload: { body: `<p>${(aR as any).children[0].payload.body}</p>` }
         })
         this.updateBlock(skeleton)
+        return
       }
     },
     handleKeydown(id: string, event: KeyboardEvent): void {
@@ -166,7 +192,7 @@ export default Vue.extend({
             return
           }
           const nowContent = findTreeContentById(childId, this.store.state.blocks)
-          if (!nowContent || (nowContent && nowContent.type !== BlockType.Paragraph)) {
+          if (!nowContent || (nowContent && !isContentEditableBlock(nowContent))) {
             event.preventDefault()
           }
           return
@@ -196,6 +222,9 @@ export default Vue.extend({
       if (nowContent.type === BlockType.Image) {
         return
       }
+      if (nowContent.type === BlockType.Quote) {
+        return
+      }
       event.preventDefault()
       requestAnimationFrame(() => {
         const b = this.appendNewBlock(nowContent.id, createBlock(BlockType.Paragraph))
@@ -205,7 +234,7 @@ export default Vue.extend({
         requestAnimationFrame(() => {
           this.active = b.id
           browserSelection.selectContentEditableFirstCharFromBlock(b)
-          const isLink = nowContent.type === BlockType.Paragraph && regex.isValidEmbedString(nowContent.payload.body)
+          const isLink = isContentEditableBlock(nowContent) && regex.isValidEmbedString(nowContent.payload.body)
           if (!isLink) return
           this.updateBlock({
             id: nowContent.id,
@@ -218,7 +247,7 @@ export default Vue.extend({
       })
     },
     mobileKeyDownEnter({ id, event, childId, nowContent }: DeviceKeyDownEventArgument) {
-      if (nowContent.type === 'Paragraph') {
+      if (isContentEditableBlock(nowContent)) {
         if (!this.isPressedEnter) {
           this.isPressedEnter = true
           return
@@ -334,7 +363,7 @@ export default Vue.extend({
       delete extend.type
       const beforeContent = findTreeContentById(id, this.store.state.blocks)
       if (!id || !beforeContent) {
-        console.error('Missing params "id" or "beforeContent"g')
+        console.error('Missing params "id" or "beforeContent"')
         return
       }
       return this.store.appendBlock(createBlock(type, extend), beforeContent)

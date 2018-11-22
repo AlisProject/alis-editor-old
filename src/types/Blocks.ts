@@ -61,7 +61,9 @@ export interface HeadingBlock extends Block {
 
 export interface QuoteBlock extends Block {
   type: BlockType.Quote
-  children: Block[]
+  payload: {
+    body: string
+  }
 }
 
 /*

@@ -1,26 +1,34 @@
 import { BlockType } from '../../../src/types/Blocks'
-import { createBlock, isContentEditableBlock } from '../../../src/utils/createBlock'
+import * as createBlock from '../../../src/utils/createBlock'
 
 describe('utils/createBlock.ts', () => {
   describe('isContentEditableBlock', () => {
     test('valid', () => {
-      expect(isContentEditableBlock(createBlock(BlockType.Paragraph))).toBe(true)
+      expect(createBlock.isContentEditableBlock(createBlock.createBlock(BlockType.Paragraph))).toBe(true)
     })
     test('invalid', () => {
-      expect(isContentEditableBlock(createBlock(BlockType.Rule))).toBe(false)
+      expect(createBlock.isContentEditableBlock(createBlock.createBlock(BlockType.Rule))).toBe(false)
+    })
+  })
+  describe('isContentEditableBlockType', () => {
+    test('valid', () => {
+      expect(createBlock.isContentEditableBlockType(createBlock.createBlock(BlockType.Paragraph).type)).toBe(true)
+    })
+    test('invalid', () => {
+      expect(createBlock.isContentEditableBlockType(createBlock.createBlock(BlockType.Rule).type)).toBe(false)
     })
   })
   Object.entries(BlockType).forEach(([K, V]) => {
     test(`${K}-extend`, () => {
       expect(
-        Object.assign({}, createBlock(V, {}), {
+        Object.assign({}, createBlock.createBlock(V, {}), {
           id: 'VVVV-XXXX-YYYY-ZZZZ'
         })
       ).toMatchSnapshot()
     })
     test(`${K}-default`, () => {
       expect(
-        Object.assign({}, createBlock(V), {
+        Object.assign({}, createBlock.createBlock(V), {
           id: 'VVVV-XXXX-YYYY-ZZZZ'
         })
       ).toMatchSnapshot()

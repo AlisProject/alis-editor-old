@@ -1,5 +1,6 @@
 import { Block, BlockType } from '../types/Blocks'
 import { cloneDeep } from 'lodash'
+import { isContentEditableBlock } from './createBlock'
 
 export function findBeforeRootContentByRootBlockId(id: string, blocks: Block[]): Block | null {
   return (result => (result.found ? result.block : null))(
@@ -107,7 +108,7 @@ export function deleteTreeContentById(id: string, blocks: Block[]) {
       return block
     })
     .filter((block: Block) => {
-      if (block.type === BlockType.Paragraph && !block.children!.length) {
+      if (isContentEditableBlock(block) && !block.children!.length) {
         return false
       }
       return true
