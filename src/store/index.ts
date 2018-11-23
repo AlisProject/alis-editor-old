@@ -49,7 +49,6 @@ class Store<S> {
   }
 
   appendBlock(content: Block, beforeContent: Block) {
-    console.log(beforeContent.id)
     const { blocks } = this.instance.$data
     const beforeId = findRootIdByBlockId(beforeContent.id, blocks)
     const beforeIndex = blocks.findIndex((b: Block) => b.id === beforeId)

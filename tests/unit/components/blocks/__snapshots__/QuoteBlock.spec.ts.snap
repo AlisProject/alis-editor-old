@@ -1,24 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`QuoteBlock.vue renders correctly (preview mode) 1`] = `
-<blockquote>
-  <span
-    class="text preview"
+<div
+  class="wrapper quote"
+>
+  <div
+    class="target quote preview"
+    contenteditable="false"
   >
-     foo 
-  </span>
-</blockquote>
+    foo
+  </div>
+</div>
 `;
 
 exports[`QuoteBlock.vue renders correctly 1`] = `
-<blockquote>
-  <textarea
-    data-id="456"
-    placeholder=""
-    rows="1"
-    style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
+<div
+  class="wrapper quote"
+>
+  <blockquote
+    class="target quote"
+    contenteditable="true"
   >
     foo
-  </textarea>
-</blockquote>
+  </blockquote>
+   
+  <!---->
+</div>
 `;

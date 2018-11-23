@@ -129,7 +129,6 @@ export default Vue.extend({
       const imageContentType = src.substring((src.match(':') as any).index + 1, (src.match(';') as any).index)
       const config = Object.assign({ headers: {} }, this.axiosConfig)
       config.headers['content-type'] = imageContentType
-      console.log(this.uploadEndpoint)
       const { image_url } = (await axios.post(this.uploadEndpoint, { article_image: articleImageData }, config)).data
       const { block } = this
       block.payload.src = image_url

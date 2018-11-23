@@ -26,7 +26,7 @@
       />
     </template>
     <InsertButton
-      v-if="block.type === 'Paragraph' && active"
+      v-if="isVisibleInsertButton(block)"
       @disable="handleDisable"
       @append="handleAppendBlock"
       @upload="handleUpload"
@@ -50,6 +50,8 @@ import QuoteBlock from './QuoteBlock.vue'
 import EmbedBlock from './EmbedBlock.vue'
 import InsertButton from '../menu/InsertButton.vue'
 import { configProps } from '../../utils/config'
+import { isContentEditableBlock } from '../../utils/createBlock'
+import * as sanitizer from '../../utils/sanitizer'
 
 export default Vue.extend({
   components: {
@@ -73,6 +75,9 @@ export default Vue.extend({
     }
   },
   methods: {
+    isContentEditableBlock(val: Block) {
+      return isContentEditableBlock(val)
+    },
     handleDisable() {},
     handleClick() {
       this.$emit('active', this.block)
@@ -106,6 +111,12 @@ export default Vue.extend({
     },
     handleDelete(event: Block) {
       this.$emit('delete', event)
+    },
+    isVisibleInsertButton(block: Block) {
+      if (!(this.isContentEditableBlock(block) && this.active)) {
+        return false
+      }
+      return !sanitizer.sanitizeAllTags((block.payload || { body: '' }).body)
     }
   }
 })

@@ -61,43 +61,7 @@ export interface HeadingBlock extends Block {
 
 export interface QuoteBlock extends Block {
   type: BlockType.Quote
-  children: Block[]
-}
-
-/*
-「詳細は [こちら](https://example.com) から確認できます」を再現する場合
-[
-  {
-    type: 'Paragraph',
-    children: [
-      {
-        type: 'Text',
-        payload: {
-          body: '詳細は'
-        }
-      },
-      {
-        type: 'Link',
-        payload: {
-          href: 'https://example.com'
-        },
-        children: [
-          {
-            type: 'Text',
-            payload: {
-              body: 'こちら'
-            }
-          }
-        ]
-      },
-      {
-        type: 'Text',
-        payload: {
-          body: 'から確認できます'
-        }
-      }
-    ]
+  payload: {
+    body: string
   }
-]
-
-*/
+}

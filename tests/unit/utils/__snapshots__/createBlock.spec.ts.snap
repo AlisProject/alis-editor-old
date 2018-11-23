@@ -102,30 +102,20 @@ Object {
 
 exports[`utils/createBlock.ts Quote-default 1`] = `
 Object {
-  "children": Array [
-    Object {
-      "payload": Object {
-        "body": "",
-      },
-      "type": "Text",
-    },
-  ],
   "id": "VVVV-XXXX-YYYY-ZZZZ",
+  "payload": Object {
+    "body": "",
+  },
   "type": "Quote",
 }
 `;
 
 exports[`utils/createBlock.ts Quote-extend 1`] = `
 Object {
-  "children": Array [
-    Object {
-      "payload": Object {
-        "body": "",
-      },
-      "type": "Text",
-    },
-  ],
   "id": "VVVV-XXXX-YYYY-ZZZZ",
+  "payload": Object {
+    "body": "",
+  },
   "type": "Quote",
 }
 `;
@@ -147,11 +137,19 @@ Object {
 exports[`utils/createBlock.ts Text-default 1`] = `
 Object {
   "id": "VVVV-XXXX-YYYY-ZZZZ",
+  "payload": Object {
+    "body": "",
+  },
+  "type": "Text",
 }
 `;
 
 exports[`utils/createBlock.ts Text-extend 1`] = `
 Object {
   "id": "VVVV-XXXX-YYYY-ZZZZ",
+  "payload": Object {
+    "body": "",
+  },
+  "type": "Text",
 }
 `;

@@ -13,6 +13,7 @@
       <button class="insert-popup__item" @click="execItalic"><InsertPopupIcon :src="SvgIcon.italic" /></button>
       <button class="insert-popup__item" @click="execQuote"><InsertPopupIcon :src="SvgIcon.quote" /></button>
       <button class="insert-popup__item" @click="execHeading"><InsertPopupIcon :src="SvgIcon.h2" /></button>
+      <button class="insert-popup__item" @click="execLink"><InsertPopupIcon :src="SvgIcon.link" /></button>
       <!--
         <button class="insert-popup__item" @click="execSubHeading">
           <InsertPopupIcon :src="require('../../assets/icon-h3.svg.js')" />
@@ -27,6 +28,7 @@ import Vue from 'vue'
 import InsertPopupIcon from './InsertPopupIcon.vue'
 import { BlockType } from '../../types/Blocks'
 import * as SvgIcon from '../vector/SvgIcon'
+import { isContentEditableBlock } from '../../utils/createBlock'
 
 export default Vue.extend({
   props: {
@@ -62,7 +64,7 @@ export default Vue.extend({
       this.el = document.querySelector(`[data-block-id="${aR.id}"]`)
       this.position.left = (document.querySelector('#ALISEditor') as any).offsetWidth * 0.5 - 110
       this.position.top = this.el.getBoundingClientRect().top - 50 + window.pageYOffset
-      if (aR.type === 'Paragraph') {
+      if (isContentEditableBlock(aR)) {
         this.isActive = false
       } else if (!['Image', 'Embed', 'Rule'].includes(aR.type)) {
         this.isActive = true
@@ -74,7 +76,7 @@ export default Vue.extend({
       if (!this.activeRoot) {
         return
       }
-      if (this.activeRoot.type !== 'Paragraph') {
+      if (!isContentEditableBlock(this.activeRoot)) {
         return
       }
       const selection = window.getSelection()
@@ -98,6 +100,10 @@ export default Vue.extend({
     },
     execSubHeading() {
       this.$emit('replace', BlockType.Heading)
+    },
+    execLink() {
+      document.execCommand('unlink')
+      document.execCommand('createLink', true, 'https://example.com')
     }
   }
 })
