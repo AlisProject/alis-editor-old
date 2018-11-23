@@ -8,6 +8,6 @@ export function sanitizeAllTags(html: string): string {
 
 export function sanitizeCommonTags(html: string): string {
   return sanitize(html, {
-    allowedTags: ['p', 'b', 'i', 'em', 'strong', 'a', 'br']
+    allowedTags: ['p', 'b', 'i', 'em', 'strong', 'a', 'br', 'h2', 'h3']
   })
 }

@@ -4,8 +4,9 @@ export enum BlockType {
   Paragraph = 'Paragraph',
   Image = 'Image',
   Quote = 'Quote',
-  Heading = 'Heading',
-  Embed = 'Embed'
+  // Heading = 'Heading',
+  Embed = 'Embed',
+  Section = 'Section'
 }
 
 export interface Block {
@@ -50,18 +51,23 @@ export interface ImageBlock extends Block {
   children: Block[]
 }
 
-export interface HeadingBlock extends Block {
-  type: BlockType.Heading
-  payload: {
-    size: 'h2' | 'h3'
-    body: string
-  }
-  children: Block[]
-}
+// export interface HeadingBlock extends Block {
+//   type: BlockType.Heading
+//   payload: {
+//     size: 'h2' | 'h3'
+//     body: string
+//   }
+//   children: Block[]
+// }
 
 export interface QuoteBlock extends Block {
   type: BlockType.Quote
   children: Block[]
+}
+
+export interface SectionBlock extends Block {
+  type: BlockType.Section
+  children: Array<QuoteBlock | ParagraphBlock>
 }
 
 /*

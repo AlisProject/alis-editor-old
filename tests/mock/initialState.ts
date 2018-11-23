@@ -4,35 +4,17 @@ import { BlockType } from '@/types/Blocks'
 export default [
   {
     id: uuid(),
-    type: BlockType.Heading,
+    type: BlockType.Paragraph,
     payload: {
-      size: 'h2'
-    },
-    children: [
-      {
-        id: uuid(),
-        type: BlockType.Text,
-        payload: {
-          body: '第一章 うさぎの穴をまっさかさま'
-        }
-      }
-    ]
+      body: '<h2>test</h2>'
+    }
   },
   {
     id: uuid(),
-    type: BlockType.Heading,
+    type: BlockType.Paragraph,
     payload: {
-      size: 'h3'
-    },
-    children: [
-      {
-        id: uuid(),
-        type: BlockType.Text,
-        payload: {
-          body: '<script>alert(1)</script><h1>第一節 白うさぎ</h1>'
-        }
-      }
-    ]
+      body: '<h2>test</h2>'
+    }
   },
   {
     id: uuid(),
