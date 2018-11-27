@@ -60,6 +60,13 @@ class Store<S> {
     return content
   }
 
+  appendParagraphBlockInitialPosition(content: Block) {
+    const { blocks } = this.instance.$data
+    blocks.splice(0, 0, content)
+    this.setBlocks([...blocks])
+    return content
+  }
+
   prependBlock(content: Block, afterContent: Block) {}
 }
 

@@ -15,7 +15,7 @@
       <span class="image--wrapper">
         <img :src="block.payload.src" class="main-image" /><br />
         <ShadowInput @delete="handleDelete" @addimageuri="handleAddImage" />
-        <input
+        <textarea
           class="image--caption"
           :style="{
             opacity: `${+!isUploading}.0`
@@ -23,7 +23,7 @@
           placeholder="説明文を入力"
           :value="this.block.payload.caption"
           @input="handleInputCaption"
-        />
+        ></textarea>
       </span>
       <div class="image-uploading" v-if="isUploading">Uploading...</div>
       <div class="image-toolbar" v-if="!isUploading">
@@ -77,6 +77,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import axios from 'axios'
+import autosize from 'autosize'
 import { ImageBlock } from '../../types/Blocks'
 import { createBlogImageFromDataURI } from '../../utils/createImage'
 import ShadowInput from '../blocks/ShadowInput.vue'
@@ -120,6 +121,7 @@ export default Vue.extend({
     }
   },
   async mounted() {
+    autosize((this as any).$el.querySelector('.image--caption'))
     const { src } = this.block.payload
     if (!src.startsWith('data')) {
       return
