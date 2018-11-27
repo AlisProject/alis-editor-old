@@ -23,6 +23,7 @@
           @upload="insertImageBlock(block.id, $event)"
           @active="setActive($event)"
           @addimageuri="addImageURI(block.id, $event)"
+          @moveToNextBlock="moveToNextBlock(block.id)"
           :config="config"
           :block="block"
           :active="activeRoot && activeRoot.id === block.id"
@@ -410,6 +411,14 @@ export default Vue.extend({
     },
     appendNewBlockInitialPosition() {
       return this.store.appendParagraphBlockInitialPosition(createBlock(BlockType.Paragraph, {}))
+    },
+    moveToNextBlock(id: string) {
+      ;(async () => {
+        const block = this.appendNewBlock(id, createBlock(BlockType.Paragraph)) as any
+        await this.$nextTick()
+        this.active = block.id
+        browserSelection.selectContentEditableFirstCharFromBlock(block)
+      })()
     }
   }
 })

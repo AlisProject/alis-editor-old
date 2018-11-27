@@ -20,8 +20,8 @@
           }"
           placeholder="説明文を入力"
           :value="this.block.payload.caption"
-          @input="handleInputCaption"
-        ></textarea>
+          @keydown.enter.prevent="handleEnter"
+          @input="handleInputCaption"></textarea>
       </span>
       <div class="image-uploading" v-if="isUploading">Uploading...</div>
       <div class="image-toolbar" v-if="!isUploading">
@@ -156,6 +156,9 @@ export default Vue.extend({
       const { block } = this
       block.payload.caption = caption
       this.$emit('update', block)
+    },
+    handleEnter() {
+      this.$emit('moveToNextBlock')
     },
     handleDelete() {
       this.$emit('delete', this.block)

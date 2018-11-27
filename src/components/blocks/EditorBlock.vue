@@ -22,6 +22,7 @@
         @delete="handleDelete"
         @append="handleAppendBlock"
         @addimageuri="handleAddImage"
+        @moveToNextBlock="moveToNextBlock"
       />
     </template>
   </div>
@@ -101,6 +102,15 @@ export default Vue.extend({
     },
     handleDelete(event: Block) {
       this.$emit('delete', event)
+    },
+    isVisibleInsertButton(block: Block) {
+      if (!(this.isContentEditableBlock(block) && this.active)) {
+        return false
+      }
+      return !sanitizer.sanitizeAllTags((block.payload || { body: '' }).body)
+    },
+    moveToNextBlock(event: any) {
+      this.$emit('moveToNextBlock', event)
     }
   }
 })
