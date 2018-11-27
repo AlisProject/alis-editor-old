@@ -129,7 +129,6 @@ export default Vue.extend({
     padding: 8px 8px 0;
     resize: none;
     text-align: left;
-    width: 100%;
     word-break: break-word;
   }
 

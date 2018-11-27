@@ -5,9 +5,7 @@
       'is-uploading': isUploading,
       'is-focus': isFocus
     }"
-    :style="{
-      textAlign: block.payload.align
-    }"
+    :style="[this.block.payload.align === 'center' ? { textAlign: 'center' } : { float: this.block.payload.align }]"
     v-if="!preview"
     @mouseover="handleHover"
   >
@@ -62,9 +60,7 @@
   </div>
   <div
     class="aliseditor--image preview"
-    :style="{
-      textAlign: block.payload.align
-    }"
+    :style="[this.block.payload.align === 'center' ? { textAlign: 'center' } : { float: this.block.payload.align }]"
     v-else
   >
     <div class="preview-content">
