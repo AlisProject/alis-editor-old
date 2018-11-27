@@ -13,12 +13,8 @@
       <button class="insert-popup__item" @click="execItalic"><InsertPopupIcon :src="SvgIcon.italic" /></button>
       <button class="insert-popup__item" @click="execQuote"><InsertPopupIcon :src="SvgIcon.quote" /></button>
       <button class="insert-popup__item" @click="execHeading"><InsertPopupIcon :src="SvgIcon.h2" /></button>
+      <button class="insert-popup__item" @click="execSubHeading"><InsertPopupIcon :src="SvgIcon.h3" /></button>
       <button class="insert-popup__item" @click="execLink"><InsertPopupIcon :src="SvgIcon.link" /></button>
-      <!--
-        <button class="insert-popup__item" @click="execSubHeading">
-          <InsertPopupIcon :src="require('../../assets/icon-h3.svg.js')" />
-        </button>
-      -->
     </div>
   </div>
 </template>
@@ -93,13 +89,28 @@ export default Vue.extend({
       document.execCommand('italic')
     },
     execQuote() {
-      this.$emit('replace', BlockType.Quote)
+      this.toggleFormatBlock('blockquote')
     },
     execHeading() {
-      this.$emit('replace', BlockType.Heading)
+      this.toggleFormatBlock('h2')
     },
     execSubHeading() {
-      this.$emit('replace', BlockType.Heading)
+      this.toggleFormatBlock('h3')
+    },
+    toggleFormatBlock(tagName: 'h2' | 'h3' | 'blockquote') {
+      const target = document.querySelector(`[data-block-id="${(this.activeRoot || {}).id}"]`)
+      if (!target) {
+        return
+      }
+      const h = target.innerHTML
+      document.execCommand('formatBlock', true, tagName)
+      const executedTarget = document.querySelector(`[data-block-id="${(this.activeRoot || {}).id}"]`)
+      if (!executedTarget) {
+        return
+      }
+      if (h == executedTarget.innerHTML) {
+        document.execCommand('formatBlock', true, 'p')
+      }
     },
     execLink() {
       document.execCommand('unlink')

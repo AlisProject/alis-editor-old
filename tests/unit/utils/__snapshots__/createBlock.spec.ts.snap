@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`utils/createBlock.ts Blank-default 1`] = `
+Object {
+  "id": "VVVV-XXXX-YYYY-ZZZZ",
+}
+`;
+
+exports[`utils/createBlock.ts Blank-extend 1`] = `
+Object {
+  "id": "VVVV-XXXX-YYYY-ZZZZ",
+}
+`;
+
 exports[`utils/createBlock.ts Embed-default 1`] = `
 Object {
   "id": "VVVV-XXXX-YYYY-ZZZZ",

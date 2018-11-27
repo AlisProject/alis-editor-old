@@ -6,7 +6,6 @@
       'is-active': active
     }"
     :data-block-id="block.id"
-    @keydown="handleDisable"
     @click="handleClick"
     @drop.prevent="handleDrop"
     @dragover.prevent="handleDragover"
@@ -25,12 +24,6 @@
         @addimageuri="handleAddImage"
       />
     </template>
-    <InsertButton
-      v-if="isVisibleInsertButton(block)"
-      @disable="handleDisable"
-      @append="handleAppendBlock"
-      @upload="handleUpload"
-    />
   </div>
   <div class="block" v-else>
     <template v-if="block.type">
@@ -42,6 +35,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Block, BlockType } from '../../types/Blocks'
+import BlankBlock from './BlankBlock.vue'
 import RuleBlock from './RuleBlock.vue'
 import ImageBlock from './ImageBlock.vue'
 import ParagraphBlock from './ParagraphBlock.vue'
@@ -53,6 +47,10 @@ import { configProps } from '../../utils/config'
 import { isContentEditableBlock } from '../../utils/createBlock'
 import * as sanitizer from '../../utils/sanitizer'
 
+interface LocalState {
+  onDrag: boolean
+}
+
 export default Vue.extend({
   components: {
     ImageBlock,
@@ -61,24 +59,23 @@ export default Vue.extend({
     QuoteBlock,
     RuleBlock,
     EmbedBlock,
-    InsertButton
+    InsertButton,
+    BlankBlock
   },
   props: {
     block: Object as () => Block,
     active: Boolean,
     config: configProps
   },
-  data(): { onDrag: boolean; showInsertButton: boolean } {
+  data(): LocalState {
     return {
-      onDrag: false,
-      showInsertButton: false
+      onDrag: false
     }
   },
   methods: {
     isContentEditableBlock(val: Block) {
       return isContentEditableBlock(val)
     },
-    handleDisable() {},
     handleClick() {
       this.$emit('active', this.block)
     },
@@ -87,9 +84,6 @@ export default Vue.extend({
     },
     handleDragLeave() {
       this.onDrag = false
-    },
-    handleUpload(event: Event) {
-      this.$emit('upload', event)
     },
     handleAddImage(src: string) {
       this.$emit('addimageuri', src)
@@ -111,12 +105,6 @@ export default Vue.extend({
     },
     handleDelete(event: Block) {
       this.$emit('delete', event)
-    },
-    isVisibleInsertButton(block: Block) {
-      if (!(this.isContentEditableBlock(block) && this.active)) {
-        return false
-      }
-      return !sanitizer.sanitizeAllTags((block.payload || { body: '' }).body)
     }
   }
 })

@@ -89,9 +89,6 @@ h3 {
     font-size: 16px;
   }
 }
-</style>
-
-<style>
 .block h2 textarea,
 .block h3 textarea {
   font-family: 'YuGothic', 'Yu Gothic';

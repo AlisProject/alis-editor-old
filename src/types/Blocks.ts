@@ -1,4 +1,5 @@
 export enum BlockType {
+  Blank = 'Blank',
   Rule = 'Rule',
   Text = 'Text',
   Paragraph = 'Paragraph',
@@ -14,6 +15,8 @@ export interface Block {
   payload?: any
   children?: Block[]
 }
+
+export interface BlankBlock extends Block {}
 
 export interface RuleBlock extends Block {
   type: BlockType.Rule
