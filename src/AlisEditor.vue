@@ -336,10 +336,16 @@ export default Vue.extend({
     insertImageBlock(id: string, event: DragEvent) {
       ;(async () => {
         const src = await createDataURIImage(event)
-        this.appendNewBlock(id, {
+        const block = this.appendNewBlock(id, {
           type: BlockType.Image,
           payload: { src },
           children: []
+        }) as any
+        this.appendNewBlock(block.id, {
+          type: BlockType.Paragraph,
+          payload: {
+            body: ''
+          }
         })
       })()
     },
