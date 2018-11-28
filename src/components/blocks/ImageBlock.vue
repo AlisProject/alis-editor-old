@@ -5,7 +5,7 @@
       'is-uploading': isUploading,
       'is-focus': isFocus
     }"
-    :style="[this.block.payload.align === 'center' ? { textAlign: 'center' } : { float: this.block.payload.align }]"
+    :style="switchStyle"
     v-if="!preview"
     @mouseover="handleHover"
   >
@@ -60,7 +60,7 @@
   </div>
   <div
     class="aliseditor--image preview"
-    :style="[this.block.payload.align === 'center' ? { textAlign: 'center' } : { float: this.block.payload.align }]"
+    :style="switchStyle"
     v-else
   >
     <div class="preview-content">
@@ -114,6 +114,12 @@ export default Vue.extend({
   computed: {
     isUploading() {
       return (this as any).block.payload.src.startsWith('data')
+    },
+    switchStyle() {
+      if ((this as any).block.payload.align === 'center') {
+        return { textAlign: 'center' }
+      }
+      return { float: (this as any).block.payload.align }
     }
   },
   async mounted() {
