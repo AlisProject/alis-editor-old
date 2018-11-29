@@ -193,6 +193,7 @@ export default Vue.extend({
       })
     },
     replaceBlockType(orderType: BlockType): void {
+      /*
       const aR = this.activeRoot
       if (!aR) {
         return
@@ -243,6 +244,7 @@ export default Vue.extend({
         this.updateBlock(skeleton)
         return
       }
+      */
     },
     handleKeydown(id: string, event: KeyboardEvent): void {
       if (isMobile()) {
@@ -280,9 +282,6 @@ export default Vue.extend({
         return
       }
       if (nowContent.type === BlockType.Image) {
-        return
-      }
-      if (nowContent.type === BlockType.Quote) {
         return
       }
       event.preventDefault()

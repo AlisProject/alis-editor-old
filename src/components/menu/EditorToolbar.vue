@@ -1,62 +1,63 @@
 <template>
-  <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }">
-    <ul class="editor-toolbar">
-      <li class="editor-toolbar__item" @click="appendHeading">
-        <ToolbarIcon
-          :src="SvgIcon.h2"
-          :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
-        />
-      </li>
-      <li class="editor-toolbar__item" @click="appendHeading">
-        <ToolbarIcon
-          :src="SvgIcon.h3"
-          :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
-        />
-      </li>
-      <li class="editor-toolbar__item" @click="dispatchUpload">
-        <ToolbarIcon :src="SvgIcon.image" :active="activeRoot.type === BlockType.Image" />
-      </li>
-      <li class="editor-toolbar__item" @click="appendQuote">
-        <ToolbarIcon :src="SvgIcon.quote" :active="activeRoot.type === BlockType.Quote" />
-      </li>
-      <li class="editor-toolbar__item" @click="appendRule">
-        <ToolbarIcon :src="SvgIcon.rule" :active="activeRoot.type === BlockType.Rule" />
-      </li>
-      <li class="editor-toolbar__item editor-toolbar__item-stats">
-        <span class="editor-toolbar__status" :class="{ 'is-active': isSaving }"></span>
-        <div class="editor-toolbar__button" @click="handleClickPublish">公開する</div>
-      </li>
-    </ul>
-    <!--
-      <ul class="editor-toolbar editor-toolbar--decoration" :class="{ 'is-active': isDecoration }">
+  <div></div>
+  <!--
+    <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }">
+      <ul class="editor-toolbar">
         <li class="editor-toolbar__item" @click="appendHeading">
           <ToolbarIcon
-            :src="SvgIcon.bold"
+            :src="SvgIcon.h2"
             :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
           />
         </li>
         <li class="editor-toolbar__item" @click="appendHeading">
           <ToolbarIcon
-            :src="SvgIcon.italic"
+            :src="SvgIcon.h3"
             :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
           />
         </li>
         <li class="editor-toolbar__item" @click="dispatchUpload">
-          <ToolbarIcon
-            :src="SvgIcon.link"
-            :active="activeRoot.type === BlockType.Image"
-          />
+          <ToolbarIcon :src="SvgIcon.image" :active="activeRoot.type === BlockType.Image" />
         </li>
-        <li class="editor-toolbar__item">
+        <li class="editor-toolbar__item" @click="appendQuote">
+          <ToolbarIcon :src="SvgIcon.quote" :active="activeRoot.type === BlockType.Quote" />
         </li>
-        <li class="editor-toolbar__item">
+        <li class="editor-toolbar__item" @click="appendRule">
+          <ToolbarIcon :src="SvgIcon.rule" :active="activeRoot.type === BlockType.Rule" />
         </li>
         <li class="editor-toolbar__item editor-toolbar__item-stats">
+          <span class="editor-toolbar__status" :class="{ 'is-active': isSaving }"></span>
+          <div class="editor-toolbar__button" @click="handleClickPublish">公開する</div>
         </li>
       </ul>
-    -->
-    <input type="file" style="display: none;" @change="handleUpload" />
-  </div>
+        <ul class="editor-toolbar editor-toolbar--decoration" :class="{ 'is-active': isDecoration }">
+          <li class="editor-toolbar__item" @click="appendHeading">
+            <ToolbarIcon
+              :src="SvgIcon.bold"
+              :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
+            />
+          </li>
+          <li class="editor-toolbar__item" @click="appendHeading">
+            <ToolbarIcon
+              :src="SvgIcon.italic"
+              :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
+            />
+          </li>
+          <li class="editor-toolbar__item" @click="dispatchUpload">
+            <ToolbarIcon
+              :src="SvgIcon.link"
+              :active="activeRoot.type === BlockType.Image"
+            />
+          </li>
+          <li class="editor-toolbar__item">
+          </li>
+          <li class="editor-toolbar__item">
+          </li>
+          <li class="editor-toolbar__item editor-toolbar__item-stats">
+          </li>
+        </ul>
+      <input type="file" style="display: none;" @change="handleUpload" />
+    </div>
+  -->
 </template>
 
 <script lang="ts">
@@ -64,90 +65,7 @@ import Vue from 'vue'
 import ToolbarIcon from './ToolbarIcon.vue'
 import * as SvgIcon from '../vector/SvgIcon'
 import { BlockType } from '../../types/Blocks'
-
-function getTargetTag() {
-  if (navigator.userAgent.includes('Edge')) return 'body'
-  if (!(window as any).chrome && 'WebkitAppearance' in (document as any).documentElement.style) return 'body'
-  return 'html'
-}
-
-export default Vue.extend({
-  props: {
-    isSaving: Boolean,
-    hasactive: Boolean,
-    activeRoot: {
-      type: Object,
-      required: false,
-      default: {}
-    }
-  },
-  components: {
-    ToolbarIcon
-  },
-  computed: {
-    SvgIcon() {
-      return SvgIcon
-    }
-  },
-  data() {
-    return {
-      BlockType,
-      isFixed: true,
-      isOpen: false,
-      isDecoration: false,
-      beforeScroll: 0
-    }
-  },
-  mounted() {
-    const $ = (e: string) => document.querySelector(e) as any
-    // const tag = getTargetTag() as any
-    // window.addEventListener('scroll', () => {
-    //   this.isFixed = $(tag)!.scrollTop > this.beforeScroll
-    //   this.beforeScroll = $(tag)!.scrollTop
-    // })
-  },
-  methods: {
-    toggleIsOpen() {
-      this.isOpen = !this.isOpen
-    },
-    dispatchUpload() {
-      ;(this.$el.querySelector('[type="file"]') as any).click()
-    },
-    append(type: BlockType) {
-      setTimeout(() => {
-        this.isOpen = false
-        this.$emit('append', type)
-        this.$emit('disable')
-      }, 100)
-    },
-    appendParagraph() {
-      this.isOpen = false
-      this.$emit('append', BlockType.Paragraph)
-      this.$emit('disable')
-    },
-    appendRule() {
-      this.append(BlockType.Rule)
-    },
-    appendQuote() {
-      this.isOpen = false
-      this.$emit('append', BlockType.Quote)
-      this.$emit('disable')
-    },
-    appendHeading() {
-      this.isOpen = false
-      this.$emit('append', BlockType.Heading)
-      this.$emit('disable')
-    },
-    handleUpload(event: Event) {
-      this.isOpen = false
-      this.$emit('disable')
-      this.$emit('upload', event)
-    },
-    handleClickPublish() {
-      this.$emit('publish')
-    }
-  }
-})
+export default Vue.extend({})
 </script>
 
 <style scoped>
