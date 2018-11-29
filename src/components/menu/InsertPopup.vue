@@ -10,10 +10,16 @@
       }"
     >
       <button class="insert-popup__item" @click="execBold(activeRoot)"><InsertPopupIcon :src="SvgIcon.bold" /></button>
-      <button class="insert-popup__item" @click="execItalic(activeRoot)"><InsertPopupIcon :src="SvgIcon.italic" /></button>
-      <button class="insert-popup__item" @click="execQuote(activeRoot)"><InsertPopupIcon :src="SvgIcon.quote" /></button>
+      <button class="insert-popup__item" @click="execItalic(activeRoot)">
+        <InsertPopupIcon :src="SvgIcon.italic" />
+      </button>
+      <button class="insert-popup__item" @click="execQuote(activeRoot)">
+        <InsertPopupIcon :src="SvgIcon.quote" />
+      </button>
       <button class="insert-popup__item" @click="execHeading(activeRoot)"><InsertPopupIcon :src="SvgIcon.h2" /></button>
-      <button class="insert-popup__item" @click="execSubHeading(activeRoot)"><InsertPopupIcon :src="SvgIcon.h3" /></button>
+      <button class="insert-popup__item" @click="execSubHeading(activeRoot)">
+        <InsertPopupIcon :src="SvgIcon.h3" />
+      </button>
       <button class="insert-popup__item" @click="execLink(activeRoot)"><InsertPopupIcon :src="SvgIcon.link" /></button>
     </div>
   </div>

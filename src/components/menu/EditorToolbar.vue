@@ -1,32 +1,18 @@
 <template>
-    <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }">
-      <ul class="editor-toolbar">
-        <li class="editor-toolbar__item" @click="execQuote(null)">
-          <ToolbarIcon
-            :src="SvgIcon.h2"
-          />
-        </li>
-        <li class="editor-toolbar__item" @click="execQuote(null)">
-          <ToolbarIcon
-            :src="SvgIcon.h3"
-          />
-        </li>
-        <li class="editor-toolbar__item">
-          <ToolbarIcon :src="SvgIcon.image" />
-        </li>
-        <li class="editor-toolbar__item" @click="execQuote(null)">
-          <ToolbarIcon :src="SvgIcon.quote" />
-        </li>
-        <li class="editor-toolbar__item" @click="execQuote(null)">
-          <ToolbarIcon :src="SvgIcon.rule" />
-        </li>
-        <li class="editor-toolbar__item editor-toolbar__item-stats">
-          <span class="editor-toolbar__status" :class="{ 'is-active': isSaving }"></span>
-          <div class="editor-toolbar__button" @click="handleClickPublish">公開する</div>
-        </li>
-      </ul>
-      <input type="file" style="display: none;" @change="execQuote(null)" />
-    </div>
+  <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }">
+    <ul class="editor-toolbar">
+      <li class="editor-toolbar__item" @click="execQuote(null)"><ToolbarIcon :src="SvgIcon.h2" /></li>
+      <li class="editor-toolbar__item" @click="execQuote(null)"><ToolbarIcon :src="SvgIcon.h3" /></li>
+      <li class="editor-toolbar__item"><ToolbarIcon :src="SvgIcon.image" /></li>
+      <li class="editor-toolbar__item" @click="execQuote(null)"><ToolbarIcon :src="SvgIcon.quote" /></li>
+      <li class="editor-toolbar__item" @click="execQuote(null)"><ToolbarIcon :src="SvgIcon.rule" /></li>
+      <li class="editor-toolbar__item editor-toolbar__item-stats">
+        <span class="editor-toolbar__status" :class="{ 'is-active': isSaving }"></span>
+        <div class="editor-toolbar__button" @click="handleClickPublish">公開する</div>
+      </li>
+    </ul>
+    <input type="file" style="display: none;" @change="execQuote(null)" />
+  </div>
 </template>
 
 <script lang="ts">

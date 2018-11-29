@@ -1,4 +1,3 @@
-
 export function execBold(targetBlock: any) {
   document.execCommand('bold')
 }
@@ -23,7 +22,6 @@ export function execLink(targetBlock: any) {
   document.execCommand('unlink')
   document.execCommand('createLink', true, 'https://example.com')
 }
-
 
 export function toggleFormatBlock(tagName: 'h2' | 'h3' | 'blockquote', targetBlock: any) {
   const target = document.querySelector(`[data-block-id="${(targetBlock || {}).id}"]`)
