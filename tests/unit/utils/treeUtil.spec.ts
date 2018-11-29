@@ -3,6 +3,18 @@ import { createBlock } from '../../../src/utils/createBlock'
 import * as treeUtil from '../../../src/utils/treeUtil'
 
 describe('treeUtil.ts', () => {
+  describe('.optimizeTree', () => {
+    test('merge paragraph', () => {
+      const blocks = [createBlock(BlockType.Paragraph, { id: '123' }), createBlock(BlockType.Paragraph, { id: '456' })]
+      expect(treeUtil.optimizeTree(blocks)).toHaveLength(1)
+    })
+
+    test('not merge blocks', () => {
+      const blocks = [createBlock(BlockType.Paragraph, { id: '123' }), createBlock(BlockType.Image, { id: '456' })]
+      expect(treeUtil.optimizeTree(blocks)).toHaveLength(2)
+    })
+  })
+
   describe('.findBeforeRootContentByRootBlockId', () => {
     describe(`('456', [{id: '123'}, {id:'456'}])`, () => {
       it('shoud returns "123"', () => {

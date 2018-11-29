@@ -22,7 +22,8 @@
           }"
           placeholder="説明文を入力"
           :value="this.block.payload.caption"
-          @input="handleInputCaption"></textarea>
+          @input="handleInputCaption"
+        ></textarea>
       </span>
       <div class="image-uploading" v-if="isUploading">Uploading...</div>
       <div class="image-toolbar" v-if="!isUploading">

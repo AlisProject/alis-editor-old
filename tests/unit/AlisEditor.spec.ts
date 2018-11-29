@@ -31,7 +31,6 @@ describe('AlisEditor.vue', () => {
         'ParagraphBlock',
         'HeadingBlock',
         'TextBlock',
-        'QuoteBlock',
         'TextBlock',
         'RuleBlock',
         'EmbedBlock',

@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`utils/createBlock.ts Blank-default 1`] = `
+Object {
+  "id": "VVVV-XXXX-YYYY-ZZZZ",
+}
+`;
+
+exports[`utils/createBlock.ts Blank-extend 1`] = `
+Object {
+  "id": "VVVV-XXXX-YYYY-ZZZZ",
+}
+`;
+
 exports[`utils/createBlock.ts Embed-default 1`] = `
 Object {
   "id": "VVVV-XXXX-YYYY-ZZZZ",
@@ -17,42 +29,6 @@ Object {
     "src": "",
   },
   "type": "Embed",
-}
-`;
-
-exports[`utils/createBlock.ts Heading-default 1`] = `
-Object {
-  "children": Array [
-    Object {
-      "payload": Object {
-        "body": "",
-      },
-      "type": "Text",
-    },
-  ],
-  "id": "VVVV-XXXX-YYYY-ZZZZ",
-  "payload": Object {
-    "size": "h2",
-  },
-  "type": "Heading",
-}
-`;
-
-exports[`utils/createBlock.ts Heading-extend 1`] = `
-Object {
-  "children": Array [
-    Object {
-      "payload": Object {
-        "body": "",
-      },
-      "type": "Text",
-    },
-  ],
-  "id": "VVVV-XXXX-YYYY-ZZZZ",
-  "payload": Object {
-    "size": "h2",
-  },
-  "type": "Heading",
 }
 `;
 
@@ -100,26 +76,6 @@ Object {
 }
 `;
 
-exports[`utils/createBlock.ts Quote-default 1`] = `
-Object {
-  "id": "VVVV-XXXX-YYYY-ZZZZ",
-  "payload": Object {
-    "body": "",
-  },
-  "type": "Quote",
-}
-`;
-
-exports[`utils/createBlock.ts Quote-extend 1`] = `
-Object {
-  "id": "VVVV-XXXX-YYYY-ZZZZ",
-  "payload": Object {
-    "body": "",
-  },
-  "type": "Quote",
-}
-`;
-
 exports[`utils/createBlock.ts Rule-default 1`] = `
 Object {
   "id": "VVVV-XXXX-YYYY-ZZZZ",
@@ -131,25 +87,5 @@ exports[`utils/createBlock.ts Rule-extend 1`] = `
 Object {
   "id": "VVVV-XXXX-YYYY-ZZZZ",
   "type": "Rule",
-}
-`;
-
-exports[`utils/createBlock.ts Text-default 1`] = `
-Object {
-  "id": "VVVV-XXXX-YYYY-ZZZZ",
-  "payload": Object {
-    "body": "",
-  },
-  "type": "Text",
-}
-`;
-
-exports[`utils/createBlock.ts Text-extend 1`] = `
-Object {
-  "id": "VVVV-XXXX-YYYY-ZZZZ",
-  "payload": Object {
-    "body": "",
-  },
-  "type": "Text",
 }
 `;

@@ -29,12 +29,22 @@
         />
       </div>
     </template>
+    <InsertButton
+      v-if="insertButton.isVisibleInsertButton"
+      :style="{
+        left: `${insertButton.posX}px`,
+        top: `${insertButton.posY}px`
+      }"
+      @append="appendNewBlock(activeRoot.id, { type: $event })"
+      @upload="insertImageBlock(activeRoot.id, $event)"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import uuid from 'uuid/v4'
+import InsertButton from './components/menu/InsertButton.vue'
 import EditorBlock from './components/blocks/EditorBlock.vue'
 import EditorToolbar from './components/menu/EditorToolbar.vue'
 import InsertPopup from './components/menu/InsertPopup.vue'
@@ -49,6 +59,7 @@ import * as browserSelection from './utils/browserSelection'
 import * as sanitizer from './utils/sanitizer'
 import * as regex from './utils/regex'
 import { cloneDeep } from 'lodash'
+import { getEditorAreaOffset, splitBlockContentByOffset, getChildrenOffset } from './utils/offsetCalculator'
 
 interface EditorState {
   active: string | null
@@ -56,6 +67,12 @@ interface EditorState {
   isPressedEnter: boolean
   intervalId: any
   beforeBlockSnapshot: string
+  insertButton: {
+    isVisibleInsertButton: boolean
+    posX: number
+    posY: number
+    target: Node | HTMLElement | null
+  }
   insertInitialPositionTrigger: boolean
 }
 
@@ -81,6 +98,12 @@ export default Vue.extend({
       isPressedEnter: false,
       intervalId: null,
       beforeBlockSnapshot: '',
+      insertButton: {
+        isVisibleInsertButton: false,
+        posX: 0,
+        posY: 0,
+        target: null
+      },
       insertInitialPositionTrigger: this.isPressedEnterInTitle
     }
   },
@@ -95,11 +118,39 @@ export default Vue.extend({
   components: {
     EditorBlock,
     EditorToolbar,
-    InsertPopup
+    InsertPopup,
+    InsertButton
   },
   mounted() {
     this.beforeBlockSnapshot = JSON.stringify(this.store.state.blocks)
     this.registerScheduledSave()
+
+    document.addEventListener('selectionchange', event => {
+      const selection = window.getSelection()
+      const target = (selection.anchorNode as any) as HTMLElement
+      if (!target) {
+        return
+      }
+      this.insertButton.target = target
+      if (!this.activeRoot) {
+        this.insertButton.isVisibleInsertButton = false
+        return
+      }
+      try {
+        const rect = (target as any).getBoundingClientRect()
+        this.insertButton.posX =
+          getEditorAreaOffset(
+            window.innerWidth,
+            (document.querySelector('#ALISEditor')! as HTMLElement).offsetWidth,
+            rect.left
+          ) - 50
+        this.insertButton.posY = rect.top - 8
+        this.insertButton.isVisibleInsertButton = !target.textContent && isContentEditableBlock(this.activeRoot)
+      } catch (e) {
+        // TextNode の場合は例外が発生するのでこっちで false に
+        this.insertButton.isVisibleInsertButton = false
+      }
+    })
   },
   computed: {
     activeRoot(): Block | null {
@@ -111,7 +162,7 @@ export default Vue.extend({
   watch: {
     isPressedEnterInTitle: function() {
       this.appendNewBlockInitialPosition()
-      this.insertInitialPositionTrigger = !(this.insertInitialPositionTrigger)
+      this.insertInitialPositionTrigger = !this.insertInitialPositionTrigger
     }
   },
   methods: {
@@ -142,6 +193,7 @@ export default Vue.extend({
       })
     },
     replaceBlockType(orderType: BlockType): void {
+      /*
       const aR = this.activeRoot
       if (!aR) {
         return
@@ -192,6 +244,7 @@ export default Vue.extend({
         this.updateBlock(skeleton)
         return
       }
+      */
     },
     handleKeydown(id: string, event: KeyboardEvent): void {
       if (isMobile()) {
@@ -218,7 +271,7 @@ export default Vue.extend({
       if (!nowContent) return
 
       if (isDesktop()) {
-        this.desktopKeyDownEnter({ id, event, childId, nowContent })
+        // this.desktopKeyDownEnter({ id, event, childId, nowContent })
       }
       if (isMobile()) {
         this.mobileKeyDownEnter({ id, event, childId, nowContent })
@@ -229,9 +282,6 @@ export default Vue.extend({
         return
       }
       if (nowContent.type === BlockType.Image) {
-        return
-      }
-      if (nowContent.type === BlockType.Quote) {
         return
       }
       event.preventDefault()
@@ -359,6 +409,7 @@ export default Vue.extend({
       if ([BlockType.Rule, BlockType.Embed].includes(beforeContent.type)) {
         this.deleteBlock(beforeContent)
       } else if (isContentEditableBlock(beforeContent)) {
+        this.store.optimizeTree([...this.store.state.blocks])
         requestAnimationFrame(() => {
           browserSelection.selectContentEditableLastCharFromBlock(beforeContent)
         })
@@ -368,14 +419,42 @@ export default Vue.extend({
       this.store.updateBlock(content)
     },
     appendNewBlock(id: string, extend: { type: BlockType; payload?: any; children?: Block[] }) {
-      const { type } = extend
-      delete extend.type
-      const beforeContent = findTreeContentById(id, this.store.state.blocks)
-      if (!id || !beforeContent) {
-        console.error('Missing params "id" or "beforeContent"')
-        return
+      if (this.insertButton.target) {
+        const parent = this.insertButton.target.parentElement
+        if (!parent) {
+          return
+        }
+        const [before, after] = splitBlockContentByOffset(parent, getChildrenOffset(this.insertButton.target))
+        const aR = cloneDeep(this.activeRoot)
+        if (!aR) {
+          return
+        }
+
+        this.updateBlock(cloneDeep(Object.assign({}, aR, { type: BlockType.Blank, payload: { body: before } })))
+        const { type } = extend
+        delete extend.type
+        const beforeContent = findTreeContentById(id, this.store.state.blocks)
+        if (!id || !beforeContent) {
+          console.error('Missing params "id" or "beforeContent"')
+          return
+        }
+        const b = this.store.appendBlock(createBlock(type, extend), beforeContent)
+        if (b) {
+          this.store.appendBlock(createBlock(BlockType.Paragraph, { payload: { body: after } }), b)
+        }
+        requestAnimationFrame(() => {
+          this.updateBlock(cloneDeep(Object.assign({}, aR, { type: aR.type, payload: { body: before } })))
+        })
+      } else {
+        const { type } = extend
+        delete extend.type
+        const beforeContent = findTreeContentById(id, this.store.state.blocks)
+        if (!id || !beforeContent) {
+          console.error('Missing params "id" or "beforeContent"')
+          return
+        }
+        return this.store.appendBlock(createBlock(type, extend), beforeContent)
       }
-      return this.store.appendBlock(createBlock(type, extend), beforeContent)
     },
     appendNewBlockInitialPosition() {
       return this.store.appendParagraphBlockInitialPosition(createBlock(BlockType.Paragraph, {}))

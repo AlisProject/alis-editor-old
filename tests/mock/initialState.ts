@@ -4,54 +4,19 @@ import { BlockType } from '@/types/Blocks'
 export default [
   {
     id: uuid(),
-    type: BlockType.Heading,
-    payload: {
-      size: 'h2'
-    },
-    children: [
-      {
-        id: uuid(),
-        type: BlockType.Text,
-        payload: {
-          body: '<p>第一章 うさぎの穴をまっさかさま</p>'
-        }
-      }
-    ]
-  },
-  {
-    id: uuid(),
-    type: BlockType.Heading,
-    payload: {
-      size: 'h3'
-    },
-    children: [
-      {
-        id: uuid(),
-        type: BlockType.Text,
-        payload: {
-          body: '<script>alert(1)</script><h1>第一節 白うさぎ</h1>'
-        }
-      }
-    ]
-  },
-  {
-    id: uuid(),
-    type: BlockType.Rule
-  },
-  {
-    id: uuid(),
-    type: BlockType.Quote,
-    payload: {
-      body:
-        '<p>でもそのうさぎがほんとうに、チョッキのポケットから懐中時計かいちゅうどけいをとりだしてそれをながめ、そしてまたあわててかけだしたとき、アリスもとびあがりました。というのも、チョッキのポケットなんかがあるうさぎはこれまで見たことがないし、そこからとりだす時計をもっているうさぎなんかも見たことないぞ、というのに急に気がついたからです。</p>'
-    }
-  },
-  {
-    id: uuid(),
     type: BlockType.Paragraph,
     payload: {
-      body:
-        '<p>でもそのうさぎがほんとうに、チョッキのポケットから懐中時計かいちゅうどけいをとりだしてそれをながめ、そしてまたあわててかけだしたとき、アリスもとびあがりました。というのも、チョッキのポケットなんかがあるうさぎはこれまで見たことがないし、そこからとりだす時計をもっているうさぎなんかも見たことないぞ、というのに急に気がついたからです。</p>'
+      body: `
+          <h2>第一章 うさぎの穴をまっさかさま</h2>
+          <script>alert(1)</script>
+          <h3>第一節 白うさぎ</h3>
+          <blockquote>でもそのうさぎがほんとうに、チョッキのポケットから懐中時計かいちゅうどけいをとりだしてそれをながめ、そしてまたあわててかけだしたとき、アリスもとびあがりました。というのも、チョッキのポケットなんかがあるうさぎはこれまで見たことがないし、そこからとりだす時計をもっているうさぎなんかも見たことないぞ、というのに急に気がついたからです。</blockquote>
+          <p>でもそのうさぎがほんとうに、チョッキのポケットから懐中時計かいちゅうどけいをとりだしてそれをながめ、</p>
+          <p><br></p>
+          <p>そしてまたあわててかけだしたとき、アリスもとびあがりました。というのも、チョッキのポケットなんかがあるうさぎはこれまで見たことがないし、</p>
+          <p><br></p>
+          <p>そこからとりだす時計をもっているうさぎなんかも見たことないぞ、というのに急に気がついたからです。</p>
+        `
     }
   },
   {
@@ -87,15 +52,10 @@ export default [
     id: 'fewaarfa-123rewgrszb-t42qgvzaeg-awetw',
     type: BlockType.Paragraph,
     payload: {
-      body:
-        '<p>そこで、きょうみしんしんになったアリスは、うさぎのあとを追っかけて野原をよこぎって、それがしげみの下の、おっきなうさぎの穴にとびこむのを、ぎりぎりのところで見つけました。</p>'
-    }
-  },
-  {
-    id: uuid(),
-    type: BlockType.Paragraph,
-    payload: {
-      body: '<p>http://www.gutenberg.org/ebooks/11</p>'
+      body: `
+          <p>そこで、きょうみしんしんになったアリスは、うさぎのあとを追っかけて野原をよこぎって、それがしげみの下の、おっきなうさぎの穴にとびこむのを、ぎりぎりのところで見つけました。</>'
+          <p>http://www.gutenberg.org/ebooks/11</p>
+        `
     }
   }
 ]

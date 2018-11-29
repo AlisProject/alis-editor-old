@@ -44,28 +44,13 @@ export default Vue.extend({
     dispatchUpload() {
       ;(this.$el.querySelector('[type="file"]') as any).click()
     },
-    append(type: BlockType) {
-      setTimeout(() => {
-        this.isOpen = false
-        this.$emit('append', BlockType.Paragraph)
-        this.$emit('append', type)
-      }, 100)
-    },
-    appendParagraph() {
-      this.isOpen = false
-      this.$emit('append', BlockType.Paragraph)
-      this.$emit('disable')
-    },
     appendRule() {
-      this.append(BlockType.Rule)
+      this.$emit('append', BlockType.Rule)
     },
     handleUpload(event: Event) {
       this.isOpen = false
       this.$emit('disable')
       this.$emit('upload', event)
-    },
-    handleClickPublish() {
-      this.$emit('publish')
     }
   }
 })
@@ -74,8 +59,8 @@ export default Vue.extend({
 <style scoped>
 .insert-button {
   position: absolute;
-  left: -40px;
-  top: -1px;
+  left: -100px;
+  top: -100px;
   margin: 8px;
   cursor: pointer;
   z-index: 1000000000000000000;

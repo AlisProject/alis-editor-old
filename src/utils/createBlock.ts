@@ -6,7 +6,7 @@ export function isContentEditableBlock(block: Block) {
 }
 
 export function isContentEditableBlockType(type: BlockType) {
-  return [BlockType.Paragraph, BlockType.Quote].includes(type)
+  return [BlockType.Paragraph].includes(type)
 }
 
 export function createBlock(type: BlockType, extend?: any): Block {
@@ -16,14 +16,6 @@ export function createBlock(type: BlockType, extend?: any): Block {
 
 function createBlockTemplate(type: BlockType) {
   switch (type) {
-    case BlockType.Text: {
-      return {
-        type: BlockType.Text,
-        payload: {
-          body: ''
-        }
-      }
-    }
     case BlockType.Embed: {
       return {
         type: BlockType.Embed,
@@ -38,30 +30,6 @@ function createBlockTemplate(type: BlockType) {
         payload: {
           body: '<p></p>'
         }
-      }
-    }
-    case BlockType.Quote: {
-      return {
-        type: BlockType.Quote,
-        payload: {
-          body: ''
-        }
-      }
-    }
-    case BlockType.Heading: {
-      return {
-        type: BlockType.Heading,
-        payload: {
-          size: 'h2'
-        },
-        children: [
-          {
-            type: BlockType.Text,
-            payload: {
-              body: ''
-            }
-          }
-        ]
       }
     }
     case BlockType.Image: {

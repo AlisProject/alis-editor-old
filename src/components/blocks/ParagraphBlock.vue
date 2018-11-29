@@ -92,60 +92,142 @@ export default Vue.extend({
 })
 </script>
 
-<style>
-.paragraph.wrapper {
-  position: relative;
-  font-size: 2rem;
-}
+<style lang="scss">
+#ALISEditor {
+  .paragraph.wrapper {
+    position: relative;
+    font-size: 2rem;
+  }
 
-.paragraph .toolbar {
-  position: absolute;
-  background: rgba(0, 0, 0, 0.9);
-  color: #fff;
-  padding: 4px;
-  border-radius: 2px;
-  overflow: hidden;
-  z-index: 1000000;
-  cursor: pointer;
-}
+  .paragraph .toolbar {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 4px;
+    border-radius: 2px;
+    overflow: hidden;
+    z-index: 1000000;
+    cursor: pointer;
+  }
 
-.paragraph .toolbar:hover {
-  opacity: 0.8;
-}
+  .paragraph .toolbar:hover {
+    opacity: 0.8;
+  }
 
-.paragraph div.target {
-  background: transparent;
-  border: 0;
-  color: #040404;
-  font-family: 'YuGothic', 'Yu Gothic';
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  line-height: 1.8;
-  min-height: 46px;
-  outline: none;
-  overflow: hidden;
-  padding: 8px 8px 0;
-  resize: none;
-  text-align: left;
-  width: 100%;
-  word-break: break-word;
-}
-
-.target.paragraph:empty::before {
-  content: '';
-  color: #999;
-  font-size: 1em;
-}
-
-.target.paragraph.preview:empty::before {
-  content: '';
-}
-
-@media screen and (max-width: 640px) {
   .paragraph div.target {
+    background: transparent;
+    border: 0;
+    color: #040404;
+    font-family: 'YuGothic', 'Yu Gothic';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    min-height: 46px;
+    outline: none;
+    overflow: hidden;
+    padding: 8px 8px 0;
+    resize: none;
+    text-align: left;
+    width: 100%;
+    word-break: break-word;
+  }
+
+  .target.paragraph:empty::before {
+    content: '';
+    color: #999;
+    font-size: 1em;
+  }
+
+  .target.paragraph.preview:empty::before {
+    content: '';
+  }
+
+  @media screen and (max-width: 640px) {
+    .paragraph div.target {
+      color: #030303;
+      font-size: 14px;
+    }
+  }
+
+  .paragraph blockquote {
+    background: transparent;
+    border: 0;
+    color: #040404;
+    font-family: 'YuGothic', 'Yu Gothic';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    min-height: 46px;
+    outline: none;
+    overflow: hidden;
+    padding: 16px;
+    resize: none;
+    text-align: left;
+    width: 100%;
+    word-break: break-word;
+    display: block;
+    margin: 0 0 16px 0;
+    background: #f6f6f6;
+  }
+
+  h2,
+  h3 {
     color: #030303;
-    font-size: 14px;
+    font-family: 'YuGothic', 'Yu Gothic';
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    line-height: 1.5;
+    padding: 0;
+    text-align: left;
+    word-break: break-word;
+    margin: 8px 0;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: 640px) {
+    h2 {
+      font-size: 18px;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+  }
+  .block h2 textarea,
+  .block h3 textarea {
+    font-family: 'YuGothic', 'Yu Gothic';
+    font-weight: bold;
+    text-align: left;
+    letter-spacing: 0.1em;
+    color: #030303;
+    line-height: 1.5;
+  }
+
+  .block h2 textarea {
+    font-size: 20px;
+  }
+
+  .block h3 textarea {
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: 640px) {
+    .block h2 textarea {
+      font-size: 18px;
+    }
+
+    .block h3 textarea {
+      font-size: 16px;
+    }
   }
 }
 </style>

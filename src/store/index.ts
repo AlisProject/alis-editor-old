@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { Block, BlockType } from '../types/Blocks'
-import { deleteTreeContentById, applyTreeById, findRootIdByBlockId } from '../utils/treeUtil'
+import { deleteTreeContentById, optimizeTree, applyTreeById, findRootIdByBlockId } from '../utils/treeUtil'
 import { cloneDeep } from 'lodash'
 
 class Store<S> {
@@ -29,6 +29,10 @@ class Store<S> {
       this.instance.$data[k] = v
     })
     this.instance.$data.isInitialized = true
+  }
+
+  optimizeTree(blocks: Block[]) {
+    this.instance.$data.blocks = optimizeTree([...blocks])
   }
 
   setIsSaving(next: boolean) {
