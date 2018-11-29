@@ -9,12 +9,12 @@
         top: `${this.position.top}px`
       }"
     >
-      <button class="insert-popup__item" @click="execBold"><InsertPopupIcon :src="SvgIcon.bold" /></button>
-      <button class="insert-popup__item" @click="execItalic"><InsertPopupIcon :src="SvgIcon.italic" /></button>
-      <button class="insert-popup__item" @click="execQuote"><InsertPopupIcon :src="SvgIcon.quote" /></button>
-      <button class="insert-popup__item" @click="execHeading"><InsertPopupIcon :src="SvgIcon.h2" /></button>
-      <button class="insert-popup__item" @click="execSubHeading"><InsertPopupIcon :src="SvgIcon.h3" /></button>
-      <button class="insert-popup__item" @click="execLink"><InsertPopupIcon :src="SvgIcon.link" /></button>
+      <button class="insert-popup__item" @click="execBold(activeRoot)"><InsertPopupIcon :src="SvgIcon.bold" /></button>
+      <button class="insert-popup__item" @click="execItalic(activeRoot)"><InsertPopupIcon :src="SvgIcon.italic" /></button>
+      <button class="insert-popup__item" @click="execQuote(activeRoot)"><InsertPopupIcon :src="SvgIcon.quote" /></button>
+      <button class="insert-popup__item" @click="execHeading(activeRoot)"><InsertPopupIcon :src="SvgIcon.h2" /></button>
+      <button class="insert-popup__item" @click="execSubHeading(activeRoot)"><InsertPopupIcon :src="SvgIcon.h3" /></button>
+      <button class="insert-popup__item" @click="execLink(activeRoot)"><InsertPopupIcon :src="SvgIcon.link" /></button>
     </div>
   </div>
 </template>
@@ -25,6 +25,7 @@ import InsertPopupIcon from './InsertPopupIcon.vue'
 import { BlockType } from '../../types/Blocks'
 import * as SvgIcon from '../vector/SvgIcon'
 import { isContentEditableBlock } from '../../utils/createBlock'
+import * as commandExecuter from '../../utils/commandExecuter'
 
 export default Vue.extend({
   props: {
@@ -82,40 +83,7 @@ export default Vue.extend({
       }
       this.isActive = true
     },
-    execBold() {
-      document.execCommand('bold')
-    },
-    execItalic() {
-      document.execCommand('italic')
-    },
-    execQuote() {
-      this.toggleFormatBlock('blockquote')
-    },
-    execHeading() {
-      this.toggleFormatBlock('h2')
-    },
-    execSubHeading() {
-      this.toggleFormatBlock('h3')
-    },
-    toggleFormatBlock(tagName: 'h2' | 'h3' | 'blockquote') {
-      const target = document.querySelector(`[data-block-id="${(this.activeRoot || {}).id}"]`)
-      if (!target) {
-        return
-      }
-      const h = target.innerHTML
-      document.execCommand('formatBlock', true, tagName)
-      const executedTarget = document.querySelector(`[data-block-id="${(this.activeRoot || {}).id}"]`)
-      if (!executedTarget) {
-        return
-      }
-      if (h == executedTarget.innerHTML) {
-        document.execCommand('formatBlock', true, 'p')
-      }
-    },
-    execLink() {
-      document.execCommand('unlink')
-      document.execCommand('createLink', true, 'https://example.com')
-    }
+    ...commandExecuter
   }
 })
 </script>

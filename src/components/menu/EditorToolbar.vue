@@ -1,63 +1,32 @@
 <template>
-  <div></div>
-  <!--
     <div class="toolbar-wrapper" :class="{ 'is-fixed': isFixed }">
       <ul class="editor-toolbar">
-        <li class="editor-toolbar__item" @click="appendHeading">
+        <li class="editor-toolbar__item" @click="execQuote(null)">
           <ToolbarIcon
             :src="SvgIcon.h2"
-            :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
           />
         </li>
-        <li class="editor-toolbar__item" @click="appendHeading">
+        <li class="editor-toolbar__item" @click="execQuote(null)">
           <ToolbarIcon
             :src="SvgIcon.h3"
-            :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
           />
         </li>
-        <li class="editor-toolbar__item" @click="dispatchUpload">
-          <ToolbarIcon :src="SvgIcon.image" :active="activeRoot.type === BlockType.Image" />
+        <li class="editor-toolbar__item">
+          <ToolbarIcon :src="SvgIcon.image" />
         </li>
-        <li class="editor-toolbar__item" @click="appendQuote">
-          <ToolbarIcon :src="SvgIcon.quote" :active="activeRoot.type === BlockType.Quote" />
+        <li class="editor-toolbar__item" @click="execQuote(null)">
+          <ToolbarIcon :src="SvgIcon.quote" />
         </li>
-        <li class="editor-toolbar__item" @click="appendRule">
-          <ToolbarIcon :src="SvgIcon.rule" :active="activeRoot.type === BlockType.Rule" />
+        <li class="editor-toolbar__item" @click="execQuote(null)">
+          <ToolbarIcon :src="SvgIcon.rule" />
         </li>
         <li class="editor-toolbar__item editor-toolbar__item-stats">
           <span class="editor-toolbar__status" :class="{ 'is-active': isSaving }"></span>
           <div class="editor-toolbar__button" @click="handleClickPublish">公開する</div>
         </li>
       </ul>
-        <ul class="editor-toolbar editor-toolbar--decoration" :class="{ 'is-active': isDecoration }">
-          <li class="editor-toolbar__item" @click="appendHeading">
-            <ToolbarIcon
-              :src="SvgIcon.bold"
-              :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h2'"
-            />
-          </li>
-          <li class="editor-toolbar__item" @click="appendHeading">
-            <ToolbarIcon
-              :src="SvgIcon.italic"
-              :active="activeRoot.type === BlockType.Heading && activeRoot.payload.size === 'h3'"
-            />
-          </li>
-          <li class="editor-toolbar__item" @click="dispatchUpload">
-            <ToolbarIcon
-              :src="SvgIcon.link"
-              :active="activeRoot.type === BlockType.Image"
-            />
-          </li>
-          <li class="editor-toolbar__item">
-          </li>
-          <li class="editor-toolbar__item">
-          </li>
-          <li class="editor-toolbar__item editor-toolbar__item-stats">
-          </li>
-        </ul>
-      <input type="file" style="display: none;" @change="handleUpload" />
+      <input type="file" style="display: none;" @change="execQuote(null)" />
     </div>
-  -->
 </template>
 
 <script lang="ts">
@@ -65,7 +34,21 @@ import Vue from 'vue'
 import ToolbarIcon from './ToolbarIcon.vue'
 import * as SvgIcon from '../vector/SvgIcon'
 import { BlockType } from '../../types/Blocks'
-export default Vue.extend({})
+import * as commandExecuter from '../../utils/commandExecuter'
+
+export default Vue.extend({
+  computed: {
+    SvgIcon() {
+      return SvgIcon
+    }
+  },
+  methods: {
+    handleClickPublish() {
+      return
+    },
+    ...commandExecuter
+  }
+})
 </script>
 
 <style scoped>

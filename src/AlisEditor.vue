@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="ALISEditor">
-    <InsertPopup @replace="replaceBlockType" :activeRoot="activeRoot" />
+    <InsertPopup :activeRoot="activeRoot" />
     <template v-if="store.state.isInitialized">
       <EditorToolbar
         v-if="!config.preview"
@@ -191,60 +191,6 @@ export default Vue.extend({
         payload: { src },
         children: []
       })
-    },
-    replaceBlockType(orderType: BlockType): void {
-      /*
-      const aR = this.activeRoot
-      if (!aR) {
-        return
-      }
-      const nextType = aR.type === BlockType.Paragraph ? orderType : BlockType.Paragraph
-
-      // if (isContentEditableBlock(aR)) {
-      if (orderType === BlockType.Quote) {
-        // Quote <-> Paragraph の相互変換処理
-        const nextType = aR.type === BlockType.Paragraph ? BlockType.Quote : BlockType.Paragraph
-        const skeleton = createBlock(
-          nextType,
-          cloneDeep({
-            id: aR.id,
-            payload: aR.payload
-          })
-        )
-        this.updateBlock(skeleton)
-        return
-      }
-
-      if (aR.type !== BlockType.Paragraph && orderType !== BlockType.Paragraph && aR.type !== orderType) {
-        return
-      }
-
-      // Paragraph <-> 個別ブロック変換
-      if (aR.type === BlockType.Paragraph) {
-        const skeleton = createBlock(
-          nextType,
-          cloneDeep({
-            id: aR.id,
-            children: [
-              createBlock(BlockType.Text, {
-                payload: {
-                  body: sanitizer.sanitizeAllTags(aR.payload.body)
-                }
-              })
-            ]
-          })
-        )
-        this.updateBlock(skeleton)
-        return
-      } else {
-        const skeleton = createBlock(nextType, {
-          id: aR.id,
-          payload: { body: `<p>${(aR as any).children[0].payload.body}</p>` }
-        })
-        this.updateBlock(skeleton)
-        return
-      }
-      */
     },
     handleKeydown(id: string, event: KeyboardEvent): void {
       if (isMobile()) {
