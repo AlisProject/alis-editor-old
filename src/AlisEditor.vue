@@ -410,6 +410,7 @@ export default Vue.extend({
       if ([BlockType.Rule, BlockType.Embed].includes(beforeContent.type)) {
         this.deleteBlock(beforeContent)
       } else if (isContentEditableBlock(beforeContent)) {
+        this.store.optimizeTree([...this.store.state.blocks])
         requestAnimationFrame(() => {
           browserSelection.selectContentEditableLastCharFromBlock(beforeContent)
         })

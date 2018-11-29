@@ -7,7 +7,9 @@
     :data-id="block.id"
     :placeholder="placeholder || ''"
     v-if="!preview"
-  >{{block.payload.body}}</textarea>
+  >
+    {{ block.payload.body }}</textarea
+  >
   <span v-else class="text preview"> {{ block.payload.body }} </span>
 </template>
 

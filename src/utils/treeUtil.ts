@@ -1,6 +1,7 @@
-import { Block, BlockType } from '../types/Blocks'
+import { Block, BlockType, ParagraphBlock } from '../types/Blocks'
 import { cloneDeep } from 'lodash'
 import { isContentEditableBlock } from './createBlock'
+import uuid from 'uuid/v4'
 
 export function findBeforeRootContentByRootBlockId(id: string, blocks: Block[]): Block | null {
   return (result => (result.found ? result.block : null))(
@@ -14,6 +15,35 @@ export function findBeforeRootContentByRootBlockId(id: string, blocks: Block[]):
       },
       { found: false, block: null }
     )
+  )
+}
+
+export function optimizeTree(blocks: Block[]) {
+  return blocks.reduce(
+    (beforeBlocks: Block[], afterBlock: Block) => {
+      if (!beforeBlocks.length) {
+        return [afterBlock]
+      }
+      beforeBlocks = beforeBlocks as Block[]
+      let lastBlock = beforeBlocks[beforeBlocks.length - 1]
+      if (lastBlock.type === 'Paragraph' && afterBlock.type === 'Paragraph') {
+        lastBlock = lastBlock as ParagraphBlock
+        afterBlock = afterBlock as ParagraphBlock
+        const bs = beforeBlocks.filter(b => b.id != lastBlock.id)
+        return [
+          ...bs,
+          Object.assign({}, afterBlock, {
+            id: uuid(),
+            payload: {
+              body: `${lastBlock.payload.body}${afterBlock.payload.body}`
+            }
+          })
+        ]
+      } else {
+        return [...beforeBlocks, afterBlock]
+      }
+    },
+    [] as Block[]
   )
 }
 
