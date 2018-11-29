@@ -15,6 +15,6 @@ exports[`TextBlock.vue renders correctly 1`] = `
   rows="1"
   style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
 >
-  foo
+    foo
 </textarea>
 `;
