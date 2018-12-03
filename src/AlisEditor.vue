@@ -1,6 +1,17 @@
 <template lang="html">
   <div id="ALISEditor">
-    <InsertPopup :activeRoot="activeRoot" />
+    <InsertPopup
+      @replace="replaceBlockType"
+      @deleteTargetAnchorNode="handleDeleteTargetAnchorNode"
+      @update="updateBlock"
+      :activeRoot="activeRoot"
+      :popUpPosition="popUpPosition"
+      :hoverPopupPosition="hoverPopupPosition"
+      :isHover="isHover"
+      :linked_url="linked_url"
+      :targetAnchorNode="targetAnchorNode"
+      :store="store"
+    />
     <template v-if="store.state.isInitialized">
       <EditorToolbar
         v-if="!config.preview"
@@ -75,6 +86,17 @@ interface EditorState {
     target: Node | HTMLElement | null
   }
   insertInitialPositionTrigger: boolean
+  popUpPosition: {
+    left: any
+    top: any
+  }
+  hoverPopupPosition: {
+    left: any
+    top: any
+  }
+  isHover: boolean
+  linked_url: string
+  targetAnchorNode: any
 }
 
 interface DeviceKeyDownEventArgument {
@@ -105,7 +127,18 @@ export default Vue.extend({
         posY: 0,
         target: null
       },
-      insertInitialPositionTrigger: this.isPressedEnterInTitle
+      insertInitialPositionTrigger: this.isPressedEnterInTitle,
+      popUpPosition: {
+        left: 0.0,
+        top: 0.0
+      },
+      hoverPopupPosition: {
+        left: 0.0,
+        top: 0.0
+      },
+      isHover: false,
+      linked_url: '',
+      targetAnchorNode: null
     }
   },
   props: {
@@ -123,6 +156,19 @@ export default Vue.extend({
     InsertButton
   },
   mounted() {
+    const targetNodeList = document.querySelectorAll('.target')
+    for (let i = 0; i < targetNodeList.length; i++) {
+      const elements = targetNodeList[i].getElementsByTagName('a') as any
+      if (elements.length !== 0) {
+        const aCollectionArr = Object.keys(elements).map(function (key) {return elements[key]})
+        if (aCollectionArr.length !== 0) {
+          for (let n = 0; n < aCollectionArr.length; n++) {
+            aCollectionArr[n].addEventListener('mouseover', this.addHoverEvent)
+            aCollectionArr[n].addEventListener('mouseleave', this.deleteHover)
+          }
+        }
+      }
+    }
     this.beforeBlockSnapshot = JSON.stringify(this.store.state.blocks)
     this.registerScheduledSave()
 
@@ -413,14 +459,37 @@ export default Vue.extend({
       return this.store.appendParagraphBlockInitialPosition(createBlock(BlockType.Paragraph, {}))
     },
     moveToNextBlock(id: string) {
-      console.log('要修正')
-      // 要修正
-      // ;(async () => {
-      //   const block = this.appendNewBlock(id, createBlock(BlockType.Paragraph)) as any
-      //   await this.$nextTick()
-      //   this.active = block.id
-      //   browserSelection.selectContentEditableFirstCharFromBlock(block)
-      // })()
+    console.log('要修正')
+    // 要修正
+    // ;(async () => {
+    //   const block = this.appendNewBlock(id, createBlock(BlockType.Paragraph)) as any
+    //   await this.$nextTick()
+    //   this.active = block.id
+    //   browserSelection.selectContentEditableFirstCharFromBlock(block)
+    // })()
+    },
+    addHoverEvent(event: any) {
+      this.isHover = true
+      this.linked_url = event.target.href
+      this.targetAnchorNode = event.target
+      // elementの座標を取得し、windowの絶対座標をマウスオーバー時に出現するポップアップの座標としてセットする
+      const rect = event.srcElement.getBoundingClientRect()
+      const alisEditor = document.getElementById('ALISEditor')
+      const alisEditorRect = (alisEditor as any).getBoundingClientRect()
+      const absoluteUnderPopupRectLeft = rect.left + (rect.width / 2) - alisEditorRect.left - 105
+      const absoluteUnderPopupRectTop = rect.top - alisEditorRect.top + 30
+      const absoluteUpperPopupRectLeft = rect.left + (rect.width / 2) - alisEditorRect.left - 225
+      const absoluteUpperPopupRectTop = rect.top - alisEditorRect.top - 110
+      this.hoverPopupPosition.left = absoluteUnderPopupRectLeft
+      this.hoverPopupPosition.top = absoluteUnderPopupRectTop
+      this.popUpPosition.left = absoluteUpperPopupRectLeft
+      this.popUpPosition.top = absoluteUpperPopupRectTop
+    },
+    deleteHover() {
+      setTimeout(() => {this.isHover = false}, 1000)
+    },
+    handleDeleteTargetAnchorNode() {
+      this.targetAnchorNode = null
     }
   }
 })
