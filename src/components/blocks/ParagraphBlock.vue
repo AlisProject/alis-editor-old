@@ -125,11 +125,10 @@ export default Vue.extend({
     line-height: 1.8;
     min-height: 46px;
     outline: none;
-    overflow: hidden;
+    /*overflow: hidden;*/
     padding: 8px 8px 0;
     resize: none;
     text-align: left;
-    width: 100%;
     word-break: break-word;
   }
 

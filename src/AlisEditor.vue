@@ -23,6 +23,7 @@
           @upload="insertImageBlock(block.id, $event)"
           @active="setActive($event)"
           @addimageuri="addImageURI(block.id, $event)"
+          @moveToNextBlock="moveToNextBlock(block.id)"
           :config="config"
           :block="block"
           :active="activeRoot && activeRoot.id === block.id"
@@ -336,10 +337,16 @@ export default Vue.extend({
     insertImageBlock(id: string, event: DragEvent) {
       ;(async () => {
         const src = await createDataURIImage(event)
-        this.appendNewBlock(id, {
+        const block = this.appendNewBlock(id, {
           type: BlockType.Image,
           payload: { src },
           children: []
+        }) as any
+        this.appendNewBlock(block.id, {
+          type: BlockType.Paragraph,
+          payload: {
+            body: ''
+          }
         })
       })()
     },
@@ -404,6 +411,16 @@ export default Vue.extend({
     },
     appendNewBlockInitialPosition() {
       return this.store.appendParagraphBlockInitialPosition(createBlock(BlockType.Paragraph, {}))
+    },
+    moveToNextBlock(id: string) {
+      console.log('要修正')
+      // 要修正
+      // ;(async () => {
+      //   const block = this.appendNewBlock(id, createBlock(BlockType.Paragraph)) as any
+      //   await this.$nextTick()
+      //   this.active = block.id
+      //   browserSelection.selectContentEditableFirstCharFromBlock(block)
+      // })()
     }
   }
 })

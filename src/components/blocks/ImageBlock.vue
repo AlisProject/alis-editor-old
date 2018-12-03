@@ -5,9 +5,7 @@
       'is-uploading': isUploading,
       'is-focus': isFocus
     }"
-    :style="{
-      textAlign: block.payload.align
-    }"
+    :style="switchStyle"
     v-if="!preview"
     @mouseover="handleHover"
   >
@@ -22,8 +20,8 @@
           }"
           placeholder="説明文を入力"
           :value="this.block.payload.caption"
-          @input="handleInputCaption"
-        ></textarea>
+          @keydown.enter.prevent="handleEnter"
+          @input="handleInputCaption"></textarea>
       </span>
       <div class="image-uploading" v-if="isUploading">Uploading...</div>
       <div class="image-toolbar" v-if="!isUploading">
@@ -62,9 +60,7 @@
   </div>
   <div
     class="aliseditor--image preview"
-    :style="{
-      textAlign: block.payload.align
-    }"
+    :style="switchStyle"
     v-else
   >
     <div class="preview-content">
@@ -118,6 +114,12 @@ export default Vue.extend({
   computed: {
     isUploading() {
       return (this as any).block.payload.src.startsWith('data')
+    },
+    switchStyle() {
+      if ((this as any).block.payload.align === 'center') {
+        return { textAlign: 'center' }
+      }
+      return { float: (this as any).block.payload.align }
     }
   },
   async mounted() {
@@ -160,6 +162,9 @@ export default Vue.extend({
       const { block } = this
       block.payload.caption = caption
       this.$emit('update', block)
+    },
+    handleEnter() {
+      this.$emit('moveToNextBlock')
     },
     handleDelete() {
       this.$emit('delete', this.block)
