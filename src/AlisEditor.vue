@@ -413,12 +413,14 @@ export default Vue.extend({
       return this.store.appendParagraphBlockInitialPosition(createBlock(BlockType.Paragraph, {}))
     },
     moveToNextBlock(id: string) {
-      ;(async () => {
-        const block = this.appendNewBlock(id, createBlock(BlockType.Paragraph)) as any
-        await this.$nextTick()
-        this.active = block.id
-        browserSelection.selectContentEditableFirstCharFromBlock(block)
-      })()
+      console.log('要修正')
+      // 要修正
+      // ;(async () => {
+      //   const block = this.appendNewBlock(id, createBlock(BlockType.Paragraph)) as any
+      //   await this.$nextTick()
+      //   this.active = block.id
+      //   browserSelection.selectContentEditableFirstCharFromBlock(block)
+      // })()
     }
   }
 })
