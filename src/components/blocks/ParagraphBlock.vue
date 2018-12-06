@@ -67,6 +67,7 @@ export default Vue.extend({
       }
     },
     handlePaste(event: any) {
+      console.log(event)
       this.handleInput(event, true)
     },
     handleInput(event: KeyboardEvent, requireUpdateDOM?: boolean) {
@@ -74,7 +75,15 @@ export default Vue.extend({
     },
     updateDOM(target: any, requireUpdateDOM?: boolean) {
       requestAnimationFrame(() => {
-        const selection = document.getSelection()
+        // ブロック内のspanの存在を確認し、unwrapしてやる
+        // pタグを削除した時にspanが挿入されるContentEditorableの仕様に対応する処理です
+        const targetParagraph = (document as any).querySelector(`[data-block-id="${(this as any).block.id}"] .target`)
+        Array.from(targetParagraph.querySelectorAll('span'), (el: any) => {
+          const parent = el.parentNode
+          parent.insertBefore(el.firstChild, el)
+          parent.removeChild(el)
+        })
+
         const sanitizedHtml = sanitizer.sanitizeCommonTags(target.innerHTML)
         if (sanitizedHtml) {
           if (requireUpdateDOM) {
@@ -169,6 +178,10 @@ export default Vue.extend({
     display: block;
     margin: 0 0 16px 0;
     background: #f6f6f6;
+  }
+
+  .paragraph blockquote + blockquote {
+    margin: -16px 0 16px 0;
   }
 
   h2,

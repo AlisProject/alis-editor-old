@@ -63,7 +63,7 @@ export default Vue.extend({
     hoverPopupPosition: Object,
     isHover: Boolean,
     linked_url: String,
-    targetAnchorNode: HTMLAnchorElement as any,
+    targetAnchorNode: HTMLElement,
     store: Object
   },
   data(): any {
@@ -85,7 +85,13 @@ export default Vue.extend({
       range: null,
       isPopupActive: this.isHover as boolean,
       url: this.linked_url as string,
-      targetAnchor: null
+      targetAnchor: null,
+      isBold: false,
+      isAnchor: false,
+      isItalic: false,
+      isQuote: false,
+      isH2: false,
+      isH3: false
     }
   },
   components: {
@@ -151,9 +157,9 @@ export default Vue.extend({
         this.targetAnchor.href = this.value
       }
     },
-    mouseOnAnchor() {
-      const selection = window.getSelection()
-      selection.anchorNode.parentNode
+    isOnTags(selection: any) {
+      const tags = ['a', 'b', 'i', 'blockquote', 'h2', 'h3']
+      selection.anchorNode.parentNode.nodeName
     },
     onSelectionChange(event: Event) {
       if (!this.activeRoot) {
@@ -163,6 +169,7 @@ export default Vue.extend({
         return
       }
       const selection = window.getSelection()
+      // this.isOnTags(selection)
       if (selection.isCollapsed && this.isClickedLink === false) {
         this.isActive = false
         return

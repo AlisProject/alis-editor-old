@@ -1,7 +1,6 @@
 <template lang="html">
   <div id="ALISEditor">
     <InsertPopup
-      @replace="replaceBlockType"
       @deleteTargetAnchorNode="handleDeleteTargetAnchorNode"
       @update="updateBlock"
       :activeRoot="activeRoot"
@@ -13,13 +12,13 @@
       :store="store"
     />
     <template v-if="store.state.isInitialized">
-      <EditorToolbar
-        v-if="!config.preview"
-        @append="appendNewBlock(active, { type: $event })"
-        @upload="insertImageBlock(active, $event)"
-        :activeRoot="activeRoot || {}"
-        :isSaving="store.state.isSaving"
-      />
+      <!--<EditorToolbar-->
+        <!--v-if="!config.preview"-->
+        <!--@append="appendNewBlock(active, { type: $event })"-->
+        <!--@upload="insertImageBlock(active, $event)"-->
+        <!--:activeRoot="activeRoot || {}"-->
+        <!--:isSaving="store.state.isSaving"-->
+      <!--/>-->
       <div
         @keydown="handleKeydown(block.id, $event)"
         @keydown.enter="handleKeydownEnter(block.id, $event)"
@@ -96,7 +95,7 @@ interface EditorState {
   }
   isHover: boolean
   linked_url: string
-  targetAnchorNode: any
+  targetAnchorNode: HTMLAnchorElement | null
 }
 
 interface DeviceKeyDownEventArgument {
@@ -264,11 +263,59 @@ export default Vue.extend({
       if (!nowContent) return
 
       if (isDesktop()) {
+        if (event.shiftKey) {
+          return
+        }
+        // Enterを押した際に<div><br></div>の改行が生まれることを防ぐ処理
+        ;(async () => {
+          const p = document.createElement('p')
+          const br = document.createElement('br')
+          p.appendChild(br)
+          const previousSelection = window.getSelection() as any
+          await this.$nextTick()
+
+          // Blockquote内のセレクションの位置を見て最終文字の位置にキャレットが存在する場合はBlockquoteから出る処理
+          if (!!this.isDeterminedInBlockquote(previousSelection.anchorNode)) {
+            const el = this.isDeterminedInBlockquote(previousSelection.anchorNode)
+            if (el.textContent === "") {
+              el.parentNode.insertBefore(p, el.nextSibling)
+              el.parentNode.removeChild(el)
+            }
+          }
+
+          // h2, h3タグの最後尾でEnterを押した時に挿入されるdivタグをpタグに変更する処理
+          const nodeList = (document as any).querySelector(`[data-block-id="${(this as any).activeRoot.id}"] .target`).childNodes
+          for (let i = 0; i < nodeList.length; i++) {
+            if (nodeList[i].nodeName === 'DIV')  {
+              await nodeList[i].parentNode.insertBefore(p, nodeList[i].nextSibling)
+              nodeList[i].parentNode.removeChild(nodeList[i])
+            }
+          }
+        })()
         // this.desktopKeyDownEnter({ id, event, childId, nowContent })
       }
       if (isMobile()) {
         this.mobileKeyDownEnter({ id, event, childId, nowContent })
       }
+    },
+    isDeterminedInBlockquote(targetNode: any) {
+      const requireRecursivenodeNames = ['#text', 'A', 'H2', 'H3', 'I', 'B']
+      const processTerminateNodes = ['BLOCKQUOTE', 'P']
+      if (requireRecursivenodeNames.includes(targetNode.nodeName)) {
+        const parentNode = targetNode.parentNode
+        return (this as any).isDeterminedInBlockquote(parentNode)
+      } else if (processTerminateNodes.includes(targetNode.nodeName)) {
+        if (targetNode.nodeName === 'BLOCKQUOTE') {
+          if (targetNode.nextSibling === null || targetNode.nextSibling.nodeName !== 'BLOCKQUOTE') {
+            return targetNode
+          }
+          return false
+        }
+        return false
+      }
+    },
+    isLastCharInBlockquote() {
+
     },
     desktopKeyDownEnter({ id, event, childId, nowContent }: DeviceKeyDownEventArgument) {
       if (event.shiftKey) {
@@ -278,25 +325,25 @@ export default Vue.extend({
         return
       }
       event.preventDefault()
-      requestAnimationFrame(() => {
-        const b = this.appendNewBlock(nowContent.id, createBlock(BlockType.Paragraph))
-        if (!b) {
-          return
-        }
-        requestAnimationFrame(() => {
-          this.active = b.id
-          browserSelection.selectContentEditableFirstCharFromBlock(b)
-          const isLink = isContentEditableBlock(nowContent) && regex.isValidEmbedString(nowContent.payload.body)
-          if (!isLink) return
-          this.updateBlock({
-            id: nowContent.id,
-            type: BlockType.Embed,
-            payload: {
-              src: sanitizer.sanitizeAllTags(nowContent.payload.body)
-            }
-          })
-        })
-      })
+      // requestAnimationFrame(() => {
+      //   const b = this.appendNewBlock(nowContent.id, createBlock(BlockType.Paragraph))
+      //   if (!b) {
+      //     return
+      //   }
+      //   requestAnimationFrame(() => {
+      //     this.active = b.id
+      //     browserSelection.selectContentEditableFirstCharFromBlock(b)
+      //     const isLink = isContentEditableBlock(nowContent) && regex.isValidEmbedString(nowContent.payload.body)
+      //     if (!isLink) return
+      //     this.updateBlock({
+      //       id: nowContent.id,
+      //       type: BlockType.Embed,
+      //       payload: {
+      //         src: sanitizer.sanitizeAllTags(nowContent.payload.body)
+      //       }
+      //     })
+      //   })
+      // })
     },
     mobileKeyDownEnter({ id, event, childId, nowContent }: DeviceKeyDownEventArgument) {
       if (isContentEditableBlock(nowContent)) {
