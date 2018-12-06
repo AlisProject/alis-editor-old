@@ -67,17 +67,30 @@ export default Vue.extend({
       }
     },
     handlePaste(event: any) {
-      console.log(event)
       this.handleInput(event, true)
     },
     handleInput(event: KeyboardEvent, requireUpdateDOM?: boolean) {
+      if (event.type === "paste") {
+        return this.updateDOM(event.currentTarget, requireUpdateDOM || false)
+      }
       this.updateDOM(event.target, requireUpdateDOM || false)
     },
     updateDOM(target: any, requireUpdateDOM?: boolean) {
       requestAnimationFrame(() => {
+
+        const targetParagraph = (document as any).querySelector(`[data-block-id="${(this as any).block.id}"] .target`)
+
+        // ブロック内にsanitizeにかかるhtmlを貼り付けた時にテキストノードが生成されるのでそのノードをpタグで囲う処理
+        Array.from(targetParagraph.childNodes, (el: any) => {
+          if (el.nodeName === "#text") {
+            const p = document.createElement('p')
+            p.appendChild(el)
+            targetParagraph.insertBefore(p, el)
+            targetParagraph.removeChild(el)
+          }
+        })
         // ブロック内のspanの存在を確認し、unwrapしてやる
         // pタグを削除した時にspanが挿入されるContentEditorableの仕様に対応する処理です
-        const targetParagraph = (document as any).querySelector(`[data-block-id="${(this as any).block.id}"] .target`)
         Array.from(targetParagraph.querySelectorAll('span'), (el: any) => {
           const parent = el.parentNode
           parent.insertBefore(el.firstChild, el)
