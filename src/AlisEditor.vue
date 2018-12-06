@@ -12,13 +12,13 @@
       :store="store"
     />
     <template v-if="store.state.isInitialized">
-      <!--<EditorToolbar-->
-        <!--v-if="!config.preview"-->
-        <!--@append="appendNewBlock(active, { type: $event })"-->
-        <!--@upload="insertImageBlock(active, $event)"-->
-        <!--:activeRoot="activeRoot || {}"-->
-        <!--:isSaving="store.state.isSaving"-->
-      <!--/>-->
+      <!-- <EditorToolbar -->
+      <!-- v-if="!config.preview" -->
+      <!-- @append="appendNewBlock(active, { type: $event })" -->
+      <!-- @upload="insertImageBlock(active, $event)" -->
+      <!-- :activeRoot="activeRoot || {}" -->
+      <!-- :isSaving="store.state.isSaving" -->
+      <!-- /> -->
       <div
         @keydown="handleKeydown(block.id, $event)"
         @keydown.enter="handleKeydownEnter(block.id, $event)"
@@ -159,7 +159,9 @@ export default Vue.extend({
     for (let i = 0; i < targetNodeList.length; i++) {
       const elements = targetNodeList[i].getElementsByTagName('a') as any
       if (elements.length !== 0) {
-        const aCollectionArr = Object.keys(elements).map(function (key) {return elements[key]})
+        const aCollectionArr = Object.keys(elements).map(function(key) {
+          return elements[key]
+        })
         if (aCollectionArr.length !== 0) {
           for (let n = 0; n < aCollectionArr.length; n++) {
             aCollectionArr[n].addEventListener('mouseover', this.addHoverEvent)
@@ -271,22 +273,23 @@ export default Vue.extend({
           const p = document.createElement('p')
           const br = document.createElement('br')
           p.appendChild(br)
-          const previousSelection = window.getSelection() as any
+          const selection = window.getSelection() as any
           await this.$nextTick()
 
           // Blockquote内のセレクションの位置を見て最終文字の位置にキャレットが存在する場合はBlockquoteから出る処理
-          if (!!this.isDeterminedInBlockquote(previousSelection.anchorNode)) {
-            const el = this.isDeterminedInBlockquote(previousSelection.anchorNode)
-            if (el.textContent === "") {
+          if (!!this.isDeterminedInBlockquote(selection.anchorNode)) {
+            const el = this.isDeterminedInBlockquote(selection.anchorNode)
+            if (el.textContent === '') {
               el.parentNode.insertBefore(p, el.nextSibling)
               el.parentNode.removeChild(el)
             }
           }
 
           // h2, h3タグの最後尾でEnterを押した時に挿入されるdivタグをpタグに変更する処理
-          const nodeList = (document as any).querySelector(`[data-block-id="${(this as any).activeRoot.id}"] .target`).childNodes
+          const nodeList = (document as any).querySelector(`[data-block-id="${(this as any).activeRoot.id}"] .target`)
+            .childNodes
           for (let i = 0; i < nodeList.length; i++) {
-            if (nodeList[i].nodeName === 'DIV')  {
+            if (nodeList[i].nodeName === 'DIV') {
               await nodeList[i].parentNode.insertBefore(p, nodeList[i].nextSibling)
               nodeList[i].parentNode.removeChild(nodeList[i])
             }
@@ -314,9 +317,7 @@ export default Vue.extend({
         return false
       }
     },
-    isLastCharInBlockquote() {
-
-    },
+    isLastCharInBlockquote() {},
     desktopKeyDownEnter({ id, event, childId, nowContent }: DeviceKeyDownEventArgument) {
       if (event.shiftKey) {
         return
@@ -506,14 +507,14 @@ export default Vue.extend({
       return this.store.appendParagraphBlockInitialPosition(createBlock(BlockType.Paragraph, {}))
     },
     moveToNextBlock(id: string) {
-    console.log('要修正')
-    // 要修正
-    // ;(async () => {
-    //   const block = this.appendNewBlock(id, createBlock(BlockType.Paragraph)) as any
-    //   await this.$nextTick()
-    //   this.active = block.id
-    //   browserSelection.selectContentEditableFirstCharFromBlock(block)
-    // })()
+      console.log('要修正')
+      // 要修正
+      // ;(async () => {
+      //   const block = this.appendNewBlock(id, createBlock(BlockType.Paragraph)) as any
+      //   await this.$nextTick()
+      //   this.active = block.id
+      //   browserSelection.selectContentEditableFirstCharFromBlock(block)
+      // })()
     },
     addHoverEvent(event: any) {
       this.isHover = true
@@ -523,9 +524,9 @@ export default Vue.extend({
       const rect = event.srcElement.getBoundingClientRect()
       const alisEditor = document.getElementById('ALISEditor')
       const alisEditorRect = (alisEditor as any).getBoundingClientRect()
-      const absoluteUnderPopupRectLeft = rect.left + (rect.width / 2) - alisEditorRect.left - 105
+      const absoluteUnderPopupRectLeft = rect.left + rect.width / 2 - alisEditorRect.left - 105
       const absoluteUnderPopupRectTop = rect.top - alisEditorRect.top + 30
-      const absoluteUpperPopupRectLeft = rect.left + (rect.width / 2) - alisEditorRect.left - 225
+      const absoluteUpperPopupRectLeft = rect.left + rect.width / 2 - alisEditorRect.left - 225
       const absoluteUpperPopupRectTop = rect.top - alisEditorRect.top - 110
       this.hoverPopupPosition.left = absoluteUnderPopupRectLeft
       this.hoverPopupPosition.top = absoluteUnderPopupRectTop
@@ -533,7 +534,9 @@ export default Vue.extend({
       this.popUpPosition.top = absoluteUpperPopupRectTop
     },
     deleteHover() {
-      setTimeout(() => {this.isHover = false}, 1000)
+      setTimeout(() => {
+        this.isHover = false
+      }, 1000)
     },
     handleDeleteTargetAnchorNode() {
       this.targetAnchorNode = null

@@ -8,21 +8,25 @@
         top: `${this.position.top}px`
       }"
     >
-      <button class="insert-popup__item" v-if="!isClickedLink" @click="execBold(activeRoot)"><InsertPopupIcon :src="SvgIcon.bold" /></button>
-      <button class="insert-popup__item" v-if="!isClickedLink" @click="execItalic(activeRoot)"><InsertPopupIcon :src="SvgIcon.italic" /></button>
-      <button class="insert-popup__item" v-if="!isClickedLink" @click="execQuote(activeRoot)"><InsertPopupIcon :src="SvgIcon.quote" /></button>
-      <button class="insert-popup__item" v-if="!isClickedLink" @click="execHeading(activeRoot)"><InsertPopupIcon :src="SvgIcon.h2" /></button>
+      <button class="insert-popup__item" v-if="!isClickedLink" @click="execBold(activeRoot)">
+        <InsertPopupIcon :src="SvgIcon.bold" />
+      </button>
+      <button class="insert-popup__item" v-if="!isClickedLink" @click="execItalic(activeRoot)">
+        <InsertPopupIcon :src="SvgIcon.italic" />
+      </button>
+      <button class="insert-popup__item" v-if="!isClickedLink" @click="execQuote(activeRoot)">
+        <InsertPopupIcon :src="SvgIcon.quote" />
+      </button>
+      <button class="insert-popup__item" v-if="!isClickedLink" @click="execHeading(activeRoot)">
+        <InsertPopupIcon :src="SvgIcon.h2" />
+      </button>
       <button class="insert-popup__item" v-if="!isClickedLink" @click="execSubHeading(activeRoot)">
         <InsertPopupIcon :src="SvgIcon.h3" />
       </button>
-      <button
-        class="insert-popup__item"
-        v-if="!isClickedLink"
-        @click="execLink"
-      >
+      <button class="insert-popup__item" v-if="!isClickedLink" @click="execLink">
         <InsertPopupIcon :src="SvgIcon.link" />
       </button>
-      <input class="insert-link" type="text" v-if="isClickedLink" :value="value" @input="handleInput">
+      <input class="insert-link" type="text" v-if="isClickedLink" :value="value" @input="handleInput" />
       <button class="insert-popup__item" style="cursor: pointer;" v-if="isClickedLink" @click="setUrl">✓</button>
       <button class="insert-popup__item" style="cursor: pointer;" v-if="isClickedLink" @click="deletePopup">×</button>
       <!--
@@ -41,7 +45,7 @@
       }"
       @click="openInsertLink"
     >
-      {{this.url}}
+      {{ this.url }}
     </div>
   </div>
 </template>
@@ -53,7 +57,7 @@ import { BlockType } from '../../types/Blocks'
 import * as SvgIcon from '../vector/SvgIcon'
 import { isContentEditableBlock } from '../../utils/createBlock'
 import * as commandExecuter from '../../utils/commandExecuter'
-import { getEndNodeByElement } from "../../utils/browserSelection";
+import { getEndNodeByElement } from '../../utils/browserSelection'
 import { findTreeContentById } from '../../utils/treeUtil'
 
 export default Vue.extend({
@@ -179,7 +183,7 @@ export default Vue.extend({
       const alisEditorRect = (alisEditor as any).getBoundingClientRect()
       const range = selection.getRangeAt(0).cloneRange()
       if ((range as any).getClientRects().length !== 0) {
-        const rect = (range as any).getClientRects()[0];
+        const rect = (range as any).getClientRects()[0]
         const absoluteRectLeft = (rect.left + rect.right) / 2 - alisEditorRect.left - 105
         this.position.left = absoluteRectLeft
         const absoluteRectTop = rect.top - alisEditorRect.top - 75
@@ -234,7 +238,7 @@ export default Vue.extend({
       const rect = event.srcElement.getBoundingClientRect()
       const alisEditor = document.getElementById('ALISEditor')
       const alisEditorRect = (alisEditor as any).getBoundingClientRect()
-      const absoluteUnderPopupRectLeft = rect.left + (rect.width / 2) - alisEditorRect.left - 175
+      const absoluteUnderPopupRectLeft = rect.left + rect.width / 2 - alisEditorRect.left - 175
       const absoluteUnderPopupRectTop = rect.top - alisEditorRect.top + 30
       this.hoverPosition.left = absoluteUnderPopupRectLeft
       this.hoverPosition.top = absoluteUnderPopupRectTop
@@ -243,7 +247,7 @@ export default Vue.extend({
       const rect = event.srcElement.getBoundingClientRect()
       const alisEditor = document.getElementById('ALISEditor')
       const alisEditorRect = (alisEditor as any).getBoundingClientRect()
-      const absoluteUpperPopupRectLeft = rect.left + (rect.width / 2) - alisEditorRect.left - 265
+      const absoluteUpperPopupRectLeft = rect.left + rect.width / 2 - alisEditorRect.left - 265
       const absoluteUpperPopupRectTop = rect.top - alisEditorRect.top - 90
       this.position.left = absoluteUpperPopupRectLeft
       this.position.top = absoluteUpperPopupRectTop
@@ -253,7 +257,9 @@ export default Vue.extend({
       this.value = this.url
     },
     deleteHover() {
-      setTimeout(() => {this.isPopupActive = false}, 1000)
+      setTimeout(() => {
+        this.isPopupActive = false
+      }, 1000)
     }
   }
 })
@@ -285,7 +291,7 @@ export default Vue.extend({
 .insert-popup.is-active.is-link {
   pointer-events: initial;
   animation: anim1 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  width: 500px
+  width: 500px;
 }
 
 .link-popup {
@@ -323,15 +329,15 @@ export default Vue.extend({
 }
 
 /*.insert-popup::after {*/
-  /*position: absolute;*/
-  /*left: calc(50% - 10px);*/
-  /*bottom: -10px;*/
-  /*width: 20px;*/
-  /*height: 20px;*/
-  /*background: #41446a;*/
-  /*transform: rotate(45deg);*/
-  /*content: '';*/
-  /*display: block;*/
+/*position: absolute;*/
+/*left: calc(50% - 10px);*/
+/*bottom: -10px;*/
+/*width: 20px;*/
+/*height: 20px;*/
+/*background: #41446a;*/
+/*transform: rotate(45deg);*/
+/*content: '';*/
+/*display: block;*/
 /*}*/
 
 .insert-popup .insert-popup__item {
