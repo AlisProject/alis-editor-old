@@ -213,6 +213,9 @@ export default Vue.extend({
     },
     ...commandExecuter,
     execLink() {
+      if (this.isAnchor) {
+        return document.execCommand('unlink')
+      }
       this.isClickedLink = true
       const selection = window.getSelection()
       this.range = selection.getRangeAt(0)

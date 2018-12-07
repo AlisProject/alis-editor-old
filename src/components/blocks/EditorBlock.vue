@@ -23,6 +23,7 @@
         @append="handleAppendBlock"
         @addimageuri="handleAddImage"
         @moveToNextBlock="moveToNextBlock"
+        @addEvent="addEvent"
       />
     </template>
   </div>
@@ -111,6 +112,9 @@ export default Vue.extend({
     },
     moveToNextBlock(event: any) {
       this.$emit('moveToNextBlock', event)
+    },
+    addEvent() {
+      this.$emit('addEvent')
     }
   }
 })

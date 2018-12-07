@@ -105,8 +105,10 @@ export default Vue.extend({
           const block = cloneDeep(this.block)
           block.payload.body = sanitizedHtml
           this.$emit('input', block)
+          this.$emit('addEvent')
         } else {
           this.$emit('delete', this.block)
+          this.$emit('addEvent')
         }
       })
     }

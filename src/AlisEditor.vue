@@ -34,6 +34,7 @@
           @active="setActive($event)"
           @addimageuri="addImageURI(block.id, $event)"
           @moveToNextBlock="moveToNextBlock(block.id)"
+          @addEvent="addEventAnchor"
           :config="config"
           :block="block"
           :active="activeRoot && activeRoot.id === block.id"
@@ -155,21 +156,7 @@ export default Vue.extend({
     InsertButton
   },
   mounted() {
-    const targetNodeList = document.querySelectorAll('.target')
-    for (let i = 0; i < targetNodeList.length; i++) {
-      const elements = targetNodeList[i].getElementsByTagName('a') as any
-      if (elements.length !== 0) {
-        const aCollectionArr = Object.keys(elements).map(function(key) {
-          return elements[key]
-        })
-        if (aCollectionArr.length !== 0) {
-          for (let n = 0; n < aCollectionArr.length; n++) {
-            aCollectionArr[n].addEventListener('mouseover', this.addHoverEvent)
-            aCollectionArr[n].addEventListener('mouseleave', this.deleteHover)
-          }
-        }
-      }
-    }
+    this.addEventAnchor()
     this.beforeBlockSnapshot = JSON.stringify(this.store.state.blocks)
     this.registerScheduledSave()
 
@@ -515,6 +502,23 @@ export default Vue.extend({
       //   this.active = block.id
       //   browserSelection.selectContentEditableFirstCharFromBlock(block)
       // })()
+    },
+    addEventAnchor() {
+      const targetNodeList = document.querySelectorAll('.target')
+      for (let i = 0; i < targetNodeList.length; i++) {
+        const elements = targetNodeList[i].getElementsByTagName('a') as any
+        if (elements.length !== 0) {
+          const aCollectionArr = Object.keys(elements).map(function(key) {
+            return elements[key]
+          })
+          if (aCollectionArr.length !== 0) {
+            for (let n = 0; n < aCollectionArr.length; n++) {
+              aCollectionArr[n].addEventListener('mouseover', this.addHoverEvent)
+              aCollectionArr[n].addEventListener('mouseleave', this.deleteHover)
+            }
+          }
+        }
+      }
     },
     addHoverEvent(event: any) {
       this.isHover = true
