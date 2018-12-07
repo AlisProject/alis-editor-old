@@ -8,24 +8,42 @@
         top: `${this.position.top}px`
       }"
     >
-      <button class="insert-popup__item" v-if="!isClickedLink" @click="execBold(activeRoot)">
-        <InsertPopupIcon :src="SvgIcon.bold" />
-      </button>
-      <button class="insert-popup__item" v-if="!isClickedLink" @click="execItalic(activeRoot)">
-        <InsertPopupIcon :src="SvgIcon.italic" />
-      </button>
-      <button class="insert-popup__item" v-if="!isClickedLink" @click="execQuote(activeRoot)">
-        <InsertPopupIcon :src="SvgIcon.quote" />
-      </button>
-      <button class="insert-popup__item" v-if="!isClickedLink" @click="execHeading(activeRoot)">
-        <InsertPopupIcon :src="SvgIcon.h2" />
-      </button>
-      <button class="insert-popup__item" v-if="!isClickedLink" @click="execSubHeading(activeRoot)">
-        <InsertPopupIcon :src="SvgIcon.h3" />
-      </button>
-      <button class="insert-popup__item" v-if="!isClickedLink" @click="execLink">
-        <InsertPopupIcon :src="SvgIcon.link" />
-      </button>
+      <button
+        class="insert-popup__item"
+        :class="[isBold ? 'insert-popup__bold_selected' : 'insert-popup__bold']"
+        v-if="!isClickedLink"
+        @click="execBold(activeRoot)"
+      ></button>
+      <button
+        class="insert-popup__item"
+        :class="[isItalic ? 'insert-popup__italic_selected' : 'insert-popup__italic']"
+        v-if="!isClickedLink"
+        @click="execItalic(activeRoot)"
+      ></button>
+      <button
+        class="insert-popup__item"
+        :class="[isQuote ? 'insert-popup__quote_selected' : 'insert-popup__quote']"
+        v-if="!isClickedLink"
+        @click="execQuote(activeRoot)"
+      ></button>
+      <button
+        class="insert-popup__item"
+        :class="[isHeading ? 'insert-popup__heading_selected' : 'insert-popup__heading']"
+        v-if="!isClickedLink"
+        @click="execHeading(activeRoot)"
+      ></button>
+      <button
+        class="insert-popup__item"
+        :class="[isSubHeading ? 'insert-popup__subheading_selected' : 'insert-popup__subheading']"
+        v-if="!isClickedLink"
+        @click="execSubHeading(activeRoot)"
+      ></button>
+      <button
+        class="insert-popup__item"
+        :class="[isAnchor ? 'insert-popup__textlink_selected' : 'insert-popup__textlink']"
+        v-if="!isClickedLink"
+        @click="execLink"
+      ></button>
       <input class="insert-link" type="text" v-if="isClickedLink" :value="value" @input="handleInput" />
       <button class="insert-popup__item" style="cursor: pointer;" v-if="isClickedLink" @click="setUrl">✓</button>
       <button class="insert-popup__item" style="cursor: pointer;" v-if="isClickedLink" @click="deletePopup">×</button>
@@ -94,8 +112,8 @@ export default Vue.extend({
       isAnchor: false,
       isItalic: false,
       isQuote: false,
-      isH2: false,
-      isH3: false
+      isSubHeading: false,
+      isHeading: false
     }
   },
   components: {
@@ -161,10 +179,6 @@ export default Vue.extend({
         this.targetAnchor.href = this.value
       }
     },
-    isOnTags(selection: any) {
-      const tags = ['a', 'b', 'i', 'blockquote', 'h2', 'h3']
-      selection.anchorNode.parentNode.nodeName
-    },
     onSelectionChange(event: Event) {
       if (!this.activeRoot) {
         return
@@ -173,11 +187,16 @@ export default Vue.extend({
         return
       }
       const selection = window.getSelection()
-      // this.isOnTags(selection)
       if (selection.isCollapsed && this.isClickedLink === false) {
         this.isActive = false
         return
       }
+      // ポップアップの状態を初期化し、現在セレクションを始めたノードが何のタグに囲まれているノードかを判定する
+      ;(async () => {
+        await this.initiatePopupState()
+        this.popupStateChange(selection.anchorNode)
+      })()
+
       // Coordinate calculation of popup display
       const alisEditor = document.getElementById('ALISEditor')
       const alisEditorRect = (alisEditor as any).getBoundingClientRect()
@@ -260,6 +279,45 @@ export default Vue.extend({
       setTimeout(() => {
         this.isPopupActive = false
       }, 1000)
+    },
+    popupStateChange(targetNode: any) {
+      const requireRecursivenodeNames = ['#text', 'A', 'H2', 'H3', 'I', 'B']
+      const processTerminateNodes = ['BLOCKQUOTE', 'P']
+      if (requireRecursivenodeNames.includes(targetNode.nodeName)) {
+        const nodeName = targetNode.nodeName
+        switch (nodeName) {
+          case 'A':
+            this.isAnchor = true
+            break
+          case 'H2':
+            this.isSubHeading = true
+            break
+          case 'H3':
+            this.isHeading = true
+            break
+          case 'I':
+            this.isItalic = true
+            break
+          case 'B':
+            this.isBold = true
+            break
+        }
+        const parentNode = targetNode.parentNode
+        return (this as any).popupStateChange(parentNode)
+      } else if (processTerminateNodes.includes(targetNode.nodeName)) {
+        if (targetNode.nodeName === 'BLOCKQUOTE') {
+          this.isQuote = true
+        }
+        return
+      }
+    },
+    initiatePopupState() {
+      this.isBold = false
+      this.isAnchor =  false
+      this.isItalic = false
+      this.isQuote = false
+      this.isSubHeading = false
+      this.isHeading = false
     }
   }
 })
@@ -273,14 +331,14 @@ export default Vue.extend({
   display: flex;
   list-style-type: none;
   font-size: 1.4rem;
-  background: #232538;
-  width: 220px;
+  background-color: #fff;
+  width: 300px;
   position: absolute;
   z-index: 200;
   opacity: 0;
   pointer-events: none;
   border-radius: 5px;
-  box-shadow: 0 0 8px gray;
+  box-shadow: 0 0 10px gray;
 }
 
 .insert-popup.is-active {
@@ -341,7 +399,7 @@ export default Vue.extend({
 /*}*/
 
 .insert-popup .insert-popup__item {
-  margin-left: 8px;
+  /*margin-left: 8px;*/
   width: 50px;
   height: 50px;
   display: flex;
@@ -358,9 +416,88 @@ export default Vue.extend({
   font-family: 'Yu Gothic', YuGothic;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
   border: none;
   outline: none;
+  cursor: pointer;
+}
+
+.insert-popup__bold {
+  background: #fff url('../../../assets/images/pc/editor/icon_bold.png') no-repeat;
+  background-size: 32px;
+  background-position: 8px 10px;
+  border-radius: 5px 0px 0px 5px;
+}
+
+.insert-popup__bold_selected {
+  background: #232538 url('../../../assets/images/pc/editor/icon_bold_selected.png') no-repeat;
+  background-size: 32px;
+  background-position: 8px 10px;
+  border-radius: 5px;
+  border-radius: 5px 0px 0px 5px;
+}
+
+.insert-popup__italic {
+  background: #fff url('../../../assets/images/pc/editor/icon_italic.png') no-repeat;
+  background-size: 32px;
+  background-position: 8px 10px;
+}
+
+.insert-popup__italic_selected {
+  background: #232538 url('../../../assets/images/pc/editor/icon_italic_selected.png') no-repeat;
+  background-size: 32px;
+  background-position: 8px 10px;
+}
+
+.insert-popup__quote {
+  background: #fff url('../../../assets/images/pc/editor/icon_quote.png') no-repeat;
+  background-size: 32px;
+  background-position: 8px 10px;
+}
+
+.insert-popup__quote_selected {
+  background: #232538 url('../../../assets/images/pc/editor/icon_quote_selected.png') no-repeat;
+  background-size: 32px;
+  background-position: 8px 10px;
+}
+
+.insert-popup__heading {
+  background: #fff url('../../../assets/images/pc/editor/icon_index.png') no-repeat;
+  background-size: 32px;
+  background-position: 8px 10px;
+  cursor: pointer;
+}
+
+.insert-popup__heading_selected {
+  background: #232538 url('../../../assets/images/pc/editor/icon_index_selected.png') no-repeat;
+  background-size: 32px;
+  background-position: 8px 10px;
+  cursor: pointer;
+}
+
+.insert-popup__subheading {
+  background: #fff url('../../../assets/images/pc/editor/icon_text.png') no-repeat;
+  background-size: 32px;
+  background-position: 8px 10px;
+}
+
+.insert-popup__subheading_selected {
+  background: #232538 url('../../../assets/images/pc/editor/icon_text_selected.png') no-repeat;
+  background-size: 32px;
+  background-position: 8px 10px;
+}
+
+.insert-popup__textlink {
+  background: #fff url('../../../assets/images/pc/editor/icon_textlink.png') no-repeat;
+  background-size: 32px;
+  background-position: 8px 10px;
+  border-radius: 0px 5px 5px 0px;
+}
+
+.insert-popup__textlink_selected {
+  background: #232538 url('../../../assets/images/pc/editor/icon_textlink_selected.png') no-repeat;
+  background-size: 32px;
+  background-position: 8px 10px;
+  border-radius: 0px 5px 5px 0px;
 }
 
 .insert-popup .insert-link {
@@ -371,7 +508,7 @@ export default Vue.extend({
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #232538;
   font-weight: bold;
   padding-left: 1px;
   padding-bottom: 1px;
