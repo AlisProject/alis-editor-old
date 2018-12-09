@@ -16,6 +16,7 @@
       <component
         :is="`${block.type}Block`"
         :block="block"
+        :store="store"
         v-bind="config"
         @input="handleInput"
         @update="handleUpdate"
@@ -63,7 +64,8 @@ export default Vue.extend({
   props: {
     block: Object as () => Block,
     active: Boolean,
-    config: configProps
+    config: configProps,
+    store: Object
   },
   data(): LocalState {
     return {

@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="ALISEditor" @click="handleClick">
+  <div id="ALISEditor">
     <InsertPopup
       @deleteTargetAnchorNode="handleDeleteTargetAnchorNode"
       @update="updateBlock"
@@ -38,6 +38,7 @@
           :config="config"
           :block="block"
           :active="activeRoot && activeRoot.id === block.id"
+          :store="store"
         />
       </div>
     </template>
@@ -96,7 +97,7 @@ interface EditorState {
   }
   isHover: boolean
   linked_url: string
-  targetAnchorNode: HTMLAnchorElement | null
+  targetAnchorNode: HTMLElement | null
 }
 
 interface DeviceKeyDownEventArgument {
@@ -196,9 +197,13 @@ export default Vue.extend({
   },
   watch: {
     isPressedEnterInTitle: function() {
-      // ここにbodyの最初のブロックにfocusする処理を追加
-      this.appendNewBlockInitialPosition()
-      this.insertInitialPositionTrigger = !this.insertInitialPositionTrigger
+      if (this.store.state.blocks[0].type === "Paragraph") {
+        this.insertInitialPositionTrigger = !this.insertInitialPositionTrigger
+        browserSelection.selectContentEditableFirstCharFromBlock(this.store.state.blocks[0])
+      } else {
+        this.appendNewBlockInitialPosition()
+        this.insertInitialPositionTrigger = !this.insertInitialPositionTrigger
+      }
     }
   },
   methods: {
@@ -589,12 +594,10 @@ export default Vue.extend({
     },
     handleDeleteTargetAnchorNode() {
       this.targetAnchorNode = null
-    },
-    handleClick(event: any) {
-      console.log(event)
-      const blocks = this.store.state.blocks
-
     }
+    // handleClick(event: any) {
+    //   const blocks = this.store.state.blocks
+    // }
   }
 })
 </script>

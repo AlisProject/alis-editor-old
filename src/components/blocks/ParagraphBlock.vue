@@ -29,7 +29,8 @@ export default Vue.extend({
     preview: {
       default: false,
       type: Boolean
-    }
+    },
+    store: Object
   },
   data() {
     return {
@@ -79,6 +80,13 @@ export default Vue.extend({
       requestAnimationFrame(() => {
 
         const targetParagraph = (document as any).querySelector(`[data-block-id="${(this as any).block.id}"] .target`)
+
+        if (targetParagraph.childNodes.length === 0 && this.store.state.blocks.length === 1) {
+          const p = document.createElement('p')
+          const br = document.createElement('br')
+          p.appendChild(br)
+          targetParagraph.appendChild(p)
+        }
 
         // blockquote内で生成された<p>text</p>をtextに変換する
         Array.from(targetParagraph.querySelectorAll('p'), (el: any) => {
