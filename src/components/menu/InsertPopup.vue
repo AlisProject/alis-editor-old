@@ -45,8 +45,8 @@
         @click="execLink"
       ></button>
       <input class="insert-link" type="text" v-if="isClickedLink" :value="value" @input="handleInput" />
-      <button class="insert-popup__item" style="cursor: pointer;" v-if="isClickedLink" @click="setUrl">✓</button>
-      <button class="insert-popup__item" style="cursor: pointer;" v-if="isClickedLink" @click="deletePopup">×</button>
+      <button class="insert-popup__item handle-url" style="cursor: pointer; color: #232538;" v-if="isClickedLink" @click="setUrl">✓</button>
+      <button class="insert-popup__item handle-url" style="cursor: pointer; color: #232538;" v-if="isClickedLink" @click="deletePopup">×</button>
       <!--
         <button class="insert-popup__item" @click="execSubHeading">
           <InsertPopupIcon :src="require('../../assets/icon-h3.svg.js')" />
@@ -85,7 +85,7 @@ export default Vue.extend({
     hoverPopupPosition: Object,
     isHover: Boolean,
     linked_url: String,
-    targetAnchorNode: HTMLElement,
+    targetAnchorNode: Object,
     store: Object
   },
   data(): any {
@@ -177,6 +177,7 @@ export default Vue.extend({
       this.value = (event.target as any).value
       if (this.targetAnchor !== null) {
         this.targetAnchor.href = this.value
+
       }
     },
     onSelectionChange(event: Event) {
@@ -293,10 +294,10 @@ export default Vue.extend({
             this.isAnchor = true
             break
           case 'H2':
-            this.isSubHeading = true
+            this.isHeading = true
             break
           case 'H3':
-            this.isHeading = true
+            this.isSubHeading = true
             break
           case 'I':
             this.isItalic = true

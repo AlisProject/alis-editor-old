@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="ALISEditor">
+  <div id="ALISEditor" @click="handleClick">
     <InsertPopup
       @deleteTargetAnchorNode="handleDeleteTargetAnchorNode"
       @update="updateBlock"
@@ -12,13 +12,13 @@
       :store="store"
     />
     <template v-if="store.state.isInitialized">
-      <!-- <EditorToolbar -->
-      <!-- v-if="!config.preview" -->
-      <!-- @append="appendNewBlock(active, { type: $event })" -->
-      <!-- @upload="insertImageBlock(active, $event)" -->
-      <!-- :activeRoot="activeRoot || {}" -->
-      <!-- :isSaving="store.state.isSaving" -->
-      <!-- /> -->
+      <!--<EditorToolbar-->
+        <!--v-if="!config.preview"-->
+        <!--@append="appendNewBlock(active, { type: $event })"-->
+        <!--@upload="insertImageBlock(active, $event)"-->
+        <!--:activeRoot="activeRoot || {}"-->
+        <!--:isSaving="store.state.isSaving">-->
+      <!--</EditorToolbar>-->
       <div
         @keydown="handleKeydown(block.id, $event)"
         @keydown.enter="handleKeydownEnter(block.id, $event)"
@@ -196,6 +196,7 @@ export default Vue.extend({
   },
   watch: {
     isPressedEnterInTitle: function() {
+      // ここにbodyの最初のブロックにfocusする処理を追加
       this.appendNewBlockInitialPosition()
       this.insertInitialPositionTrigger = !this.insertInitialPositionTrigger
     }
@@ -249,10 +250,14 @@ export default Vue.extend({
       const childId = findRootIdByBlockId(id, this.store.state.blocks)
       if (!childId) return
       const nowContent = findTreeContentById(childId, this.store.state.blocks)
+      console.log(nowContent)
       if (!nowContent) return
 
       if (isDesktop()) {
         if (event.shiftKey) {
+          return
+        }
+        if (nowContent.type === BlockType.Image) {
           return
         }
         // Enterを押した際に<div><br></div>の改行が生まれることを防ぐ処理
@@ -263,9 +268,40 @@ export default Vue.extend({
           const selection = window.getSelection() as any
           await this.$nextTick()
 
-          // Blockquote内のセレクションの位置を見て最終文字の位置にキャレットが存在する場合はBlockquoteから出る処理
+          // Blockquote内のセレクションの位置を見て最終文字の位置にキャレットが存在する場合はBlockquoteから抜ける処理
+          // ContentEditableがh2, h3タグの行末でEnterを入力すると<div><br></div>を生成してしまう仕様なのでそれに対応する処理
+          // blockquote内の最後のノードがdivの場合と途中のノードがdivの場合での場合分け
           if (!!this.isDeterminedInBlockquote(selection.anchorNode)) {
             const el = this.isDeterminedInBlockquote(selection.anchorNode)
+            const range = document.createRange()
+            const sel = window.getSelection()
+            el.childNodes.forEach((targetEl: any) => {
+              // Blockquote内最後にdivが発生する場合の回避処理
+              if (targetEl.nodeName === 'DIV' && targetEl.nextSibling === null) {
+                ;(async () => {
+                  el.parentNode.insertBefore(p, el.nextSibling)
+                  el.removeChild(el.lastChild)
+                  await this.$nextTick()
+                  range.setStart(el.nextSibling, 0)
+                  range.collapse(true)
+                  sel.removeAllRanges()
+                  sel.addRange(range)
+                })()
+              // Blockquote内の途中でdivが発生した際の回避処理
+              } else if (targetEl.nodeName === 'DIV' && targetEl.nextSibling !== null) {
+                console.log(targetEl)
+                ;(async () => {
+                  targetEl.parentNode.insertBefore(targetEl.firstChild, targetEl)
+                  const br = targetEl.previousSibling
+                  targetEl.parentNode.removeChild(targetEl)
+                  await this.$nextTick()
+                  range.setStart(br, 0)
+                  range.collapse(true)
+                  sel.removeAllRanges()
+                  sel.addRange(range)
+                })()
+              }
+            })
             if (el.textContent === '') {
               el.parentNode.insertBefore(p, el.nextSibling)
               el.parentNode.removeChild(el)
@@ -289,7 +325,7 @@ export default Vue.extend({
       }
     },
     isDeterminedInBlockquote(targetNode: any) {
-      const requireRecursivenodeNames = ['#text', 'A', 'H2', 'H3', 'I', 'B']
+      const requireRecursivenodeNames = ['#text', 'A', 'H2', 'H3', 'I', 'B', 'DIV']
       const processTerminateNodes = ['BLOCKQUOTE', 'P']
       if (requireRecursivenodeNames.includes(targetNode.nodeName)) {
         const parentNode = targetNode.parentNode
@@ -494,14 +530,23 @@ export default Vue.extend({
       return this.store.appendParagraphBlockInitialPosition(createBlock(BlockType.Paragraph, {}))
     },
     moveToNextBlock(id: string) {
-      console.log('要修正')
-      // 要修正
-      // ;(async () => {
-      //   const block = this.appendNewBlock(id, createBlock(BlockType.Paragraph)) as any
-      //   await this.$nextTick()
-      //   this.active = block.id
-      //   browserSelection.selectContentEditableFirstCharFromBlock(block)
-      // })()
+      const blocks = this.store.state.blocks
+      blocks.forEach((block, index) => {
+        if (block.id === id) {
+          if (blocks[index + 1] !== undefined && blocks[index + 1].type === 'Paragraph') {
+            this.active = blocks[index + 1].id
+            browserSelection.selectContentEditableFirstCharFromBlock(blocks[index + 1])
+          }
+          if (blocks[index + 1] === undefined || (blocks[index + 1] !== undefined && blocks[index + 1].type !== 'Paragraph')) {
+            console.log(block.id)
+            const newBlock = this.store.appendBlock(createBlock(BlockType.Paragraph), block) as Block
+            requestAnimationFrame(() => {
+              this.active = newBlock.id
+              browserSelection.selectContentEditableFirstCharFromBlock(newBlock)
+            })
+          }
+        }
+      })
     },
     addEventAnchor() {
       const targetNodeList = document.querySelectorAll('.target')
@@ -544,6 +589,11 @@ export default Vue.extend({
     },
     handleDeleteTargetAnchorNode() {
       this.targetAnchorNode = null
+    },
+    handleClick(event: any) {
+      console.log(event)
+      const blocks = this.store.state.blocks
+
     }
   }
 })

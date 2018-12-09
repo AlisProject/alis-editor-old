@@ -110,8 +110,8 @@ export default Vue.extend({
       }
       return !sanitizer.sanitizeAllTags((block.payload || { body: '' }).body)
     },
-    moveToNextBlock(event: any) {
-      this.$emit('moveToNextBlock', event)
+    moveToNextBlock() {
+      this.$emit('moveToNextBlock')
     },
     addEvent() {
       this.$emit('addEvent')

@@ -80,6 +80,15 @@ export default Vue.extend({
 
         const targetParagraph = (document as any).querySelector(`[data-block-id="${(this as any).block.id}"] .target`)
 
+        // blockquote内で生成された<p>text</p>をtextに変換する
+        Array.from(targetParagraph.querySelectorAll('p'), (el: any) => {
+          if (el.parentNode.nodeName === 'BLOCKQUOTE') {
+            const blockQuote = el.parentNode
+            blockQuote.insertBefore(el.textContent, el)
+            blockQuote.removeChild(el)
+          }
+        })
+
         // ブロック内にsanitizeにかかるhtmlを貼り付けた時にテキストノードが生成されるのでそのノードをpタグで囲う処理
         Array.from(targetParagraph.childNodes, (el: any) => {
           if (el.nodeName === "#text") {
@@ -196,7 +205,7 @@ export default Vue.extend({
   }
 
   .paragraph blockquote + blockquote {
-    margin: -16px 0 16px 0;
+    margin: -16px 0 8px 0;
   }
 
   h2,
