@@ -21,7 +21,8 @@
           placeholder="説明文を入力"
           :value="this.block.payload.caption"
           @keydown.enter.prevent="handleEnter"
-          @input="handleInputCaption"></textarea>
+          @input="handleInputCaption"
+        ></textarea>
       </span>
       <div class="image-uploading" v-if="isUploading">Uploading...</div>
       <div class="image-toolbar" v-if="!isUploading">
@@ -58,11 +59,7 @@
       </div>
     </div>
   </div>
-  <div
-    class="aliseditor--image preview"
-    :style="switchStyle"
-    v-else
-  >
+  <div class="aliseditor--image preview" :style="switchStyle" v-else>
     <div class="preview-content">
       <img :src="block.payload.src" /><br />
       <p class="caption">{{ block.payload.caption }}</p>

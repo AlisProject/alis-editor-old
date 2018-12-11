@@ -28,6 +28,15 @@ export default Vue.extend({
       return SvgIcon
     }
   },
+  components: {
+    ToolbarIcon
+  },
+  data() {
+    return {
+      isFixed: false,
+      isSaving: false
+    }
+  },
   methods: {
     handleClickPublish() {
       return

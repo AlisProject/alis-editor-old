@@ -12,138 +12,548 @@ exports[`EditorToolbar.vue renders correctly 1`] = `
     <li
       class="editor-toolbar__item"
     >
-      <toolbaricon
-        src=<?xml version="1.0" encoding="UTF-8"?>
-<svg width="14px" height="18px" viewBox="0 0 14 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
-  <title>T</title>
-  <desc>Created with Sketch.</desc>
-  <defs></defs>
-  <g id="SP" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    <g id="ストーリー_マイストーリー_入力中_テキスト未選択" transform="translate(-35.000000, -13.000000)" class="fill-target">
-      <g id="Group-14">
-        <g id="icon_index" transform="translate(20.000000, 0.000000)">
-          <g id="Group-2">
-            <g id="Group-6">
-              <polygon id="T" points="28.152 13 15 13 15 14.776 20.496 14.776 20.496 30.688 22.608 30.688 22.608 14.776 28.152 14.776"></polygon>
-            </g>
-          </g>
-        </g>
-      </g>
-    </g>
-  </g>
-</svg>
-      />
-    </li>
-     
-    <li
-      class="editor-toolbar__item"
-    >
-      <toolbaricon
-        src=<?xml version="1.0" encoding="UTF-8"?>
-<svg width="9px" height="13px" viewBox="0 0 9 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
-  <title>icon_text</title>
-  <desc>Created with Sketch.</desc>
-  <defs></defs>
-  <g id="SP" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    <g id="ストーリー_マイストーリー_入力中_テキスト未選択" transform="translate(-80.000000, -16.000000)">
-      <g id="Group-14">
-        <g id="Group-7" transform="translate(64.000000, 0.000000)">
-          <g id="icon_text" transform="translate(4.000000, 6.000000)">
-            <g id="Group-2">
-              <rect id="icon" x="0" y="0" width="32" height="32"></rect>
-              <polygon id="T" class="fill-target" points="20.884 10.92 12.116 10.92 12.116 12.104 15.78 12.104 15.78 22.712 17.188 22.712 17.188 12.104 20.884 12.104"></polygon>
-            </g>
-          </g>
-        </g>
-      </g>
-    </g>
-  </g>
-</svg>
-      />
-    </li>
-     
-    <li
-      class="editor-toolbar__item"
-    >
-      <toolbaricon
-        src=<?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="17px" viewBox="0 0 24 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
-  <title>10I</title>
-  <desc>Created with Sketch.</desc>
-  <defs></defs>
-  <g id="SP" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    <g id="ストーリー_マイストーリー_入力中_テキスト未選択" transform="translate(-152.000000, -14.000000)" class="fill-target">
-      <g id="Group-14">
-        <g id="icon_img" transform="translate(144.000000, 0.000000)">
-          <g id="Group-12">
-            <path d="M19.6269278,29.3129342 L10.6438188,29.3129342 L15.2675643,21.029441 L19.6269278,29.3129342 Z M29.1270502,29.3129342 L23.1343941,29.3129342 L26.0837209,26.3999338 L29.1270502,29.3129342 Z M10.0563035,15.6870658 L29.9436965,15.6870658 C30.1023256,15.6870658 30.2374541,15.810784 30.2374541,15.9682435 L30.2374541,27.9970228 L26.6947368,24.600397 C26.5302326,24.4429375 26.3069767,24.3698313 26.0660955,24.3585842 C25.8252142,24.3585842 25.6019584,24.448561 25.4374541,24.6116441 L21.2837209,28.7168376 L16.0724602,18.8193847 C15.9255814,18.5382071 15.6259486,18.3582534 15.29694,18.3526298 C14.9620563,18.3638769 14.6624235,18.5213364 14.5096695,18.8025141 L9.7625459,27.3109494 L9.7625459,15.9682435 C9.7625459,15.810784 9.89767442,15.6870658 10.0563035,15.6870658 Z M29.9436965,14 L10.0563035,14 C8.92239902,14 8,14.8828978 8,15.9682435 L8,29.0317565 C8,29.6334767 8.2878825,30.1620906 8.72851897,30.521998 C8.74614443,30.5388687 8.76376989,30.5557393 8.78139535,30.5669864 C9.13390453,30.836917 9.574541,31 10.0563035,31 L29.9436965,31 C31.077601,31 32,30.1171022 32,29.0317565 L32,15.9682435 C32,14.8828978 31.077601,14 29.9436965,14 Z" id="10I"></path>
-          </g>
-        </g>
-      </g>
-    </g>
-  </g>
-</svg>
-      />
-    </li>
-     
-    <li
-      class="editor-toolbar__item"
-    >
-      <toolbaricon
-        src=<?xml version="1.0" encoding="UTF-8"?>
-<svg width="18px" height="12px" viewBox="0 0 18 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
-  <title>‘‘</title>
-  <desc>Created with Sketch.</desc>
-  <defs></defs>
-  <g id="SP" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    <g id="ストーリー_マイストーリー_入力中_テキスト未選択" transform="translate(-115.000000, -16.000000)" class="fill-target">
-      <g id="Group-14">
-        <g id="icon_quote" transform="translate(104.000000, 0.000000)">
-          <g id="Group-2">
-            <g id="Group-11">
-              <path d="M15.944,16 L13.736,16 L11,22.528 L11,27.568 L16.232,27.568 L16.232,22.48 L13.448,22.48 L15.944,16 Z M28.376,16 L26.168,16 L23.432,22.528 L23.432,27.568 L28.664,27.568 L28.664,22.48 L25.88,22.48 L28.376,16 Z" id="‘‘"></path>
-            </g>
-          </g>
-        </g>
-      </g>
-    </g>
-  </g>
-</svg>
-      />
-    </li>
-     
-    <li
-      class="editor-toolbar__item"
-    >
-      <toolbaricon
-        src=<?xml version="1.0" encoding="UTF-8"?>
-<svg width="19px" height="9px" viewBox="0 0 19 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
-  <title>Group 10</title>
-  <desc>Created with Sketch.</desc>
-  <defs></defs>
-  <g id="SP" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    <g id="ストーリー_マイストーリー_入力中_テキスト未選択" transform="translate(-195.000000, -21.000000)" class="fill-target">
-      <g id="Group-14">
-        <g id="icon_line" transform="translate(184.000000, 0.000000)">
-          <g id="Group-3">
-            <g id="Group-13">
-              <g id="Group-10" transform="translate(11.000000, 21.000000)">
-                <rect id="Rectangle-14" x="0" y="3" width="7" height="2" rx="1"></rect>
-                <rect id="Rectangle-14" x="12" y="3" width="7" height="2" rx="1"></rect>
+      <div
+        class="editor-toolbar__icon"
+      >
+        <div
+          class="editor-toolbar__iconContent"
+        >
+          <!--?xml version="1.0" encoding="UTF-8"?-->
+          
+
+          <svg
+            height="18px"
+            version="1.1"
+            viewBox="0 0 14 18"
+            width="14px"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            
+    
+            <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+            
+    
+            <title>
+              T
+            </title>
+            
+    
+            <desc>
+              Created with Sketch.
+            </desc>
+            
+    
+            <defs />
+            
+    
+            <g
+              fill="none"
+              fill-rule="evenodd"
+              id="SP"
+              stroke="none"
+              stroke-width="1"
+            >
+              
+        
+              <g
+                class="fill-target"
+                id="ストーリー_マイストーリー_入力中_テキスト未選択"
+                transform="translate(-35.000000, -13.000000)"
+              >
+                
+            
+                <g
+                  id="Group-14"
+                >
+                  
+                
+                  <g
+                    id="icon_index"
+                    transform="translate(20.000000, 0.000000)"
+                  >
+                    
+                    
+                    <g
+                      id="Group-2"
+                    >
+                      
+                        
+                      <g
+                        id="Group-6"
+                      >
+                        
+                            
+                        <polygon
+                          id="T"
+                          points="28.152 13 15 13 15 14.776 20.496 14.776 20.496 30.688 22.608 30.688 22.608 14.776 28.152 14.776"
+                        />
+                        
+                        
+                      </g>
+                      
+                    
+                    </g>
+                    
+                
+                  </g>
+                  
+            
+                </g>
+                
+        
               </g>
+              
+    
             </g>
-          </g>
-        </g>
-      </g>
-    </g>
-  </g>
-</svg>
-      />
+            
+
+          </svg>
+        </div>
+      </div>
+    </li>
+     
+    <li
+      class="editor-toolbar__item"
+    >
+      <div
+        class="editor-toolbar__icon"
+      >
+        <div
+          class="editor-toolbar__iconContent"
+        >
+          <!--?xml version="1.0" encoding="UTF-8"?-->
+          
+
+          <svg
+            height="13px"
+            version="1.1"
+            viewBox="0 0 9 13"
+            width="9px"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            
+    
+            <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+            
+    
+            <title>
+              icon_text
+            </title>
+            
+    
+            <desc>
+              Created with Sketch.
+            </desc>
+            
+    
+            <defs />
+            
+    
+            <g
+              fill="none"
+              fill-rule="evenodd"
+              id="SP"
+              stroke="none"
+              stroke-width="1"
+            >
+              
+        
+              <g
+                id="ストーリー_マイストーリー_入力中_テキスト未選択"
+                transform="translate(-80.000000, -16.000000)"
+              >
+                
+            
+                <g
+                  id="Group-14"
+                >
+                  
+                
+                  <g
+                    id="Group-7"
+                    transform="translate(64.000000, 0.000000)"
+                  >
+                    
+                    
+                    <g
+                      id="icon_text"
+                      transform="translate(4.000000, 6.000000)"
+                    >
+                      
+                        
+                      <g
+                        id="Group-2"
+                      >
+                        
+                            
+                        <rect
+                          height="32"
+                          id="icon"
+                          width="32"
+                          x="0"
+                          y="0"
+                        />
+                        
+                            
+                        <polygon
+                          class="fill-target"
+                          id="T"
+                          points="20.884 10.92 12.116 10.92 12.116 12.104 15.78 12.104 15.78 22.712 17.188 22.712 17.188 12.104 20.884 12.104"
+                        />
+                        
+                        
+                      </g>
+                      
+                    
+                    </g>
+                    
+                
+                  </g>
+                  
+            
+                </g>
+                
+        
+              </g>
+              
+    
+            </g>
+            
+
+          </svg>
+        </div>
+      </div>
+    </li>
+     
+    <li
+      class="editor-toolbar__item"
+    >
+      <div
+        class="editor-toolbar__icon"
+      >
+        <div
+          class="editor-toolbar__iconContent"
+        >
+          <!--?xml version="1.0" encoding="UTF-8"?-->
+          
+
+          <svg
+            height="17px"
+            version="1.1"
+            viewBox="0 0 24 17"
+            width="24px"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            
+    
+            <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+            
+    
+            <title>
+              10I
+            </title>
+            
+    
+            <desc>
+              Created with Sketch.
+            </desc>
+            
+    
+            <defs />
+            
+    
+            <g
+              fill="none"
+              fill-rule="evenodd"
+              id="SP"
+              stroke="none"
+              stroke-width="1"
+            >
+              
+        
+              <g
+                class="fill-target"
+                id="ストーリー_マイストーリー_入力中_テキスト未選択"
+                transform="translate(-152.000000, -14.000000)"
+              >
+                
+            
+                <g
+                  id="Group-14"
+                >
+                  
+                
+                  <g
+                    id="icon_img"
+                    transform="translate(144.000000, 0.000000)"
+                  >
+                    
+                    
+                    <g
+                      id="Group-12"
+                    >
+                      
+                        
+                      <path
+                        d="M19.6269278,29.3129342 L10.6438188,29.3129342 L15.2675643,21.029441 L19.6269278,29.3129342 Z M29.1270502,29.3129342 L23.1343941,29.3129342 L26.0837209,26.3999338 L29.1270502,29.3129342 Z M10.0563035,15.6870658 L29.9436965,15.6870658 C30.1023256,15.6870658 30.2374541,15.810784 30.2374541,15.9682435 L30.2374541,27.9970228 L26.6947368,24.600397 C26.5302326,24.4429375 26.3069767,24.3698313 26.0660955,24.3585842 C25.8252142,24.3585842 25.6019584,24.448561 25.4374541,24.6116441 L21.2837209,28.7168376 L16.0724602,18.8193847 C15.9255814,18.5382071 15.6259486,18.3582534 15.29694,18.3526298 C14.9620563,18.3638769 14.6624235,18.5213364 14.5096695,18.8025141 L9.7625459,27.3109494 L9.7625459,15.9682435 C9.7625459,15.810784 9.89767442,15.6870658 10.0563035,15.6870658 Z M29.9436965,14 L10.0563035,14 C8.92239902,14 8,14.8828978 8,15.9682435 L8,29.0317565 C8,29.6334767 8.2878825,30.1620906 8.72851897,30.521998 C8.74614443,30.5388687 8.76376989,30.5557393 8.78139535,30.5669864 C9.13390453,30.836917 9.574541,31 10.0563035,31 L29.9436965,31 C31.077601,31 32,30.1171022 32,29.0317565 L32,15.9682435 C32,14.8828978 31.077601,14 29.9436965,14 Z"
+                        id="10I"
+                      />
+                      
+                    
+                    </g>
+                    
+                
+                  </g>
+                  
+            
+                </g>
+                
+        
+              </g>
+              
+    
+            </g>
+            
+
+          </svg>
+          
+
+        </div>
+      </div>
+    </li>
+     
+    <li
+      class="editor-toolbar__item"
+    >
+      <div
+        class="editor-toolbar__icon"
+      >
+        <div
+          class="editor-toolbar__iconContent"
+        >
+          <!--?xml version="1.0" encoding="UTF-8"?-->
+          
+
+          <svg
+            height="12px"
+            version="1.1"
+            viewBox="0 0 18 12"
+            width="18px"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            
+    
+            <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+            
+    
+            <title>
+              ‘‘
+            </title>
+            
+    
+            <desc>
+              Created with Sketch.
+            </desc>
+            
+    
+            <defs />
+            
+    
+            <g
+              fill="none"
+              fill-rule="evenodd"
+              id="SP"
+              stroke="none"
+              stroke-width="1"
+            >
+              
+        
+              <g
+                class="fill-target"
+                id="ストーリー_マイストーリー_入力中_テキスト未選択"
+                transform="translate(-115.000000, -16.000000)"
+              >
+                
+            
+                <g
+                  id="Group-14"
+                >
+                  
+                
+                  <g
+                    id="icon_quote"
+                    transform="translate(104.000000, 0.000000)"
+                  >
+                    
+                    
+                    <g
+                      id="Group-2"
+                    >
+                      
+                        
+                      <g
+                        id="Group-11"
+                      >
+                        
+                            
+                        <path
+                          d="M15.944,16 L13.736,16 L11,22.528 L11,27.568 L16.232,27.568 L16.232,22.48 L13.448,22.48 L15.944,16 Z M28.376,16 L26.168,16 L23.432,22.528 L23.432,27.568 L28.664,27.568 L28.664,22.48 L25.88,22.48 L28.376,16 Z"
+                          id="‘‘"
+                        />
+                        
+                        
+                      </g>
+                      
+                    
+                    </g>
+                    
+                
+                  </g>
+                  
+            
+                </g>
+                
+        
+              </g>
+              
+    
+            </g>
+            
+
+          </svg>
+        </div>
+      </div>
+    </li>
+     
+    <li
+      class="editor-toolbar__item"
+    >
+      <div
+        class="editor-toolbar__icon"
+      >
+        <div
+          class="editor-toolbar__iconContent"
+        >
+          <!--?xml version="1.0" encoding="UTF-8"?-->
+          
+
+          <svg
+            height="9px"
+            version="1.1"
+            viewBox="0 0 19 9"
+            width="19px"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            
+    
+            <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+            
+    
+            <title>
+              Group 10
+            </title>
+            
+    
+            <desc>
+              Created with Sketch.
+            </desc>
+            
+    
+            <defs />
+            
+    
+            <g
+              fill="none"
+              fill-rule="evenodd"
+              id="SP"
+              stroke="none"
+              stroke-width="1"
+            >
+              
+        
+              <g
+                class="fill-target"
+                id="ストーリー_マイストーリー_入力中_テキスト未選択"
+                transform="translate(-195.000000, -21.000000)"
+              >
+                
+            
+                <g
+                  id="Group-14"
+                >
+                  
+                
+                  <g
+                    id="icon_line"
+                    transform="translate(184.000000, 0.000000)"
+                  >
+                    
+                    
+                    <g
+                      id="Group-3"
+                    >
+                      
+                        
+                      <g
+                        id="Group-13"
+                      >
+                        
+                            
+                        <g
+                          id="Group-10"
+                          transform="translate(11.000000, 21.000000)"
+                        >
+                          
+                                
+                          <rect
+                            height="2"
+                            id="Rectangle-14"
+                            rx="1"
+                            width="7"
+                            x="0"
+                            y="3"
+                          />
+                          
+                                
+                          <rect
+                            height="2"
+                            id="Rectangle-14"
+                            rx="1"
+                            width="7"
+                            x="12"
+                            y="3"
+                          />
+                          
+                            
+                        </g>
+                        
+                        
+                      </g>
+                      
+                    
+                    </g>
+                    
+                
+                  </g>
+                  
+            
+                </g>
+                
+        
+              </g>
+              
+    
+            </g>
+            
+
+          </svg>
+        </div>
+      </div>
     </li>
      
     <li

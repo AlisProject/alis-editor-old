@@ -49,7 +49,7 @@ import InsertButton from './components/menu/InsertButton.vue'
 import EditorBlock from './components/blocks/EditorBlock.vue'
 import EditorToolbar from './components/menu/EditorToolbar.vue'
 import InsertPopup from './components/menu/InsertPopup.vue'
-import { Block, BlockType, ParagraphBlock } from './types/Blocks'
+import { Block, BlockType, ParagraphBlock, EmbedBlock } from './types/Blocks'
 import { createBlock, isContentEditableBlock, isContentEditableBlockType } from './utils/createBlock'
 import { createDataURIImage } from './utils/createImage'
 import { isMobile, isDesktop } from './utils/deviceUtil'
@@ -218,7 +218,7 @@ export default Vue.extend({
       if (!nowContent) return
 
       if (isDesktop()) {
-        // this.desktopKeyDownEnter({ id, event, childId, nowContent })
+        this.desktopKeyDownEnter({ id, event, childId, nowContent })
       }
       if (isMobile()) {
         this.mobileKeyDownEnter({ id, event, childId, nowContent })
@@ -228,27 +228,30 @@ export default Vue.extend({
       if (event.shiftKey) {
         return
       }
-      if (nowContent.type === BlockType.Image) {
+      if (nowContent.type !== BlockType.Paragraph) {
         return
       }
+      const selection = window.getSelection()
+      if (!selection) {
+        return
+      }
+      const anchor = selection.anchorNode
+      const target = selection.anchorNode.parentElement!
+      const targetText = anchor.textContent
+      const isLink = regex.isValidEmbedString(`${targetText}`)
+      const [before, after] = splitBlockContentByOffset(
+        document.querySelector(`[data-block-id='${id}'] .target`)! as HTMLElement,
+        getChildrenOffset(target)
+      )
+      if (!isLink) return
       event.preventDefault()
       requestAnimationFrame(() => {
-        const b = this.appendNewBlock(nowContent.id, createBlock(BlockType.Paragraph))
-        if (!b) {
-          return
-        }
+        this.updateBlock(cloneDeep(Object.assign({}, nowContent, { type: BlockType.Blank, payload: { body: before } })))
+        this.appendNewBlockWithoutInsertButton(id, createBlock(BlockType.Embed, { payload: { src: targetText } }))
         requestAnimationFrame(() => {
-          this.active = b.id
-          browserSelection.selectContentEditableFirstCharFromBlock(b)
-          const isLink = isContentEditableBlock(nowContent) && regex.isValidEmbedString(nowContent.payload.body)
-          if (!isLink) return
-          this.updateBlock({
-            id: nowContent.id,
-            type: BlockType.Embed,
-            payload: {
-              src: sanitizer.sanitizeAllTags(nowContent.payload.body)
-            }
-          })
+          this.updateBlock(
+            cloneDeep(Object.assign({}, nowContent, { type: BlockType.Paragraph, payload: { body: before } }))
+          )
         })
       })
     },
@@ -371,42 +374,51 @@ export default Vue.extend({
     updateBlock(content: Block) {
       this.store.updateBlock(content)
     },
+    appendNewBlockWithInsertButton(id: string, extend: { type: BlockType; payload?: any; children?: Block[] }) {
+      if (!this.insertButton.target) {
+        return
+      }
+      const parent = this.insertButton.target.parentElement
+      if (!parent) {
+        return
+      }
+      const [before, after] = splitBlockContentByOffset(parent, getChildrenOffset(this.insertButton.target))
+      const aR = cloneDeep(this.activeRoot)
+      if (!aR) {
+        return
+      }
+
+      this.updateBlock(cloneDeep(Object.assign({}, aR, { type: BlockType.Blank, payload: { body: before } })))
+      const { type } = extend
+      delete extend.type
+      const beforeContent = findTreeContentById(id, this.store.state.blocks)
+      if (!beforeContent) {
+        console.error('Missing params "beforeContent"')
+        return
+      }
+      const b = this.store.appendBlock(createBlock(type, extend), beforeContent)
+      if (b) {
+        this.store.appendBlock(createBlock(BlockType.Paragraph, { payload: { body: after } }), b)
+      }
+      requestAnimationFrame(() => {
+        this.updateBlock(cloneDeep(Object.assign({}, aR, { type: aR.type, payload: { body: before } })))
+      })
+    },
+    appendNewBlockWithoutInsertButton(id: string, extend: { type: BlockType; payload?: any; children?: Block[] }) {
+      const { type } = extend
+      delete extend.type
+      const beforeContent = findTreeContentById(id, this.store.state.blocks)
+      if (!id || !beforeContent) {
+        console.error('Missing params "id" or "beforeContent"')
+        return
+      }
+      return this.store.appendBlock(createBlock(type, extend), beforeContent)
+    },
     appendNewBlock(id: string, extend: { type: BlockType; payload?: any; children?: Block[] }) {
       if (this.insertButton.target) {
-        const parent = this.insertButton.target.parentElement
-        if (!parent) {
-          return
-        }
-        const [before, after] = splitBlockContentByOffset(parent, getChildrenOffset(this.insertButton.target))
-        const aR = cloneDeep(this.activeRoot)
-        if (!aR) {
-          return
-        }
-
-        this.updateBlock(cloneDeep(Object.assign({}, aR, { type: BlockType.Blank, payload: { body: before } })))
-        const { type } = extend
-        delete extend.type
-        const beforeContent = findTreeContentById(id, this.store.state.blocks)
-        if (!id || !beforeContent) {
-          console.error('Missing params "id" or "beforeContent"')
-          return
-        }
-        const b = this.store.appendBlock(createBlock(type, extend), beforeContent)
-        if (b) {
-          this.store.appendBlock(createBlock(BlockType.Paragraph, { payload: { body: after } }), b)
-        }
-        requestAnimationFrame(() => {
-          this.updateBlock(cloneDeep(Object.assign({}, aR, { type: aR.type, payload: { body: before } })))
-        })
+        this.appendNewBlockWithInsertButton(id, extend)
       } else {
-        const { type } = extend
-        delete extend.type
-        const beforeContent = findTreeContentById(id, this.store.state.blocks)
-        if (!id || !beforeContent) {
-          console.error('Missing params "id" or "beforeContent"')
-          return
-        }
-        return this.store.appendBlock(createBlock(type, extend), beforeContent)
+        this.appendNewBlockWithoutInsertButton(id, extend)
       }
     },
     appendNewBlockInitialPosition() {

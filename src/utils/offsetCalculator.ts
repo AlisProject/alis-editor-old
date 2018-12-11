@@ -35,5 +35,6 @@ export function splitBlockContentByOffset(el: HTMLElement, offset: number) {
     }
     i++
   })
+  console.log('before: ' + before, '\n', 'after: ' + after)
   return [before, after]
 }

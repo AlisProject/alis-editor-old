@@ -67,7 +67,7 @@ export default Vue.extend({
       }
     },
     handlePaste(event: any) {
-      this.handleInput(event, true)
+      // this.handleInput(event, true)
     },
     handleInput(event: KeyboardEvent, requireUpdateDOM?: boolean) {
       this.updateDOM(event.target, requireUpdateDOM || false)
