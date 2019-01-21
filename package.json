@@ -1,5 +1,6 @@
 {
-  "name": "alis-editor",
+  "name": "alis-editor-old",
+  "private": true,
   "version": "0.9.0",
   "author": "HANATANI Takuma <mail@potato4d.me>",
   "scripts": {
